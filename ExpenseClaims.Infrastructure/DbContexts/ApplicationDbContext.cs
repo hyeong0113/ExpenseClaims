@@ -24,6 +24,12 @@ namespace ExpenseClaims.Infrastructure.DbContexts
 
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<ExpenseClaim> Claims { get; set; }
+        public DbSet<ExpenseItem> Items { get; set; }
+        public DbSet<ExpenseCategory> Categories { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+
+
         public IDbConnection Connection => Database.GetDbConnection();
 
         public bool HasChanges => ChangeTracker.HasChanges();

@@ -31,6 +31,12 @@ namespace ExpenseClaims.Infrastructure.Extensions
             services.AddTransient<ILogRepository, LogRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+            services.AddTransient<IExpenseClaimRepository, ExpenseClaimRepository>();
+            services.AddTransient<IExpenseItemRepository, ExpenseItemRepository>();
+            services.AddTransient<IExpenseCategoryRepository, ExpenseCategoryRepository>();
+            services.AddTransient<ICurrencyRepository, CurrencyRepository>();
+
+
             #endregion Repositories
         }
     }
