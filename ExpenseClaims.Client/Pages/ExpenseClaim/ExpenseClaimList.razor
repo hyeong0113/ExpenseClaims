@@ -1,0 +1,30 @@
+﻿@page "/expenseClaimList"
+@using System.Net.Http
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+@if (ClaimList == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="@ClaimList">
+        <HeaderContent>
+            <MudTh>Title</MudTh>
+            <MudTh>Total Amount</MudTh>
+            <MudTh>Submit Date</MudTh>
+            <MudTh>Status</MudTh>
+            <MudTh>Detail</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Title">@context.Title</MudTd>
+            <MudTd DataLabel="TotalAmount">@context.TotalAmount</MudTd>
+            <MudTd DataLabel="SubmitDate">@context.SubmitDate</MudTd>
+            <MudTd DataLabel="Status">@context.Status</MudTd>
+            @*<MudTd DataLabel="Detail">@context.Molar</MudTd>*@
+        </RowTemplate>
+    </MudTable>
+
+}
+

@@ -1,6 +1,8 @@
 ﻿using AspNetCoreHero.Results;
+using AutoMapper;
 using ExpenseClaims.Application.Extensions;
 using ExpenseClaims.Application.Interfaces.Repositories;
+using ExpenseClaims.Application.Wrappers;
 using ExpenseClaims.Domain.Entities.Catalog;
 using MediatR;
 using System;
@@ -13,49 +15,28 @@ using System.Threading.Tasks;
 
 namespace ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetAllPaged
 {
-    public class GetAllExpenseClaimsQuery : IRequest<PaginatedResult<GetAllExpenseClaimsResponse>>
+    public class GetAllExpenseClaimsQuery : IRequest<Response<IEnumerable<GetAllExpenseClaimsResponse>>>
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
 
-        public GetAllExpenseClaimsQuery(int pageNumber, int pageSize)
+        public class GetAllExpenseClaimsQueryHandler : IRequestHandler<GetAllExpenseClaimsQuery, Response<IEnumerable<GetAllExpenseClaimsResponse>>>
         {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
-        }
-    }
+            private readonly IExpenseClaimRepository _claimRepository;
+            private readonly IMapper _mapper;
 
-    public class GetAllExpenseClaimsQueryHandler : IRequestHandler<GetAllExpenseClaimsQuery, PaginatedResult<GetAllExpenseClaimsResponse>>
-    {
-        private readonly IExpenseClaimRepository _claimRepository;
-
-        public GetAllExpenseClaimsQueryHandler(IExpenseClaimRepository claimRepository)
-        {
-            _claimRepository = claimRepository;
-        }
-
-        public async Task<PaginatedResult<GetAllExpenseClaimsResponse>> Handle(GetAllExpenseClaimsQuery request, CancellationToken cancellationToken)
-        {
-            Expression<Func<ExpenseClaim, GetAllExpenseClaimsResponse>> expression = e => new GetAllExpenseClaimsResponse
+            public GetAllExpenseClaimsQueryHandler(IExpenseClaimRepository claimRepository, IMapper mapper)
             {
-                Id = e.Id,
-                Title = e.Title,
-                //Requester = e.Requester,
-                //Approver = e.Approver,
-                SubmitDate = e.SubmitDate,
-                ApprovalDate = e.ApprovalDate,
-                ProcessedDate = e.ProcessedDate,
-                TotalAmount = e.TotalAmount,
-                Status = e.Status,
-                RequesterComments = e.RequesterComments,
-                ApproverComments = e.ApproverComments,
-                FinanceComments = e.FinanceComments
-            };
-            var paginatedList = await _claimRepository.Claims
-                .Select(expression)
-                .ToPaginatedListAsync(request.PageNumber, request.PageSize);
-            return paginatedList;
+                _claimRepository = claimRepository;
+                _mapper = mapper;
+            }
+
+            public async Task<Response<IEnumerable<GetAllExpenseClaimsResponse>>> Handle(GetAllExpenseClaimsQuery request, CancellationToken cancellationToken)
+            {
+                var claimList = await _claimRepository.GetListAsync();
+                var mappedClaimList = _mapper.Map<IEnumerable<GetAllExpenseClaimsResponse>>(claimList);
+                return new Response<IEnumerable<GetAllExpenseClaimsResponse>>(mappedClaimList);
+            }
         }
     }
+
 
 }

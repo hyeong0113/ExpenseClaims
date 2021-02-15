@@ -16,9 +16,9 @@ namespace ExpenseClaims.Api.Controllers.v1
     public class ExpenseClaimController : BaseApiController<ExpenseClaimController>
     {
         [HttpGet]
-        public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
+        public async Task<IActionResult> GetAll()
         {
-            var claims = await _mediator.Send(new GetAllExpenseClaimsQuery(pageNumber, pageSize));
+            var claims = await _mediator.Send(new GetAllExpenseClaimsQuery());
             return Ok(claims);
         }
 

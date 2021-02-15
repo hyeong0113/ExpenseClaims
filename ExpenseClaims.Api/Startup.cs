@@ -9,11 +9,14 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace ExpenseClaims.Api
 {
     public class Startup
     {
+        readonly string AllowClaimExpenseWeb = "Default";
+
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -24,6 +27,20 @@ namespace ExpenseClaims.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllowClaimExpenseWeb,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("https://localhost:44340", "https://localhost:44377")
+                                            .AllowAnyMethod()
+                                            .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization, "x-custom-header")
+                                            .AllowCredentials();
+                                  });
+            });
+
+
+
             services.AddApplicationLayer();
             services.AddContextInfrastructure(_configuration);
             services.AddPersistenceContexts(_configuration);
@@ -53,6 +70,9 @@ namespace ExpenseClaims.Api
             app.UseRouting();
 
             app.UseRouting();
+
+            app.UseCors(AllowClaimExpenseWeb);
+
             app.UseAuthentication();
             app.UseAuthorization();
 
