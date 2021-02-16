@@ -1,0 +1,13 @@
+﻿@page "/expenseCategoryList/create"
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Create Expense Category</h3>
+
+<MudForm>
+    <MudTextField T="string" Label="Name" @bind-Value="Name" Required="true" RequiredError="Name is required" />
+    <MudTextField T="string" Label="Code" @bind-Value="Code" Required="true" RequiredError="Code is required" />
+</MudForm>
+
+<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>CreateCategory())">Create</MudButton>
+

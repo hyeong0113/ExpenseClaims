@@ -8,6 +8,7 @@ namespace ExpenseClaims.Application.Features.ExpenseCategories.Quries.GetAll
 {
     public class GetAllExpenseCategoriesResponse
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
     }
