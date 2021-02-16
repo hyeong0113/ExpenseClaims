@@ -1,5 +1,4 @@
 ﻿@page "/expenseClaimList"
-@using System.Net.Http
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
@@ -22,7 +21,8 @@ else
             <MudTd DataLabel="TotalAmount">@context.TotalAmount</MudTd>
             <MudTd DataLabel="SubmitDate">@context.SubmitDate</MudTd>
             <MudTd DataLabel="Status">@context.Status</MudTd>
-            @*<MudTd DataLabel="Detail">@context.Molar</MudTd>*@
+
+            <MudTd DataLabel="ViewDetail"><MudLink Href="@($"expenseClaimList/{context.Id}")">View</MudLink></MudTd>
         </RowTemplate>
     </MudTable>
 
