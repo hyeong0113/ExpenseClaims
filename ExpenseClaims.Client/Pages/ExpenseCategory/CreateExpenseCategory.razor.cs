@@ -19,7 +19,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseCategory
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public async Task CreateCategory()
+        public async Task Create()
         {
             Category.Name = Name;
             Category.Code = Code;

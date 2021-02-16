@@ -39,8 +39,10 @@ namespace ExpenseClaims.Application.Features.Currencies.Commands.Update
                 }
                 else
                 {
-                    currency.Name = request.Name;
                     currency.Code = request.Code;
+                    currency.Name = request.Name;
+                    currency.Symbol = request.Symbol;
+                    currency.Rate = request.Rate;
 
                     await _currencyRepository.UpdateAsync(currency);
                     await _unitOfWork.Commit(cancellationToken);

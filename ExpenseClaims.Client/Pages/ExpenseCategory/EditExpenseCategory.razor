@@ -15,5 +15,5 @@ else
         <MudTextField T="string" Label="Code" @bind-Value="Category.Code" Required="true" RequiredError="Code is required" />
     </MudForm>
 
-    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>EditCategory())">Edit</MudButton>
+    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Edit</MudButton>
 }

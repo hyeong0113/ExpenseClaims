@@ -1,16 +1,17 @@
-﻿@page "/expenseCategoryList"
+﻿@page "/currencyList"
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-<h4>ExpenseCategory List</h4>
-<MudButton Variant="Variant.Filled" Link="expenseCategoryList/create" style="float: right;">Create</MudButton>
-@if (Categories == null)
+<h3>Currency List</h3>
+
+<MudButton Variant="Variant.Filled" Link="currencyList/create" style="float: right;">Create</MudButton>
+@if (Currencies == null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
 else
 {
-    <MudTable Items="@Categories">
+    <MudTable Items="@Currencies">
         <ColGroup>
             <col />
             <col />
@@ -18,17 +19,20 @@ else
             <col style="width:40px;" />
         </ColGroup>
         <HeaderContent>
-            <MudTh>Name</MudTh>
             <MudTh>Code</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Symbol</MudTh>
+            <MudTh>Rate</MudTh>
             <MudTh></MudTh>
             <MudTh></MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Code">@context.Code</MudTd>
-            <MudTd><MudButton Variant="Variant.Filled" Link=@($"expenseCategoryList/edit/{context.Id}") Size="Size.Small">Edit</MudButton></MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Symbol">@context.Symbol</MudTd>
+            <MudTd DataLabel="Rate">@context.Rate</MudTd>
+            <MudTd><MudButton Variant="Variant.Filled" Link=@($"currencyList/edit/{context.Id}") Size="Size.Small">Edit</MudButton></MudTd>
             <MudTd><MudButton Variant="Variant.Filled" OnClick="@(()=>DeleteCategory(context.Id))" Size="Size.Small">Delete</MudButton></MudTd>
         </RowTemplate>
     </MudTable>
 }
-

@@ -1,4 +1,4 @@
-﻿using ExpenseClaims.Application.Features.ExpenseCategories.Quries.GetById;
+﻿using ExpenseClaims.Application.Features.Currencies.Quries.GetById;
 using ExpenseClaims.Application.Wrappers;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -8,15 +8,15 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace ExpenseClaims.Client.Pages.ExpenseCategory
+namespace ExpenseClaims.Client.Pages.Currency
 {
-    public partial class EditExpenseCategory
+    public partial class EditCurrency
     {
         private const int apiVersion = 1;
-        public GetExpenseCategoryByIdResponse Category { get; set; } = null;
+        public GetCurrencyByIdResponse Currency { get; set; } = null;
 
         [Parameter]
-        public int CategoryId { get; set; }
+        public int CurrencyId { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -26,10 +26,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseCategory
             var tokenKey = await localStorage.GetItemAsync<string>("token");
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
 
-            CategoryId = CategoryId;
-            var response = await Http.GetFromJsonAsync<Response<GetExpenseCategoryByIdResponse>>($"api/v{apiVersion}/ExpenseCategory/{CategoryId}");
+            CurrencyId = CurrencyId;
+            var response = await Http.GetFromJsonAsync<Response<GetCurrencyByIdResponse>>($"api/v{apiVersion}/Currency/{CurrencyId}");
 
-            Category = response.Data;
+            Currency = response.Data;
         }
 
         public async Task Edit()
@@ -37,9 +37,9 @@ namespace ExpenseClaims.Client.Pages.ExpenseCategory
             var tokenKey = await localStorage.GetItemAsync<string>("token");
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
 
-            await Http.PutAsJsonAsync($"api/v{apiVersion}/ExpenseCategory/{Category.Id}", Category);
+            await Http.PutAsJsonAsync($"api/v{apiVersion}/Currency/{Currency.Id}", Currency);
 
-            NavigationManager.NavigateTo("expenseCategoryList");
+            NavigationManager.NavigateTo("currencyList");
         }
     }
 }
