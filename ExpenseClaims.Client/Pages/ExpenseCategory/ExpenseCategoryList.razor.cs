@@ -27,12 +27,11 @@ namespace ExpenseClaims.Client.Pages.ExpenseCategory
             Categories = response.Data;
         }
 
-        public async Task DeleteCategory(int contextId)
+        public async Task DeleteCategory(int categoryId)
         {
-            Console.WriteLine($"Context Id: {contextId}");
             var tokenKey = await localStorage.GetItemAsync<string>("token");
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
-            await Http.DeleteAsync($"api/v{apiVersion}/ExpenseCategory/{contextId}");
+            await Http.DeleteAsync($"api/v{apiVersion}/ExpenseCategory/{categoryId}");
             NavigationManager.NavigateTo("expenseCategoryList", true);
         }
 

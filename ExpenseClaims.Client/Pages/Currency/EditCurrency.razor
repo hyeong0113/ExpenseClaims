@@ -1,0 +1,21 @@
+﻿@page "/currencyList/edit/{CurrencyId:int}"
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Edit Currency</h3>
+
+@if (Currency == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudForm>
+        <MudTextField T="string" Label="Code" @bind-Value="Currency.Code" Required="true" RequiredError="Code is required" />
+        <MudTextField T="string" Label="Name" @bind-Value="Currency.Name" Required="true" RequiredError="Name is required" />
+        <MudTextField T="string" Label="Symbol" @bind-Value="Currency.Symbol" Required="true" RequiredError="Symbol is required" />
+        <MudTextField T="decimal" Label="Rate" @bind-Value="Currency.Rate" Required="true" RequiredError="Rate is required" />
+    </MudForm>
+
+    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Edit</MudButton>
+}

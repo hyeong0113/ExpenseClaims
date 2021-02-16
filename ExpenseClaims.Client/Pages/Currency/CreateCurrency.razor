@@ -1,0 +1,15 @@
+﻿@page "/currencyList/create"
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Create Currency</h3>
+
+<MudForm>
+    <MudTextField T="string" Label="Code" @bind-Value="Code" Required="true" RequiredError="Code is required" />
+    <MudTextField T="string" Label="Name" @bind-Value="Name" Required="true" RequiredError="Name is required" />
+    <MudTextField T="string" Label="Symbol" @bind-Value="Symbol" Required="true" RequiredError="Symbol is required" />
+    <MudTextField T="decimal" Label="Rate" @bind-Value="Rate" Required="true" RequiredError="Rate is required" />
+</MudForm>
+
+<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Create())">Create</MudButton>
+
