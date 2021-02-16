@@ -13,7 +13,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
     public partial class ExpenseClaimList
     {
         private const int apiVersion = 1;
-        private IEnumerable<GetAllExpenseClaimsResponse> ClaimList { get; set; } = null;
+        public IEnumerable<GetAllExpenseClaimsResponse> ClaimList { get; set; } = null;
         protected override async Task OnInitializedAsync()
         {
             var tokenKey = await localStorage.GetItemAsync<string>("token");

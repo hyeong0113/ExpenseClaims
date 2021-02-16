@@ -1,8 +1,6 @@
 ﻿@page "/expenseClaimList/{ClaimId:int}"
 
 @using ExpenseClaims.Client.Pages.ExpenseItem
-@using ExpenseClaims.Application.Features.ExpenseItems.Queries.GetById;
-
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
@@ -11,7 +9,6 @@
 @if (Claim == null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
-
 }
 else
 {

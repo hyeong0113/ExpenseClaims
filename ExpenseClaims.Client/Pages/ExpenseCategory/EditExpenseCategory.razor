@@ -1,0 +1,19 @@
+﻿@page "/expenseCategoryList/edit/{CategoryId:int}"
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Edit Expense Category</h3>
+
+@if (Category == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudForm>
+        <MudTextField T="string" Label="Name" @bind-Value="Category.Name" Required="true" RequiredError="Name is required" />
+        <MudTextField T="string" Label="Code" @bind-Value="Category.Code" Required="true" RequiredError="Code is required" />
+    </MudForm>
+
+    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>EditCategory())">Edit</MudButton>
+}
