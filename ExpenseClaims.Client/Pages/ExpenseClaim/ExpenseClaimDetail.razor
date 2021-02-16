@@ -1,0 +1,103 @@
+﻿@page "/expenseClaimList/{ClaimId:int}"
+
+@using ExpenseClaims.Client.Pages.ExpenseItem
+@using ExpenseClaims.Application.Features.ExpenseItems.Queries.GetById;
+
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Expense Claim</h3>
+
+@if (Claim == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+
+}
+else
+{
+    <div class="detail-page">
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Title</MudText>
+                <MudText>@Claim.Title</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Submit Date</MudText>
+                <MudText>@Claim.SubmitDate</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Approval Date</MudText>
+                <MudText>@Claim.ApprovalDate</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Processed Date</MudText>
+                <MudText>@Claim.ProcessedDate</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Total Amount</MudText>
+                <MudText>@Claim.TotalAmount</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Status</MudText>
+                <MudText>@Claim.Status</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Requester Comments</MudText>
+                <MudText>@Claim.RequesterComments</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Approver Comments</MudText>
+                <MudText>@Claim.ApproverComments</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <MudText>Finance Comments</MudText>
+                <MudText>@Claim.FinanceComments</MudText>
+                <MudDivider />
+            </div>
+        </div>
+        <h3>Expense Claim Items</h3>
+    </div>
+
+    @if (Claim.Items != null && Claim.Items.Count >= 0)
+    {
+        <MudTable Items="@Claim.Items">
+            <HeaderContent>
+                <MudTh>Category</MudTh>
+                <MudTh>Payee</MudTh>
+                <MudTh>Date</MudTh>
+                <MudTh>Description</MudTh>
+                <MudTh>Amount</MudTh>
+                <MudTh>Currency Code</MudTh>
+                <MudTh>USD Amount</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <ExpenseItemDetail Item="@context" />
+            </RowTemplate>
+
+        </MudTable>
+    }
+}

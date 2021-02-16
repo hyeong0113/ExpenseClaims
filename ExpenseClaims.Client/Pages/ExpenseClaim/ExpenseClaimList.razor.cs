@@ -12,14 +12,14 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 {
     public partial class ExpenseClaimList
     {
-        private const int apiversion = 1;
-        private IEnumerable<GetAllExpenseClaimsResponse> ClaimList = null;
+        private const int apiVersion = 1;
+        private IEnumerable<GetAllExpenseClaimsResponse> ClaimList { get; set; } = null;
         protected override async Task OnInitializedAsync()
         {
             var tokenKey = await localStorage.GetItemAsync<string>("token");
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
             
-            var response = await Http.GetFromJsonAsync<Response<IEnumerable<GetAllExpenseClaimsResponse>>>($"api/v{apiversion}/ExpenseClaim");
+            var response = await Http.GetFromJsonAsync<Response<IEnumerable<GetAllExpenseClaimsResponse>>>($"api/v{apiVersion}/ExpenseClaim");
             ClaimList = response.Data;
         }
     }
