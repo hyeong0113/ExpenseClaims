@@ -20,7 +20,6 @@ namespace ExpenseClaims.Application.Features.ExpenseItems.Commands.Update
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
-        public string CurrencyCode { get; set; }
         public decimal USDAmount { get; set; }
 
         public class UpdateExpenseItemCommandHandler : IRequestHandler<UpdateExpenseItemCommand, Response<int>>
@@ -49,7 +48,6 @@ namespace ExpenseClaims.Application.Features.ExpenseItems.Commands.Update
                     item.Date = request.Date;
                     item.Description = request.Description;
                     item.Amount = request.Amount;
-                    item.CurrencyCode = request.CurrencyCode;
                     item.USDAmount = request.USDAmount;
 
                     await _itemRepository.UpdateAsync(item);

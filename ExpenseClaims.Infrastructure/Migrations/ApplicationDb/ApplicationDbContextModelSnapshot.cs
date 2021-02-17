@@ -227,9 +227,6 @@ namespace ExpenseClaims.Infrastructure.Migrations.ApplicationDb
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CurrencyCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 

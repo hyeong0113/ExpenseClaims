@@ -21,7 +21,6 @@ namespace ExpenseClaims.Application.Features.ExpenseItems.Commands.Create
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
-        public string CurrencyCode { get; set; }
         public decimal USDAmount { get; set; }
     }
 

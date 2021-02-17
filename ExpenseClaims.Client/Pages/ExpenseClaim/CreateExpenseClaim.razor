@@ -1,0 +1,87 @@
+﻿@page "/expenseClaimList/create"
+@using ExpenseClaims.Application.Features.Currencies.Quries.GetAll;
+@using ExpenseClaims.Application.Features.ExpenseCategories.Quries.GetAll;
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Expense Claim</h3>
+
+<h5>New Expense Claim</h5>
+<MudForm>
+    <MudTextField T="string" Label="Title" @bind-Value="Title" Required="true" RequiredError="Title is required" />
+    <MudDatePicker @bind-value="@SubmitDate" Label="SubmitDate" ShowWeekNumbers="true" />
+    <MudDatePicker @bind-value="@ApprovalDate" Label="ApprovalDate" ShowWeekNumbers="true" />
+    <MudDatePicker @bind-value="@ProcessedDate" Label="ProcessedDate" ShowWeekNumbers="true" />
+    <MudTextField T="decimal" Label="TotalAmount" @bind-Value="TotalAmount" Required="true" RequiredError="TotalAmount is required" />
+    <MudTextField T="string" Label="Status" @bind-Value="Status" Required="true" RequiredError="ProcessedDate is required" />
+    <MudTextField T="string" Label="RequesterComments" @bind-Value="RequesterComments" Required="true" RequiredError="ProcessedDate is required" />
+    <MudTextField T="string" Label="ApproverComments" @bind-Value="ApproverComments" Required="true" RequiredError="ProcessedDate is required" />
+    <MudTextField T="string" Label="FinanceComments" @bind-Value="FinanceComments" Required="true" RequiredError="ProcessedDate is required" />
+</MudForm>
+
+<h5>Expense Claim Items</h5>
+
+<MudFab OnClick="@(() => AddItem())" Color="Color.Transparent" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" />
+
+<MudTable Items="@ItemWrappers">
+    <ColGroup>
+        <col style="width:200px;" />
+        <col />
+        <col style="width:200px;" />
+        <col />
+        <col />
+        <col />
+        <col />
+    </ColGroup>
+    <HeaderContent>
+        <MudTh>Category</MudTh>
+        <MudTh>Payee</MudTh>
+        <MudTh>Currency</MudTh>
+        <MudTh>Date</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Amount</MudTh>
+        <MudTh>USD Amount</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Category">
+            <MudItem xs="3" sm="4" md="6">
+                <MudSelect T="GetAllExpenseCategoriesResponse" @bind-Value="@context.Category" Label="Category">
+                    @foreach (var category in Categories)
+                    {
+                        <MudSelectItem Value="@(category)">@category.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudTd>
+
+        <MudTextField T="string" Label="Payee" @bind-Value="@context.Payee" Required="true" RequiredError="Payee is required" />
+
+        <MudTd DataLabel="Currency">
+            <MudItem xs="3" sm="4" md="6">
+                <MudSelect T="GetAllCurrenciesResponse" Label="Currency" @bind-Value="@context.Currency">
+                    @foreach (var currency in Currencies)
+                    {
+                        <MudSelectItem Value="@(currency)">@currency.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudTd>
+
+        <MudTd>
+            <MudTextField @bind-Value="@context.Date" Format="yyyy/MM/dd" Label="Date" />
+        </MudTd>
+
+        <MudTd>
+            <MudTextField T="string" @bind-Value="@context.Description" Label="Description" />
+        </MudTd>
+        <MudTd>
+            <MudTextField T="decimal" @bind-Value="@context.Amount" Required="true" RequiredError="Amount is required" />
+        </MudTd>
+        <MudTd>
+            <MudTextField T="decimal" @bind-Value="@context.USDAmount" Required="true" RequiredError="USDAmount is required" />
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Create())">Create</MudButton>

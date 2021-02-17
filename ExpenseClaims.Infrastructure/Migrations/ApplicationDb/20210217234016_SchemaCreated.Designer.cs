@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseClaims.Infrastructure.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210214025132_ApiFullyCreated")]
-    partial class ApiFullyCreated
+    [Migration("20210217234016_SchemaCreated")]
+    partial class SchemaCreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,9 +228,6 @@ namespace ExpenseClaims.Infrastructure.Migrations.ApplicationDb
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("CurrencyCode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
