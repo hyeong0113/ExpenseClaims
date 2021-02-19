@@ -9,9 +9,9 @@
 <h5>New Expense Claim</h5>
 <MudForm>
     <MudTextField T="string" Label="Title" @bind-Value="Title" Required="true" RequiredError="Title is required" />
-    <MudDatePicker @bind-value="@SubmitDate" Label="SubmitDate" ShowWeekNumbers="true" />
-    <MudDatePicker @bind-value="@ApprovalDate" Label="ApprovalDate" ShowWeekNumbers="true" />
-    <MudDatePicker @bind-value="@ProcessedDate" Label="ProcessedDate" ShowWeekNumbers="true" />
+    <MudDatePicker Label="SubmitDate" @bind-value="SubmitDate" ShowWeekNumbers="true" />
+    <MudDatePicker Label="ApprovalDate" @bind-value="ApprovalDate" ShowWeekNumbers="true" />
+    <MudDatePicker Label="ProcessedDate" @bind-value="ProcessedDate" ShowWeekNumbers="true" />
     <MudTextField T="decimal" Label="TotalAmount" @bind-Value="TotalAmount" Required="true" RequiredError="TotalAmount is required" />
     <MudTextField T="string" Label="Status" @bind-Value="Status" Required="true" RequiredError="ProcessedDate is required" />
     <MudTextField T="string" Label="RequesterComments" @bind-Value="RequesterComments" Required="true" RequiredError="ProcessedDate is required" />
@@ -42,7 +42,6 @@
         <MudTh>Amount</MudTh>
         <MudTh>USD Amount</MudTh>
     </HeaderContent>
-
     <RowTemplate>
         <MudTd DataLabel="Category">
             <MudItem xs="3" sm="4" md="6">

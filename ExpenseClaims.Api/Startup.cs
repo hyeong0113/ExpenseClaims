@@ -15,7 +15,7 @@ namespace ExpenseClaims.Api
 {
     public class Startup
     {
-        readonly string AllowClaimExpenseWeb = "Default";
+        //readonly string AllowClaimExpenseWeb = "Default";
 
         public Startup(IConfiguration configuration)
         {
@@ -26,20 +26,20 @@ namespace ExpenseClaims.Api
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: AllowClaimExpenseWeb,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("https://localhost:44340", "https://localhost:44377")
-                                            .AllowAnyMethod()
-                                            .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization, "x-custom-header")
-                                            .AllowCredentials();
-                                  });
-            });
+        {   // 이 방법은 나중에 controller마다 annotation을 달아야함
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(name: AllowClaimExpenseWeb,
+            //                      builder =>
+            //                      {
+            //                          builder.WithOrigins("https://localhost:44340", "https://expensewinapp.azurewebsites.net")
+            //                                .AllowAnyMethod()
+            //                                .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization, "x-custom-header")
+            //                                .AllowCredentials();
+            //                      });
+            //});
 
-
+            services.AddCors(options => options.AddDefaultPolicy(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
             services.AddApplicationLayer();
             services.AddContextInfrastructure(_configuration);
@@ -71,7 +71,7 @@ namespace ExpenseClaims.Api
 
             app.UseRouting();
 
-            app.UseCors(AllowClaimExpenseWeb);
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();
