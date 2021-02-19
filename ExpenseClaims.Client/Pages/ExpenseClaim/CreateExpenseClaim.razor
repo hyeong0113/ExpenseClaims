@@ -32,6 +32,7 @@
         <col />
         <col />
         <col />
+        <col style="width:70px;" />
     </ColGroup>
     <HeaderContent>
         <MudTh>Category</MudTh>
@@ -41,6 +42,7 @@
         <MudTh>Description</MudTh>
         <MudTh>Amount</MudTh>
         <MudTh>USD Amount</MudTh>
+        <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Category">
@@ -80,6 +82,7 @@
         <MudTd>
             <MudTextField T="decimal" @bind-Value="@context.USDAmount" Required="true" RequiredError="USDAmount is required" />
         </MudTd>
+        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Remove(context))">Delete</MudButton>
     </RowTemplate>
 </MudTable>
 

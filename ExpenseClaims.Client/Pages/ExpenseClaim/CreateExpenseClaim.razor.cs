@@ -97,5 +97,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             CreateExpenseItemWrapper wrapper = new CreateExpenseItemWrapper();
             ItemWrappers.Add(wrapper);
         }
+
+        private void Remove(CreateExpenseItemWrapper wrapper)
+        {
+            ItemWrappers.Remove(wrapper);
+        }
     }
 }

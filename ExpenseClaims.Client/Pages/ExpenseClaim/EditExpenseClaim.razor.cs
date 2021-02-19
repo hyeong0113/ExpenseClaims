@@ -89,10 +89,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             NavigationManager.NavigateTo("expenseClaimList");
         }
 
-        private void AddItem()
-        {
-            CreateExpenseItemWrapper wrapper = new CreateExpenseItemWrapper();
-            //ItemWrappers.Add(wrapper);
-        }
+        //private void AddItem()
+        //{
+        //    CreateExpenseItemWrapper wrapper = new CreateExpenseItemWrapper();
+        //    //ItemWrappers.Add(wrapper);
+        //}
     }
 }
