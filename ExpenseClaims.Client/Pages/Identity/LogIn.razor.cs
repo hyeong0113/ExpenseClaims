@@ -1,4 +1,5 @@
 ﻿using ExpenseClaims.Application.DTOs.Identity;
+using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace ExpenseClaims.Client.Pages.Identity
         public bool IsAutenticated { get; set; } = false;
         public TokenRequest Token { get; set; } = new TokenRequest();
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
         public async Task OnSubmit()
         {
             Token.Email = UserName;
@@ -23,7 +27,8 @@ namespace ExpenseClaims.Client.Pages.Identity
             string tokenKey = jToken["data"]["jwToken"].ToString();
             await localStorage.SetItemAsync("token", tokenKey);
             IsAutenticated = true;
-        }
 
+            NavigationManager.NavigateTo("/");
+        }
     }
 }

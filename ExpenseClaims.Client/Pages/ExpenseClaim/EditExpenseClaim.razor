@@ -1,0 +1,29 @@
+﻿@page "/expenseClaimList/edit/{ClaimId:int}"
+@using ExpenseClaims.Client.Pages.ExpenseItem
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Edit ExpenseClaim</h3>
+
+@if (Claim == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudForm>
+        <MudTextField T="string" Label="Title" @bind-Value="Claim.Title" Required="true" RequiredError="Title is required" />
+        <MudDatePicker Label="SubmitDate" @bind-Date="@SubmitDate" ShowWeekNumbers="true" />
+        <MudDatePicker Label="ApprovalDate" @bind-Date="@ApprovalDate" ShowWeekNumbers="true" />
+        <MudDatePicker Label="ProcessedDate" @bind-Date="@ProcessedDate" ShowWeekNumbers="true" />
+        <MudTextField T="decimal" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" RequiredError="TotalAmount is required" />
+        <MudTextField T="string" Label="Status" @bind-Value="Claim.Status" Required="true" RequiredError="ProcessedDate is required" />
+        <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" Required="true" RequiredError="ProcessedDate is required" />
+        <MudTextField T="string" Label="ApproverComments" @bind-Value="Claim.ApproverComments" Required="true" RequiredError="ProcessedDate is required" />
+        <MudTextField T="string" Label="FinanceComments" @bind-Value="Claim.FinanceComments" Required="true" RequiredError="ProcessedDate is required" />
+    </MudForm>
+
+    <CreateEditExpenseItem ItemWrappers=@ItemWrappers Categories=@Categories Currencies="@Currencies" />
+
+    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Edit</MudButton>
+}

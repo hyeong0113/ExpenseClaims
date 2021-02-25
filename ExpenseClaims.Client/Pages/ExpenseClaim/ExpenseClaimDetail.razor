@@ -1,5 +1,4 @@
 ﻿@page "/expenseClaimList/{ClaimId:int}"
-
 @using ExpenseClaims.Client.Pages.ExpenseItem
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -94,7 +93,6 @@ else
             <RowTemplate>
                 <ExpenseItemDetail Item="@context" />
             </RowTemplate>
-
         </MudTable>
     }
 }

@@ -6,6 +6,7 @@
   <PropertyGroup>
     <DocumentationFile>ExpenseClaims.Api.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
+    <UserSecretsId>5db4f3e8-5216-4afc-aa27-9bfdf13adbd3</UserSecretsId>
     </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AspNetCoreHero.Extensions.Logging" Version="1.0.0" />

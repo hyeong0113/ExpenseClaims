@@ -18,7 +18,6 @@ namespace ExpenseClaims.Application.Features.ExpenseItems.Queries.GetById
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
-        public string CurrencyCode { get; set; }
         public decimal USDAmount { get; set; }
 
         public GetExpenseCategoryByIdResponse Category { get; set; }

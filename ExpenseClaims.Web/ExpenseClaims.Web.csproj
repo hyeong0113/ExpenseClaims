@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <UserSecretsId>22f76cf6-23b6-4188-9043-9483eed3942d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
