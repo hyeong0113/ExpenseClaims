@@ -19,8 +19,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
     {
         private const int apiVersion = 1;
         public GetExpenseClaimByIdResponse Claim { get; set; } = null;
-        public List<UpdateExpenseItemWrapper> ItemWrappers { get; set; } = new List<UpdateExpenseItemWrapper>();
-        public List<UpdateExpenseItemCommand> Items { get; set; } = new List<UpdateExpenseItemCommand>();
+        public List<CreateUpdateExpenseItemWrapper> ItemWrappers { get; set; } = new List<CreateUpdateExpenseItemWrapper>();
 
         public DateTime? SubmitDate { get; set; }
         public DateTime? ApprovalDate { get; set; }
@@ -56,7 +55,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 
             foreach (GetExpenseItemByIdResponse item in Claim.Items)
             {
-                UpdateExpenseItemWrapper tempItem = new UpdateExpenseItemWrapper();
+                CreateUpdateExpenseItemWrapper tempItem = new CreateUpdateExpenseItemWrapper();
                 tempItem.Id = item.Id;
                 tempItem.ClaimId = item.ClaimId;
                 tempItem.Category = Categories.FirstOrDefault(cat => cat.Id == item.CategoryId);
@@ -76,13 +75,14 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             Claim.SubmitDate = (DateTime)SubmitDate;
             Claim.ApprovalDate = (DateTime)ApprovalDate;
             Claim.ProcessedDate = (DateTime)ProcessedDate;
+
             var tokenKey = await localStorage.GetItemAsync<string>("token");
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
-            var createdClaimResponse = await Http.PutAsJsonAsync($"api/v{apiVersion}/ExpenseClaim/{Claim.Id}", Claim);
 
-            foreach (UpdateExpenseItemWrapper wrapper in ItemWrappers)
+            foreach (CreateUpdateExpenseItemWrapper wrapper in ItemWrappers)
             {
-                GetExpenseItemByIdResponse item = Claim.Items.FirstOrDefault(i => i.Id == wrapper.Id);
+                UpdateExpenseItemCommand item = new UpdateExpenseItemCommand();
+                item.Id = wrapper.Id;
                 item.CategoryId = wrapper.Category.Id;
                 item.CurrencyId = wrapper.Currency.Id;
                 item.Payee = wrapper.Payee;
@@ -90,20 +90,13 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
                 item.Description = wrapper.Description;
                 item.Amount = wrapper.Amount;
                 item.USDAmount = wrapper.USDAmount;
-            }
 
-            foreach (UpdateExpenseItemCommand item in Items)
-            {
                 await Http.PutAsJsonAsync($"api/v{apiVersion}/ExpenseItem/{item.Id}", item);
             }
 
+            await Http.PutAsJsonAsync($"api/v{apiVersion}/ExpenseClaim/{Claim.Id}", Claim);
+
             NavigationManager.NavigateTo("expenseClaimList");
         }
-
-        //private void AddItem()
-        //{
-        //    CreateExpenseItemWrapper wrapper = new CreateExpenseItemWrapper();
-        //    //ItemWrappers.Add(wrapper);
-        //}
     }
 }

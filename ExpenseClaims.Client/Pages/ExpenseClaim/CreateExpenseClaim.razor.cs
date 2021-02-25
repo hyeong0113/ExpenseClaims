@@ -19,8 +19,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
     {
         private const int apiVersion = 1;
         public CreateExpenseClaimCommand Claim { get; set; } = new CreateExpenseClaimCommand();
-        public List<CreateExpenseItemCommand> Items { get; set; } = new List<CreateExpenseItemCommand>();
-        public List<CreateExpenseItemWrapper> ItemWrappers { get; set; } = new List<CreateExpenseItemWrapper>();
+        public List<CreateUpdateExpenseItemWrapper> ItemWrappers { get; set; } = new List<CreateUpdateExpenseItemWrapper>();
 
         public string Title { get; set; }
         public DateTime? SubmitDate { get; set; }
@@ -62,9 +61,6 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             Claim.ApproverComments = ApproverComments;
             Claim.FinanceComments = FinanceComments;
 
-            Console.WriteLine(SubmitDate);
-            Console.WriteLine(Claim.SubmitDate);
-
             var tokenKey = await localStorage.GetItemAsync<string>("token");
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
             var createdClaimResponse = await Http.PostAsJsonAsync($"api/v{apiVersion}/ExpenseClaim", Claim);
@@ -73,7 +69,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             string claimIdString = createdClaimResponseJson["data"].ToString();
             int claimId = Int32.Parse(claimIdString);
 
-            foreach (CreateExpenseItemWrapper wrapper in ItemWrappers)
+            foreach (CreateUpdateExpenseItemWrapper wrapper in ItemWrappers)
             {
                 CreateExpenseItemCommand tempItem = new CreateExpenseItemCommand();
                 tempItem.ClaimId = claimId;
@@ -84,26 +80,11 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
                 tempItem.Description = wrapper.Description;
                 tempItem.Amount = wrapper.Amount;
                 tempItem.USDAmount = wrapper.USDAmount;
-                Items.Add(tempItem);
-            }
 
-            foreach (CreateExpenseItemCommand item in Items)
-            {
-                await Http.PostAsJsonAsync($"api/v{apiVersion}/ExpenseItem", item);
+                await Http.PostAsJsonAsync($"api/v{apiVersion}/ExpenseItem", tempItem);
             }
 
             NavigationManager.NavigateTo("expenseClaimList");
-        }
-
-        private void AddItem()
-        {
-            CreateExpenseItemWrapper wrapper = new CreateExpenseItemWrapper();
-            ItemWrappers.Add(wrapper);
-        }
-
-        private void Remove(CreateExpenseItemWrapper wrapper)
-        {
-            ItemWrappers.Remove(wrapper);
         }
     }
 }

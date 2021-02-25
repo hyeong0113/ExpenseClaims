@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace ExpenseClaims.Client.Shared.Wrapper
 {
-    public class CreateExpenseItemWrapper
+    public class CreateUpdateExpenseItemWrapper
     {
+        public int Id { get; set; }
         public int ClaimId { get; set; }
         public GetAllExpenseCategoriesResponse Category { get; set; }
         public GetAllCurrenciesResponse Currency { get; set; }

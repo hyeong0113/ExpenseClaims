@@ -1,7 +1,5 @@
 ﻿@page "/expenseClaimList/edit/{ClaimId:int}"
 @using ExpenseClaims.Client.Pages.ExpenseItem
-@using ExpenseClaims.Application.Features.Currencies.Quries.GetAll;
-@using ExpenseClaims.Application.Features.ExpenseCategories.Quries.GetAll;
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
@@ -25,67 +23,7 @@ else
         <MudTextField T="string" Label="FinanceComments" @bind-Value="Claim.FinanceComments" Required="true" RequiredError="ProcessedDate is required" />
     </MudForm>
 
-    <h5>Expense Claim Items</h5>
-
-    <MudTable Items="@ItemWrappers">
-        <ColGroup>
-            <col style="width:200px;" />
-            <col />
-            <col style="width:200px;" />
-            <col />
-            <col />
-            <col />
-            <col />
-        </ColGroup>
-        <HeaderContent>
-            <MudTh>Category</MudTh>
-            <MudTh>Payee</MudTh>
-            <MudTh>Currency</MudTh>
-            <MudTh>Date</MudTh>
-            <MudTh>Description</MudTh>
-            <MudTh>Amount</MudTh>
-            <MudTh>USD Amount</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="Category">
-                <MudItem xs="3" sm="4" md="6">
-                    <MudSelect T="GetAllExpenseCategoriesResponse" Label="Category" @bind-Value="@context.Category">
-                        @foreach (var category in Categories)
-                            {
-                            <MudSelectItem Value="@(category)">@category.Name</MudSelectItem>
-                            }
-                    </MudSelect>
-                </MudItem>
-            </MudTd>
-
-            <MudTextField T="string" Label="Payee" @bind-Value="@context.Payee" Required="true" RequiredError="Payee is required" />
-
-            <MudTd DataLabel="Currency">
-                <MudItem xs="3" sm="4" md="6">
-                    <MudSelect T="GetAllCurrenciesResponse" Label="Currency" @bind-Value="@context.Currency">
-                        @foreach (var currency in Currencies)
-                            {
-                            <MudSelectItem Value="@(currency)">@currency.Name</MudSelectItem>
-                            }
-                    </MudSelect>
-                </MudItem>
-            </MudTd>
-
-            <MudTd>
-                <MudTextField Label="Date" @bind-Value="@context.Date" Format="yyyy/MM/dd" />
-            </MudTd>
-
-            <MudTd>
-                <MudTextField T="string" Label="Description" @bind-Value="@context.Description" />
-            </MudTd>
-            <MudTd>
-                <MudTextField T="decimal" @bind-Value="@context.Amount" Required="true" RequiredError="Amount is required" />
-            </MudTd>
-            <MudTd>
-                <MudTextField T="decimal" @bind-Value="@context.USDAmount" Required="true" RequiredError="USDAmount is required" />
-            </MudTd>
-        </RowTemplate>
-    </MudTable>
+    <CreateEditExpenseItem ItemWrappers=@ItemWrappers Categories=@Categories Currencies="@Currencies" />
 
     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Edit</MudButton>
 }
