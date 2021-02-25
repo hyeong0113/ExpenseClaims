@@ -22,6 +22,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         public List<UpdateExpenseItemWrapper> ItemWrappers { get; set; } = new List<UpdateExpenseItemWrapper>();
         public List<UpdateExpenseItemCommand> Items { get; set; } = new List<UpdateExpenseItemCommand>();
 
+        public DateTime? SubmitDate { get; set; }
+        public DateTime? ApprovalDate { get; set; }
+        public DateTime? ProcessedDate { get; set; }
+
         [Parameter]
         public int ClaimId { get; set; }
 
@@ -39,6 +43,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             ClaimId = ClaimId;
             var response = await Http.GetFromJsonAsync<Response<GetExpenseClaimByIdResponse>>($"api/v{apiVersion}/ExpenseClaim/{ClaimId}");
             Claim = response.Data;
+
+            SubmitDate = Claim.SubmitDate;
+            ApprovalDate = Claim.ApprovalDate;
+            ProcessedDate = Claim.ProcessedDate;
 
             var category = await Http.GetFromJsonAsync<Response<IEnumerable<GetAllExpenseCategoriesResponse>>>($"api/v{apiVersion}/ExpenseCategory");
             Categories = category.Data;
@@ -65,6 +73,9 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 
         public async Task Edit()
         {
+            Claim.SubmitDate = (DateTime)SubmitDate;
+            Claim.ApprovalDate = (DateTime)ApprovalDate;
+            Claim.ProcessedDate = (DateTime)ProcessedDate;
             var tokenKey = await localStorage.GetItemAsync<string>("token");
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
             var createdClaimResponse = await Http.PutAsJsonAsync($"api/v{apiVersion}/ExpenseClaim/{Claim.Id}", Claim);
@@ -75,7 +86,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
                 item.CategoryId = wrapper.Category.Id;
                 item.CurrencyId = wrapper.Currency.Id;
                 item.Payee = wrapper.Payee;
-                item.Date = wrapper.Date;
+                item.Date = (DateTime)wrapper.Date;
                 item.Description = wrapper.Description;
                 item.Amount = wrapper.Amount;
                 item.USDAmount = wrapper.USDAmount;

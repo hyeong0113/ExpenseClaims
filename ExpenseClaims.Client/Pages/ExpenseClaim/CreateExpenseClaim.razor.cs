@@ -23,9 +23,9 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         public List<CreateExpenseItemWrapper> ItemWrappers { get; set; } = new List<CreateExpenseItemWrapper>();
 
         public string Title { get; set; }
-        public DateTime SubmitDate { get; set; }
-        public DateTime ApprovalDate { get; set; }
-        public DateTime ProcessedDate { get; set; }
+        public DateTime? SubmitDate { get; set; }
+        public DateTime? ApprovalDate { get; set; }
+        public DateTime? ProcessedDate { get; set; }
         public decimal TotalAmount { get; set; }
         public string Status { get; set; }
         public string RequesterComments { get; set; }
@@ -53,14 +53,17 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         public async Task Create()
         {
             Claim.Title = Title;
-            Claim.SubmitDate = SubmitDate;
-            Claim.ApprovalDate = ApprovalDate;
-            Claim.ProcessedDate = ProcessedDate;
+            Claim.SubmitDate = (DateTime)SubmitDate;
+            Claim.ApprovalDate = (DateTime)ApprovalDate;
+            Claim.ProcessedDate = (DateTime)ProcessedDate;
             Claim.TotalAmount = TotalAmount;
             Claim.Status = Status;
             Claim.RequesterComments = RequesterComments;
             Claim.ApproverComments = ApproverComments;
             Claim.FinanceComments = FinanceComments;
+
+            Console.WriteLine(SubmitDate);
+            Console.WriteLine(Claim.SubmitDate);
 
             var tokenKey = await localStorage.GetItemAsync<string>("token");
             Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
@@ -77,7 +80,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
                 tempItem.CategoryId = wrapper.Category.Id;
                 tempItem.CurrencyId = wrapper.Currency.Id;
                 tempItem.Payee = wrapper.Payee;
-                tempItem.Date = wrapper.Date;
+                tempItem.Date = (DateTime)wrapper.Date;
                 tempItem.Description = wrapper.Description;
                 tempItem.Amount = wrapper.Amount;
                 tempItem.USDAmount = wrapper.USDAmount;

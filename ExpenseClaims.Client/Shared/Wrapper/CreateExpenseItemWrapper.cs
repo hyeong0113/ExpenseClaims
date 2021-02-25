@@ -13,7 +13,7 @@ namespace ExpenseClaims.Client.Shared.Wrapper
         public GetAllExpenseCategoriesResponse Category { get; set; }
         public GetAllCurrenciesResponse Currency { get; set; }
         public string Payee { get; set; }
-        public DateTime Date { get; set; } = DateTime.Today;
+        public DateTime? Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public decimal USDAmount { get; set; }

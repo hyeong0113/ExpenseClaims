@@ -15,9 +15,9 @@ else
 {
     <MudForm>
         <MudTextField T="string" Label="Title" @bind-Value="Claim.Title" Required="true" RequiredError="Title is required" />
-        <MudDatePicker Label="SubmitDate" @bind-value="@Claim.SubmitDate" ShowWeekNumbers="true" Date="Claim.SubmitDate" />
-        <MudDatePicker Label="ApprovalDate" @bind-value="@Claim.ApprovalDate" ShowWeekNumbers="true" Date="Claim.ApprovalDate" />
-        <MudDatePicker Label="ProcessedDate" @bind-value="@Claim.ProcessedDate" ShowWeekNumbers="true" Date="Claim.ProcessedDate" />
+        <MudDatePicker Label="SubmitDate" @bind-Date="@SubmitDate" ShowWeekNumbers="true" />
+        <MudDatePicker Label="ApprovalDate" @bind-Date="@ApprovalDate" ShowWeekNumbers="true" />
+        <MudDatePicker Label="ProcessedDate" @bind-Date="@ProcessedDate" ShowWeekNumbers="true" />
         <MudTextField T="decimal" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" RequiredError="TotalAmount is required" />
         <MudTextField T="string" Label="Status" @bind-Value="Claim.Status" Required="true" RequiredError="ProcessedDate is required" />
         <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" Required="true" RequiredError="ProcessedDate is required" />
