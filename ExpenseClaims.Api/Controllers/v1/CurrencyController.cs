@@ -15,14 +15,14 @@ namespace ExpenseClaims.Api.Controllers.v1
 {
     public class CurrencyController : BaseApiController<CurrencyController>
     {
-        [HttpGet]
+        [HttpGet(Name = "GetAllCurrencies")]
         public async Task<IActionResult> GetAll()
         {
             var items = await _mediator.Send(new GetAllCurrenciesQuery());
             return Ok(items);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetCurrencyById")]
         public async Task<IActionResult> GetById(int id)
         {
             var item = await _mediator.Send(new GetCurrencyByIdQuery() { Id = id });
@@ -30,14 +30,14 @@ namespace ExpenseClaims.Api.Controllers.v1
         }
 
         // POST api/<controller>
-        [HttpPost]
+        [HttpPost(Name = "CreateCurrency")]
         public async Task<IActionResult> Post(CreateCurrencyCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateCurrency")]
         public async Task<IActionResult> Put(int id, UpdateCurrencyCommand command)
         {
             if (id != command.Id)
@@ -48,7 +48,7 @@ namespace ExpenseClaims.Api.Controllers.v1
         }
 
         // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "DeleteCurrency")]
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await _mediator.Send(new DeleteCurrencyCommand { Id = id }));

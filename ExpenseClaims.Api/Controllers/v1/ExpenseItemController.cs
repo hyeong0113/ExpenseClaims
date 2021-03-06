@@ -11,14 +11,14 @@ namespace ExpenseClaims.Api.Controllers.v1
 {
     public class ExpenseItemController : BaseApiController<ExpenseItemController>
     {
-        [HttpGet]
+        [HttpGet(Name = "GetAllExpenseItems")]
         public async Task<IActionResult> GetAll()
         {
             var items = await _mediator.Send(new GetAllExpenseItemsQuery());
             return Ok(items);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetExpenseItemById")]
         public async Task<IActionResult> GetById(int id)
         {
             var item = await _mediator.Send(new GetExpenseItemByIdQuery() { Id = id });
@@ -26,14 +26,14 @@ namespace ExpenseClaims.Api.Controllers.v1
         }
 
         // POST api/<controller>
-        [HttpPost]
+        [HttpPost(Name = "CreateExpenseItem")]
         public async Task<IActionResult> Post(CreateExpenseItemCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateExpenseItem")]
         public async Task<IActionResult> Put(int id, UpdateExpenseItemCommand command)
         {
             if (id != command.Id)
@@ -44,7 +44,7 @@ namespace ExpenseClaims.Api.Controllers.v1
         }
 
         // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "DeleteExpenseItem")]
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await _mediator.Send(new DeleteExpenseItemCommand { Id = id }));
