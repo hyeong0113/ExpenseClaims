@@ -48,7 +48,11 @@ namespace ExpenseClaims.Client
             builder.Services.AddMudServices();
             builder.Services.AddBlazoredLocalStorage(config =>
                 config.JsonSerializerOptions.WriteIndented = true);
+
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+
+
             await builder.Build().RunAsync();
         }
     }
