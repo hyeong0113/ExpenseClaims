@@ -13,17 +13,11 @@ namespace ExpenseClaims.Client.Pages.Currency
 {
     public partial class CreateCurrency
     {
-        //private const int apiVersion = 1;
-        public CurrencyDetailVM Currency { get; set; } = new CurrencyDetailVM();
-
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string Symbol { get; set; }
-        public decimal Rate { get; set; }
+        public CurrencyDetailVM Currency { get; set; }
 
         protected override void OnInitialized()
         {
-            CurrencyDetailVM Currency = new CurrencyDetailVM();
+            Currency = new CurrencyDetailVM();
         }
 
         [Inject]
@@ -34,16 +28,6 @@ namespace ExpenseClaims.Client.Pages.Currency
 
         public async Task Create()
         {
-            Currency.Code = Code;
-            Currency.Name = Name;
-            Currency.Symbol = Symbol;
-            Currency.Rate = (double)Rate;
-
-            //var tokenKey = await localStorage.GetItemAsync<string>("token");
-            //Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
-
-            //await Http.PostAsJsonAsync($"api/v{apiVersion}/Currency", Currency);
-
             var response = await CurrencyService.CreateCurrency(Currency);
 
             if (response.Success)

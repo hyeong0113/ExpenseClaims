@@ -35,7 +35,12 @@ namespace ExpenseClaims.Infrastructure.Repositories
 
         public async Task<ExpenseClaim> GetByIdWithItemsAsync(int claimId)
         {
-            return await _repository.Entities.Include(c => c.Items).FirstOrDefaultAsync(c => c.Id == claimId);
+            return await _repository.Entities.Include(c => c.Items)
+                                                .ThenInclude(i => i.Currency)
+                                            .Include(c => c.Items)
+                                                .ThenInclude(i => i.Category)
+                                            .AsNoTracking()
+                                            .FirstOrDefaultAsync(c => c.Id == claimId);
         }
 
         public async Task<int> InsertAsync(ExpenseClaim claim)

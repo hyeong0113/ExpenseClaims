@@ -16,7 +16,8 @@ namespace ExpenseClaims.Application.Mappings
         public ExpenseClaimProfile()
         {
             CreateMap<CreateExpenseClaimCommand, ExpenseClaim>().ReverseMap();
-            CreateMap<GetExpenseClaimByIdResponse, ExpenseClaim>().ReverseMap();
+            CreateMap<GetExpenseClaimByIdResponse, ExpenseClaim>().ReverseMap()
+                                .ForMember(vm => vm.Items, m => m.MapFrom(vm => vm.Items));
             CreateMap<GetAllExpenseClaimsResponse, ExpenseClaim>().ReverseMap();
         }
     }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Blazored.LocalStorage;
 using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Api;
 using ExpenseClaims.Client.Services.Base;
+using ExpenseClaims.Client.Services.Constant;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;

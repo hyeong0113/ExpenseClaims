@@ -1,6 +1,8 @@
 ﻿using AspNetCoreHero.Results;
 using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetAllPaged;
 using ExpenseClaims.Application.Wrappers;
+using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,26 +15,26 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 {
     public partial class ExpenseClaimList
     {
-        private const int apiVersion = 1;
-        public IEnumerable<GetAllExpenseClaimsResponse> ClaimList { get; set; } = null;
+        public List<ExpenseClaimListVM> ClaimList { get; set; } = null;
+
+        [Inject]
+        public IExpenseClaimService ExpenseClaimService { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            var tokenKey = await localStorage.GetItemAsync<string>("token");
-            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
-            
-            var response = await Http.GetFromJsonAsync<Response<IEnumerable<GetAllExpenseClaimsResponse>>>($"api/v{apiVersion}/ExpenseClaim");
-            ClaimList = response.Data;
+            ClaimList = await ExpenseClaimService.GetAllExpenseClaims();
         }
 
         public async Task DeleteClaim(int claimId)
         {
-            var tokenKey = await localStorage.GetItemAsync<string>("token");
-            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
-            await Http.DeleteAsync($"api/v{apiVersion}/ExpenseClaim/{claimId}");
-            NavigationManager.NavigateTo("expenseClaimList", true);
+            var response = await ExpenseClaimService.DeleteExpenseClaim(claimId);
+
+            if (response.Success)
+            {
+                NavigationManager.NavigateTo("expenseClaimList", true);
+            }
         }
     }
 }

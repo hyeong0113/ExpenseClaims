@@ -50,6 +50,9 @@ namespace ExpenseClaims.Client
                 config.JsonSerializerOptions.WriteIndented = true);
 
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<IExpenseClaimService, ExpenseClaimService>();
+            builder.Services.AddScoped<IExpenseItemService, ExpenseItemService>();
+            builder.Services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
             builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 
 

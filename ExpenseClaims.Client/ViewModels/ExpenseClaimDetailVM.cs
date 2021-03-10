@@ -15,11 +15,11 @@ namespace ExpenseClaims.Client.ViewModels
         public string Title { get; set; }
 
         [Required]
-        public System.DateTimeOffset SubmitDate { get; set; }
+        public DateTime? SubmitDate { get; set; }
 
-        public System.DateTimeOffset ApprovalDate { get; set; }
+        public DateTime? ApprovalDate { get; set; }
 
-        public System.DateTimeOffset ProcessedDate { get; set; }
+        public DateTime? ProcessedDate { get; set; }
 
         public double TotalAmount { get; set; }
 
@@ -34,6 +34,6 @@ namespace ExpenseClaims.Client.ViewModels
         [StringLength(500, ErrorMessage = "The comment should be 500 characters or less")]
         public string FinanceComments { get; set; }
 
-        public System.Collections.Generic.ICollection<ExpenseItemDetailVM> Items { get; set; }
+        public ICollection<ExpenseItemDetailVM> Items { get; set; }
     }
 }

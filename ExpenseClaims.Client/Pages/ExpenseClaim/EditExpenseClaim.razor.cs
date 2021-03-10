@@ -4,7 +4,10 @@ using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetById;
 using ExpenseClaims.Application.Features.ExpenseItems.Commands.Update;
 using ExpenseClaims.Application.Features.ExpenseItems.Queries.GetById;
 using ExpenseClaims.Application.Wrappers;
-using ExpenseClaims.Client.Shared.Wrapper;
+using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Constant;
+using ExpenseClaims.Client.ViewModels;
+using ExpenseClaims.Client.Wrapper.ExpenseItem;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -17,84 +20,60 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 {
     public partial class EditExpenseClaim
     {
-        private const int apiVersion = 1;
-        public GetExpenseClaimByIdResponse Claim { get; set; } = null;
-        public List<CreateUpdateExpenseItemWrapper> ItemWrappers { get; set; } = new List<CreateUpdateExpenseItemWrapper>();
+        public ExpenseClaimDetailVM Claim { get; set; }
+        public List<ExpenseItemDetailVM> Items { get; set; }
 
-        public DateTime? SubmitDate { get; set; }
-        public DateTime? ApprovalDate { get; set; }
-        public DateTime? ProcessedDate { get; set; }
+        public List<ExpenseItemWrapper> ItemWrappers { get; set; } = new List<ExpenseItemWrapper>();
+
+        public List<ExpenseCategoryListVM> Categories { get; set; }
+        public List<CurrencyListVM> Currencies { get; set; }
+
+        [Inject]
+        public IExpenseClaimService ExpenseClaimService { get; set; }
+
+        [Inject]
+        public IExpenseItemService ExpenseItemService { get; set; }
+
+        [Inject]
+        public IExpenseCategoryService ExpenseCategoryService { get; set; }
+
+        [Inject]
+        public ICurrencyService CurrencyService { get; set; }
 
         [Parameter]
         public int ClaimId { get; set; }
-
-        public IEnumerable<GetAllExpenseCategoriesResponse> Categories { get; set; } = new List<GetAllExpenseCategoriesResponse>();
-        public IEnumerable<GetAllCurrenciesResponse> Currencies { get; set; } = new List<GetAllCurrenciesResponse>();
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            var tokenKey = await localStorage.GetItemAsync<string>("token");
-            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
+            Claim = await ExpenseClaimService.GetExpenseClaimById(ClaimId);
+            Items = Claim.Items.ToList();
+            Categories = await ExpenseCategoryService.GetAllExpenseCategories();
+            Currencies = await CurrencyService.GetAllCurrencies();
 
-            ClaimId = ClaimId;
-            var response = await Http.GetFromJsonAsync<Response<GetExpenseClaimByIdResponse>>($"api/v{apiVersion}/ExpenseClaim/{ClaimId}");
-            Claim = response.Data;
-
-            SubmitDate = Claim.SubmitDate;
-            ApprovalDate = Claim.ApprovalDate;
-            ProcessedDate = Claim.ProcessedDate;
-
-            var category = await Http.GetFromJsonAsync<Response<IEnumerable<GetAllExpenseCategoriesResponse>>>($"api/v{apiVersion}/ExpenseCategory");
-            Categories = category.Data;
-
-            var currency = await Http.GetFromJsonAsync<Response<IEnumerable<GetAllCurrenciesResponse>>>($"api/v{apiVersion}/Currency");
-            Currencies = currency.Data;
-
-            foreach (GetExpenseItemByIdResponse item in Claim.Items)
+            foreach (ExpenseItemDetailVM item in Items)
             {
-                CreateUpdateExpenseItemWrapper tempItem = new CreateUpdateExpenseItemWrapper();
-                tempItem.Id = item.Id;
-                tempItem.ClaimId = item.ClaimId;
-                tempItem.Category = Categories.FirstOrDefault(cat => cat.Id == item.CategoryId);
-                tempItem.Currency = Currencies.FirstOrDefault(cur => cur.Id == item.CurrencyId);
-                tempItem.Payee = item.Payee;
-                tempItem.Date = item.Date;
-                tempItem.Description = item.Description;
-                tempItem.Amount = item.Amount;
-                tempItem.USDAmount = item.USDAmount;
-
-                ItemWrappers.Add(tempItem);
+                ItemWrappers.Add(new ExpenseItemWrapper(item, true));
             }
         }
 
         public async Task Edit()
         {
-            Claim.SubmitDate = (DateTime)SubmitDate;
-            Claim.ApprovalDate = (DateTime)ApprovalDate;
-            Claim.ProcessedDate = (DateTime)ProcessedDate;
-
-            var tokenKey = await localStorage.GetItemAsync<string>("token");
-            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
-
-            foreach (CreateUpdateExpenseItemWrapper wrapper in ItemWrappers)
+            var claimUpdated = await ExpenseClaimService.UpdateExpenseClaim(Claim.Id, Claim);
+            foreach (ExpenseItemWrapper itemWrapper in ItemWrappers)
             {
-                UpdateExpenseItemCommand item = new UpdateExpenseItemCommand();
-                item.Id = wrapper.Id;
-                item.CategoryId = wrapper.Category.Id;
-                item.CurrencyId = wrapper.Currency.Id;
-                item.Payee = wrapper.Payee;
-                item.Date = (DateTime)wrapper.Date;
-                item.Description = wrapper.Description;
-                item.Amount = wrapper.Amount;
-                item.USDAmount = wrapper.USDAmount;
-
-                await Http.PutAsJsonAsync($"api/v{apiVersion}/ExpenseItem/{item.Id}", item);
+                if (!itemWrapper.IsExist)
+                {
+                    itemWrapper.Item.ClaimId = claimUpdated.Data;
+                    var created = await ExpenseItemService.CreateExpenseItem(itemWrapper.Item);
+                }
+                else
+                {
+                    var updated = await ExpenseItemService.UpdateExpenseItem(itemWrapper.Item.Id, itemWrapper.Item);
+                }
             }
-
-            await Http.PutAsJsonAsync($"api/v{apiVersion}/ExpenseClaim/{Claim.Id}", Claim);
 
             NavigationManager.NavigateTo("expenseClaimList");
         }

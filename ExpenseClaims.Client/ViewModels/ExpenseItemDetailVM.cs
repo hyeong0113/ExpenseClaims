@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using ExpenseClaims.Client.Services.Constant;
 
 namespace ExpenseClaims.Client.ViewModels
 {
@@ -22,8 +23,7 @@ namespace ExpenseClaims.Client.ViewModels
         [Required]
         public string Payee { get; set; }
 
-        [Required]
-        public System.DateTimeOffset Date { get; set; }
+        public DateTime? Date { get; set; }
 
         [StringLength(100, ErrorMessage = "The comment should be 100 characters or less")]
         public string Description { get; set; }

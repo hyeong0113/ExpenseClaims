@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Blazored.LocalStorage;
 using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Api;
+using ExpenseClaims.Client.Services.Constant;
 using ExpenseClaims.Client.Services.Base;
 using ExpenseClaims.Client.ViewModels;
 using System;
@@ -33,7 +33,7 @@ namespace ExpenseClaims.Client.Services
         {
             await AddBearerToken();
 
-            var claim = await _client.GetExpenseItemByIdAsync(id, ApiVersion.apiVersion);
+            var claim = await _client.GetExpenseClaimByIdAsync(id, ApiVersion.apiVersion);
             var mappedClaim = _mapper.Map<ExpenseClaimDetailVM>(claim.Data);
             return mappedClaim;
         }

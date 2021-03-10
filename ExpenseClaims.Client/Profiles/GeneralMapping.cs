@@ -14,13 +14,18 @@ namespace ExpenseClaims.Client.Profiles
         {
             // ExpenseClaim Mapping
             CreateMap<ExpenseClaimListVM, GetAllExpenseClaimsResponse>().ReverseMap();
-            CreateMap<ExpenseClaimDetailVM, GetExpenseClaimByIdResponse>().ReverseMap();
+            CreateMap<ExpenseClaimDetailVM, GetExpenseClaimByIdResponse>().ReverseMap()
+                .ForMember(vm => vm.SubmitDate, m => m.MapFrom(vm => vm.SubmitDate.DateTime))
+                .ForMember(vm => vm.ApprovalDate, m => m.MapFrom(vm => vm.ApprovalDate.DateTime))
+                .ForMember(vm => vm.ProcessedDate, m => m.MapFrom(vm => vm.ProcessedDate.DateTime))
+                .ForMember(vm => vm.Items, m => m.MapFrom(vm => vm.Items));
             CreateMap<ExpenseClaimDetailVM, CreateExpenseClaimCommand>().ReverseMap();
             CreateMap<ExpenseClaimDetailVM, UpdateExpenseClaimCommand>().ReverseMap();
 
             // ExpenseItem Mapping
             CreateMap<ExpenseItemListVM, GetAllExpenseItemsResponse>().ReverseMap();
-            CreateMap<ExpenseItemDetailVM, GetExpenseItemByIdResponse>().ReverseMap();
+            CreateMap<ExpenseItemDetailVM, GetExpenseItemByIdResponse>().ReverseMap()
+                .ForMember(vm => vm.Date, m => m.MapFrom(vm => vm.Date.DateTime));
             CreateMap<ExpenseItemDetailVM, CreateExpenseItemCommand>().ReverseMap();
             CreateMap<ExpenseItemDetailVM, UpdateExpenseItemCommand>().ReverseMap();
 

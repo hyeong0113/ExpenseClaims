@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ExpenseClaims.Client.Services.Api
+namespace ExpenseClaims.Client.Services.Constant
 {
     public class ApiVersion
     {

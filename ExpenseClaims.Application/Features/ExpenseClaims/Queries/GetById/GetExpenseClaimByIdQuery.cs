@@ -39,6 +39,7 @@ namespace ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetById
                 else
                 {
                     var mappedClaim = _mapper.Map<GetExpenseClaimByIdResponse>(claim);
+
                     return new Response<GetExpenseClaimByIdResponse>(mappedClaim);
                 }
 

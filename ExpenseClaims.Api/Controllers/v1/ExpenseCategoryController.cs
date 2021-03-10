@@ -24,7 +24,7 @@ namespace ExpenseClaims.Api.Controllers.v1
         }
 
         [HttpGet("{id}", Name = "GetExpenseCategoryById")]
-        public async Task<ActionResult<Result<GetAllExpenseCategoriesResponse>>> GetById(int id)
+        public async Task<ActionResult<Result<GetExpenseCategoryByIdResponse>>> GetById(int id)
         {
             var item = await _mediator.Send(new GetExpenseCategoryByIdQuery() { Id = id });
             return Ok(item);
