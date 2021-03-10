@@ -1,4 +1,6 @@
 ﻿using ExpenseClaims.Application.Features.Currencies.Commands.Create;
+using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -11,30 +13,27 @@ namespace ExpenseClaims.Client.Pages.Currency
 {
     public partial class CreateCurrency
     {
-        private const int apiVersion = 1;
-        public CreateCurrencyCommand Currency { get; set; } = new CreateCurrencyCommand();
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string Symbol { get; set; }
-        public decimal Rate { get; set; }
+        public CurrencyDetailVM Currency { get; set; }
 
+        protected override void OnInitialized()
+        {
+            Currency = new CurrencyDetailVM();
+        }
+
+        [Inject]
+        public ICurrencyService CurrencyService { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         public async Task Create()
         {
-            Currency.Code = Code;
-            Currency.Name = Name;
-            Currency.Symbol = Symbol;
-            Currency.Rate = Rate;
+            var response = await CurrencyService.CreateCurrency(Currency);
 
-            var tokenKey = await localStorage.GetItemAsync<string>("token");
-            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
-
-            await Http.PostAsJsonAsync($"api/v{apiVersion}/Currency", Currency);
-
-            NavigationManager.NavigateTo("currencyList");
+            if (response.Success)
+            {
+                NavigationManager.NavigateTo("currencyList");
+            }
         }
     }
 }

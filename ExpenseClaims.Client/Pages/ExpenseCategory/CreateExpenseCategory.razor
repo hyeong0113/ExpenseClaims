@@ -5,8 +5,8 @@
 <h3>Create Expense Category</h3>
 
 <MudForm>
-    <MudTextField T="string" Label="Name" @bind-Value="Name" Required="true" RequiredError="Name is required" />
-    <MudTextField T="string" Label="Code" @bind-Value="Code" Required="true" RequiredError="Code is required" />
+    <MudTextField T="string" Label="Name" @bind-Value="Category.Name" Required="true" RequiredError="Name is required" />
+    <MudTextField T="string" Label="Code" @bind-Value="Category.Code" Required="true" RequiredError="Code is required" />
 </MudForm>
 
 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Create())">Create</MudButton>

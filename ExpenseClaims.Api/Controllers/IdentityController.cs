@@ -1,4 +1,5 @@
-﻿using ExpenseClaims.Application.DTOs.Identity;
+﻿using AspNetCoreHero.Results;
+using ExpenseClaims.Application.DTOs.Identity;
 using ExpenseClaims.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,30 +23,30 @@ namespace ExpenseClaims.Api.Controllers
         /// </summary>
         /// <param name="tokenRequest"></param>
         /// <returns></returns>
-        [HttpPost("token")]
+        [HttpPost("token", Name = "GetToken")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetTokenAsync(TokenRequest tokenRequest)
+        public async Task<ActionResult<Result<TokenResponse>>> GetTokenAsync(TokenRequest tokenRequest)
         {
             var ipAddress = GenerateIPAddress();
             var token = await _identityService.GetTokenAsync(tokenRequest, ipAddress);
             return Ok(token);
         }
 
-        [HttpPost("register")]
+        [HttpPost("register", Name = "Register")]
         public async Task<IActionResult> RegisterAsync(RegisterRequest request)
         {
             var origin = Request.Headers["origin"];
             return Ok(await _identityService.RegisterAsync(request, origin));
         }
 
-        [HttpGet("confirm-email")]
+        [HttpGet("confirm-email", Name = "ConfirmEmail")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmailAsync([FromQuery] string userId, [FromQuery] string code)
         {
             return Ok(await _identityService.ConfirmEmailAsync(userId, code));
         }
 
-        [HttpPost("forgot-password")]
+        [HttpPost("forgot-password", Name = "ForgotPassword")]
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest model)
         {
@@ -53,7 +54,7 @@ namespace ExpenseClaims.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("reset-password")]
+        [HttpPost("reset-password", Name = "ResetPassword")]
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPasswordRequest model)
         {

@@ -1,8 +1,4 @@
-﻿@inject HttpClient Http
-@inject Blazored.LocalStorage.ILocalStorageService localStorage
-
-
-@if (Currency == null && Category == null)
+﻿@if (Currency == null && Category == null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
@@ -14,5 +10,5 @@ else
     <MudTd DataLabel="Description">@Item.Description</MudTd>
     <MudTd DataLabel="Amount">@Item.Amount</MudTd>
     <MudTd DataLabel="CurrencyCode">@Currency.Symbol</MudTd>
-    <MudTd DataLabel="USDAmount">@Item.USDAmount</MudTd>
+    <MudTd DataLabel="USDAmount">@Item.UsdAmount</MudTd>
 }

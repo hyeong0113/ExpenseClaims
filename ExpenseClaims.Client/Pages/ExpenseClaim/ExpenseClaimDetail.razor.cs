@@ -1,5 +1,7 @@
 ﻿using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetById;
 using ExpenseClaims.Application.Wrappers;
+using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -12,20 +14,17 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 {
     public partial class ExpenseClaimDetail
     {
-        private const int apiVersion = 1;
-        public GetExpenseClaimByIdResponse Claim { get; set; } = null;
+        public ExpenseClaimDetailVM Claim { get; set; }
 
         [Parameter]
         public int ClaimId { get; set; }
 
+        [Inject]
+        public IExpenseClaimService ExpenseClaimService { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            var tokenKey = await localStorage.GetItemAsync<string>("token");
-            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenKey);
-
-            ClaimId = ClaimId;
-            var response = await Http.GetFromJsonAsync<Response<GetExpenseClaimByIdResponse>>($"api/v{apiVersion}/ExpenseClaim/{ClaimId}");
-            Claim = response.Data;
+            Claim = await ExpenseClaimService.GetExpenseClaimById(ClaimId);
         }
     }
 }

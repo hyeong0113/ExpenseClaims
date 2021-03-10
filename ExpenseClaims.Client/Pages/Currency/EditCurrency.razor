@@ -14,7 +14,7 @@ else
         <MudTextField T="string" Label="Code" @bind-Value="Currency.Code" Required="true" RequiredError="Code is required" />
         <MudTextField T="string" Label="Name" @bind-Value="Currency.Name" Required="true" RequiredError="Name is required" />
         <MudTextField T="string" Label="Symbol" @bind-Value="Currency.Symbol" Required="true" RequiredError="Symbol is required" />
-        <MudTextField T="decimal" Label="Rate" @bind-Value="Currency.Rate" Required="true" RequiredError="Rate is required" />
+        <MudTextField T="double" Label="Rate" @bind-Value="Currency.Rate" Required="true" RequiredError="Rate is required" />
     </MudForm>
 
     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Edit</MudButton>

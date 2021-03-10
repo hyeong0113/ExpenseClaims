@@ -1,40 +1,42 @@
-﻿using ExpenseClaims.API.Controllers;
+﻿using AspNetCoreHero.Results;
+using ExpenseClaims.API.Controllers;
 using ExpenseClaims.Application.Features.ExpenseItems.Commands.Create;
 using ExpenseClaims.Application.Features.ExpenseItems.Commands.Delete;
 using ExpenseClaims.Application.Features.ExpenseItems.Commands.Update;
 using ExpenseClaims.Application.Features.ExpenseItems.Queries.GetAll;
 using ExpenseClaims.Application.Features.ExpenseItems.Queries.GetById;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ExpenseClaims.Api.Controllers.v1
 {
     public class ExpenseItemController : BaseApiController<ExpenseItemController>
     {
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet(Name = "GetAllExpenseItems")]
+        public async Task<ActionResult<Result<IEnumerable<GetAllExpenseItemsResponse>>>> GetAll()
         {
             var items = await _mediator.Send(new GetAllExpenseItemsQuery());
             return Ok(items);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id}", Name = "GetExpenseItemById")]
+        public async Task<ActionResult<Result<GetExpenseItemByIdResponse>>> GetById(int id)
         {
             var item = await _mediator.Send(new GetExpenseItemByIdQuery() { Id = id });
             return Ok(item);
         }
 
         // POST api/<controller>
-        [HttpPost]
-        public async Task<IActionResult> Post(CreateExpenseItemCommand command)
+        [HttpPost(Name = "CreateExpenseItem")]
+        public async Task<ActionResult<Result<int>>> Post(CreateExpenseItemCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, UpdateExpenseItemCommand command)
+        [HttpPut("{id}", Name = "UpdateExpenseItem")]
+        public async Task<ActionResult<Result<int>>> Put(int id, UpdateExpenseItemCommand command)
         {
             if (id != command.Id)
             {
@@ -44,8 +46,8 @@ namespace ExpenseClaims.Api.Controllers.v1
         }
 
         // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{id}", Name = "DeleteExpenseItem")]
+        public async Task<ActionResult<Result<int>>> Delete(int id)
         {
             return Ok(await _mediator.Send(new DeleteExpenseItemCommand { Id = id }));
         }
