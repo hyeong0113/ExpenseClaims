@@ -33,7 +33,7 @@ namespace ExpenseClaims.Api.Controllers
         }
 
         [HttpPost("register", Name = "Register")]
-        public async Task<IActionResult> RegisterAsync(RegisterRequest request)
+        public async Task<ActionResult<Result<string>>> RegisterAsync(RegisterRequest request)
         {
             var origin = Request.Headers["origin"];
             return Ok(await _identityService.RegisterAsync(request, origin));
@@ -41,7 +41,7 @@ namespace ExpenseClaims.Api.Controllers
 
         [HttpGet("confirm-email", Name = "ConfirmEmail")]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmailAsync([FromQuery] string userId, [FromQuery] string code)
+        public async Task<ActionResult<Result<string>>> ConfirmEmailAsync([FromQuery] string userId, [FromQuery] string code)
         {
             return Ok(await _identityService.ConfirmEmailAsync(userId, code));
         }
@@ -56,7 +56,7 @@ namespace ExpenseClaims.Api.Controllers
 
         [HttpPost("reset-password", Name = "ResetPassword")]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(ResetPasswordRequest model)
+        public async Task<ActionResult<Result<string>>> ResetPassword(ResetPasswordRequest model)
         {
             return Ok(await _identityService.ResetPassword(model));
         }

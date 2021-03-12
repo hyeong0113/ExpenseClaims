@@ -27,6 +27,12 @@ namespace ExpenseClaims.Client.Services
                 TokenRequest tokenRequest = new TokenRequest() { Email = email, Password = password };
                 var authenticationResponse = await _client.GetTokenAsync(tokenRequest);
 
+                Console.WriteLine($"Check user info: {authenticationResponse.Data.Email}");
+                foreach (string role in authenticationResponse.Data.Roles)
+                {
+                    Console.WriteLine($"Check user info: {role}");
+                }
+
                 if (authenticationResponse.Data.JwToken != string.Empty)
                 {
                     await _localStorage.SetItemAsync("token", authenticationResponse.Data.JwToken);
@@ -44,13 +50,14 @@ namespace ExpenseClaims.Client.Services
 
         public async Task<bool> Register(string firstName, string lastName, string userName, string email, string password)
         {
-            //RegisterRequest registrationRequest = new RegisterRequest() { FirstName = firstName, LastName = lastName, Email = email, UserName = userName, Password = password };
-            //var response = await _client.RegisterAsync(registrationRequest);
+            RegisterRequest registrationRequest = new RegisterRequest() { FirstName = firstName, LastName = lastName, Email = email, UserName = userName, Password = password, ConfirmPassword = password };
+            
+            var response = await _client.RegisterAsync(registrationRequest);
 
-            //if (!string.IsNullOrEmpty(response.UserId))
-            //{
-            //    return true;
-            //}
+            if (!string.IsNullOrEmpty(response.Data))
+            {
+                return true;
+            }
             return false;
         }
 

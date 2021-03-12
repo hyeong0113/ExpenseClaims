@@ -1,21 +1,17 @@
 ﻿@page "/login"
-@inject Blazored.LocalStorage.ILocalStorageService localStorage
-
 
 <h3>LogIn</h3>
 
-<MudGrid>
-    <MudItem xs="12" sm="12" md="12">
-        <MudTextField @bind-Value="UserName" Label="Email" Variant="Variant.Text" Adornment="Adornment.Start" />
-    </MudItem>
-    <MudItem xs="12" sm="6" md="4">
-        <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Text" Adornment="Adornment.Start" />
-    </MudItem>
-</MudGrid>
-
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@OnSubmit">Primary</MudButton>
-
-@if (IsAutenticated)
-{
-    <h2>Go ahead</h2>
-}
+<EditForm Model="@LogInModel" OnValidSubmit=@OnSubmit>
+    <MudGrid>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="LogInModel.Email" Label="Email" Variant="Variant.Text" Adornment="Adornment.Start" />
+        </MudItem>
+    </MudGrid>
+    <MudGrid>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="LogInModel.Password" Label="Password" Variant="Variant.Text" InputType="@InputType.Password" Adornment="Adornment.End" />
+        </MudItem>
+    </MudGrid>
+    <MudButton ButtonType=ButtonType.Submit Variant="Variant.Filled" Color="Color.Primary" @onkeypress="@Enter">Primary</MudButton>
+</EditForm>
