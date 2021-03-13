@@ -5,6 +5,7 @@ using ExpenseClaims.Application.Features.Currencies.Commands.Delete;
 using ExpenseClaims.Application.Features.Currencies.Commands.Update;
 using ExpenseClaims.Application.Features.Currencies.Quries.GetAll;
 using ExpenseClaims.Application.Features.Currencies.Quries.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace ExpenseClaims.Api.Controllers.v1
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class CurrencyController : BaseApiController<CurrencyController>
     {
         [HttpGet(Name = "GetAllCurrencies")]

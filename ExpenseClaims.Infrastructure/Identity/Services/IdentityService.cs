@@ -92,6 +92,7 @@ namespace ExpenseClaims.Infrastructure.Identity.Services
             }
             .Union(userClaims)
             .Union(roleClaims);
+
             return JWTGeneration(claims);
         }
 

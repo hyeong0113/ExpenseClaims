@@ -23,10 +23,10 @@
                 </NotAuthorized>
                 <Authorized>
                     <h6 class="ml-md-auto">@context.User.Identity.Name</h6>
+
                     <button class="ml-md-auto" @onclick="Logout">Logout</button>
                 </Authorized>
             </AuthorizeView>
-
         </div>
         <div class="content px-4">
             @Body

@@ -5,6 +5,7 @@ using ExpenseClaims.Application.Features.ExpenseClaims.Commands.Delete;
 using ExpenseClaims.Application.Features.ExpenseClaims.Commands.Update;
 using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetAllPaged;
 using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

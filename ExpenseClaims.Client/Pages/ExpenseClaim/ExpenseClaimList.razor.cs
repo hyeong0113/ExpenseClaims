@@ -2,6 +2,7 @@
 using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetAllPaged;
 using ExpenseClaims.Application.Wrappers;
 using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Base;
 using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json.Linq;

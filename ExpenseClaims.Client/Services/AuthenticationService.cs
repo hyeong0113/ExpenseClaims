@@ -27,15 +27,10 @@ namespace ExpenseClaims.Client.Services
                 TokenRequest tokenRequest = new TokenRequest() { Email = email, Password = password };
                 var authenticationResponse = await _client.GetTokenAsync(tokenRequest);
 
-                Console.WriteLine($"Check user info: {authenticationResponse.Data.Email}");
-                foreach (string role in authenticationResponse.Data.Roles)
-                {
-                    Console.WriteLine($"Check user info: {role}");
-                }
-
                 if (authenticationResponse.Data.JwToken != string.Empty)
                 {
                     await _localStorage.SetItemAsync("token", authenticationResponse.Data.JwToken);
+
                     ((CustomAuthenticationStateProvider)_authenticationStateProvider).SetUserAuthenticated(email);
                     _client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", authenticationResponse.Data.JwToken);
                     return true;
