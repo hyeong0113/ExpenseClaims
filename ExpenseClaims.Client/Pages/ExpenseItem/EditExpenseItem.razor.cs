@@ -28,6 +28,9 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
         [Parameter]
         public Claim Roles { get; set; }
 
+        [Parameter]
+        public double TotalAmount { get; set; }
+
         [Inject]
         public IExpenseItemService ExpenseItemService { get; set; }
 

@@ -18,6 +18,8 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
         [Parameter]
         public List<CurrencyListVM> Currencies { get; set; } = new List<CurrencyListVM>();
 
+        public double CurrentRate { get; set; }
+
         private void AddItem()
         {
             ExpenseItemDetailVM wrapper = new ExpenseItemDetailVM();
@@ -27,6 +29,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
         private void Remove(ExpenseItemDetailVM wrapper)
         {
             ItemList.Remove(wrapper);
+            this.StateHasChanged();
         }
     }
 }
