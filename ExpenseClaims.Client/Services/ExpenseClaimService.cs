@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace ExpenseClaims.Client.Services
 {
@@ -20,12 +21,28 @@ namespace ExpenseClaims.Client.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ExpenseClaimListVM>> GetAllExpenseClaims()
+        public async Task<List<ExpenseClaimListVM>> GetAllExpenseClaims(Claim role)
         {
             await AddBearerToken();
 
-            var claimList = await _client.GetAllExpenseClaimsAsync(ApiVersion.apiVersion);
-            var mappedClaimList = _mapper.Map<IEnumerable<ExpenseClaimListVM>>(claimList.Data);
+            var fetchedClaimList = await _client.GetAllExpenseClaimsAsync(ApiVersion.apiVersion);
+
+            IEnumerable<GetAllExpenseClaimsResponse> claimList = null;
+
+            if (role.Value.Contains("Approver"))
+            {
+                claimList = fetchedClaimList.Data.Where(c => c.Status == Status.SUBMITTED).Union(fetchedClaimList.Data.Where(c => c.Status == Status.RESUBMITTED));
+            }
+            else if (role.Value.Contains("Financer"))
+            {
+                claimList = fetchedClaimList.Data.Where(c => c.Status == Status.APPROVED);
+            }
+            else
+            {
+                claimList = fetchedClaimList.Data;
+            }
+
+            var mappedClaimList = _mapper.Map<IEnumerable<ExpenseClaimListVM>>(claimList);
             return mappedClaimList.ToList();
         }
 

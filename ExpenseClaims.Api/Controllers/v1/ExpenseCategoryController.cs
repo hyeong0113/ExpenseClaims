@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace ExpenseClaims.Api.Controllers.v1
 {
-    [Authorize(Roles = "SuperAdmin")]
     public class ExpenseCategoryController : BaseApiController<ExpenseCategoryController>
     {
         [HttpGet(Name = "GetAllExpenseCategories")]

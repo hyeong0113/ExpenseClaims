@@ -6,17 +6,14 @@
 <h5>New Expense Claim</h5>
 <MudForm>
     <MudTextField T="string" Label="Title" @bind-Value="Claim.Title" Required="true" RequiredError="Title is required" />
-    <MudDatePicker Label="SubmitDate" @bind-Date="Claim.SubmitDate" ShowWeekNumbers="true" Required="true" />
-    <MudDatePicker Label="ApprovalDate" @bind-Date="Claim.ApprovalDate" ShowWeekNumbers="true" />
-    <MudDatePicker Label="ProcessedDate" @bind-Date="Claim.ProcessedDate" ShowWeekNumbers="true" />
-    <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" RequiredError="TotalAmount is required" />
-    <MudTextField T="string" Label="Status" @bind-Value="Claim.Status" Required="true" RequiredError="ProcessedDate is required" />
-    <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" Required="true" RequiredError="ProcessedDate is required" />
-    <MudTextField T="string" Label="ApproverComments" @bind-Value="Claim.ApproverComments" Required="true" RequiredError="ProcessedDate is required" />
-    <MudTextField T="string" Label="FinanceComments" @bind-Value="Claim.FinanceComments" Required="true" RequiredError="ProcessedDate is required" />
+    @*Need to input requester(approver)*@
+    <MudTextField T="string" Label="Submit Date" @bind-Value="CurrentDate" Required="true" ReadOnly="true" Disabled="true" />
+    <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" ReadOnly="true" RequiredError="TotalAmount is required" />
+    <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" />
+
 </MudForm>
 
 <CreateExpenseItem ItemList=@Items Categories=@Categories Currencies=@Currencies />
 
-<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Create())">Create</MudButton>
+<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Create())">Submit</MudButton>
 

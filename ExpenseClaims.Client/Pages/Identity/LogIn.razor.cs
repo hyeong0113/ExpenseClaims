@@ -21,11 +21,18 @@ namespace ExpenseClaims.Client.Pages.Identity
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        public string ErrorMessage { get; set; }
+
         public async Task OnSubmit()
         {
             if (await AuthenticationService.Authenticate(LogInModel.Email, LogInModel.Password))
             {
+                ErrorMessage = null;
                 NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                ErrorMessage = "Your Id or Password is incorrect";
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿@page "/expenseClaimList/edit/{ClaimId:int}"
 @using ExpenseClaims.Client.Pages.ExpenseItem
+@using ExpenseClaims.Client.Services.Constant
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
@@ -12,18 +13,46 @@
 else
 {
     <MudForm>
-        <MudTextField T="string" Label="Title" @bind-Value="Claim.Title" Required="true" RequiredError="Title is required" />
-        <MudDatePicker Label="SubmitDate" @bind-Date="Claim.SubmitDate" ShowWeekNumbers="true" />
-        <MudDatePicker Label="ApprovalDate" @bind-Date="Claim.ApprovalDate" ShowWeekNumbers="true" />
-        <MudDatePicker Label="ProcessedDate" @bind-Date="Claim.ProcessedDate" ShowWeekNumbers="true" />
-        <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" RequiredError="TotalAmount is required" />
-        <MudTextField T="string" Label="Status" @bind-Value="Claim.Status" Required="true" RequiredError="ProcessedDate is required" />
-        <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" Required="true" RequiredError="ProcessedDate is required" />
-        <MudTextField T="string" Label="ApproverComments" @bind-Value="Claim.ApproverComments" Required="true" RequiredError="ProcessedDate is required" />
-        <MudTextField T="string" Label="FinanceComments" @bind-Value="Claim.FinanceComments" Required="true" RequiredError="ProcessedDate is required" />
+        @if (Roles != null && Roles.Value.Contains("Approver"))
+        {
+            <MudTextField T="string" Label="ApproverComments" @bind-Value="Claim.ApproverComments" Required="true" RequiredError="ProcessedDate is required" />
+        }
+
+        @if (Roles != null && Roles.Value.Contains("Financer"))
+        {
+            <MudTextField T="string" Label="FinanceComments" @bind-Value="Claim.FinanceComments" Required="true" RequiredError="ProcessedDate is required" />
+        }
+
+        @if (Roles != null && Roles.Value.Contains("Manager"))
+        {
+            <MudItem xs="3" sm="4" md="6">
+                <MudSelect T="string" Label="Status" @bind-Value="@CurrentStatus">
+                    @if (Roles.Value.Contains("Approver"))
+                    {
+                        <MudSelectItem Value="@(Status.APPROVED)" />
+                        <MudSelectItem Value="@(Status.QUERIED)" />
+                    }
+                    else
+                    {
+                        <MudSelectItem Value="@(Status.PROCESSED)" />
+                    }
+                    <MudSelectItem Value="@(Status.REJCETED)" />
+                </MudSelect>
+            </MudItem>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Submit</MudButton>
+        }
+
+        <MudTextField T="string" Label="Title" @bind-Value="Claim.Title" ReadOnly="IsReadonly" RequiredError="Title is required" />
+        <MudTextField T="string" Label="Submit Date" Text="@Claim.SubmitDate.ToString()" ReadOnly="true" Disabled="true" />
+        <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" ReadOnly="true" RequiredError="TotalAmount is required" />
+        <MudTextField T="string" Label="Status" @bind-Value="Claim.Status" ReadOnly="true" RequiredError="ProcessedDate is required" />
+        <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" ReadOnly=@IsReadonly RequiredError="ProcessedDate is required" />
     </MudForm>
 
-    <EditExpenseItem ItemWrapperList=@ItemWrappers ItemList=@Items Categories=@Categories Currencies=@Currencies />
+    <EditExpenseItem ItemWrapperList=@ItemWrappers ItemList=@Items Categories=@Categories Currencies=@Currencies IsReadonly=@IsReadonly Roles=@Roles />
 
-    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Edit</MudButton>
+    @if (Roles != null && Roles.Value.Contains("GeneralUser"))
+    {
+        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Submit</MudButton>
+    }
 }

@@ -5,11 +5,14 @@ using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Base;
 using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ExpenseClaims.Client.Pages.ExpenseClaim
@@ -23,9 +26,25 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+        private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
+        public Claim Roles { get; set; } = null;
+
         protected override async Task OnInitializedAsync()
         {
-            ClaimList = await ExpenseClaimService.GetAllExpenseClaims();
+            AuthenticationState authenticationState;
+
+            authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            this.AuthenticationStateProviderUser = authenticationState.User;
+
+            Roles = AuthenticationStateProviderUser.Claims.FirstOrDefault(c => c.Type == "roles");
+
+            List<ExpenseClaimListVM> fetchedClaimList = await ExpenseClaimService.GetAllExpenseClaims(Roles);
+
+            ClaimList = fetchedClaimList;
         }
 
         public async Task DeleteClaim(int claimId)

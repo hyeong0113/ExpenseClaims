@@ -1,19 +1,13 @@
-﻿using ExpenseClaims.Application.Features.Currencies.Quries.GetAll;
-using ExpenseClaims.Application.Features.ExpenseCategories.Quries.GetAll;
-using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetById;
-using ExpenseClaims.Application.Features.ExpenseItems.Commands.Update;
-using ExpenseClaims.Application.Features.ExpenseItems.Queries.GetById;
-using ExpenseClaims.Application.Wrappers;
-using ExpenseClaims.Client.Contracts;
+﻿using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Constant;
 using ExpenseClaims.Client.ViewModels;
 using ExpenseClaims.Client.Wrapper.ExpenseItem;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ExpenseClaims.Client.Pages.ExpenseClaim
@@ -27,6 +21,16 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 
         public List<ExpenseCategoryListVM> Categories { get; set; }
         public List<CurrencyListVM> Currencies { get; set; }
+
+        public string CurrentStatus { get; set; }
+
+        public Claim Roles { get; set; } = null;
+        public bool IsReadonly { get; set; } = false;
+
+        [Inject]
+        AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+        private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
 
         [Inject]
         public IExpenseClaimService ExpenseClaimService { get; set; }
@@ -57,11 +61,45 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             {
                 ItemWrappers.Add(new ExpenseItemWrapper(item, true));
             }
+
+            AuthenticationState authenticationState;
+
+            authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            this.AuthenticationStateProviderUser = authenticationState.User;
+
+            Roles = AuthenticationStateProviderUser.Claims.FirstOrDefault(c => c.Type == "roles");
+
+            if (Roles.Value.Contains("Manager"))
+            {
+                IsReadonly = true;
+            }
         }
 
         public async Task Edit()
         {
+            if (Claim.Status == Status.QUERIED)
+            {
+                Claim.Status = Status.RESUBMITTED;
+            }
+            else
+            {
+                Claim.Status = CurrentStatus;
+            }
+
+            if (Roles.Value.Contains("Approver"))
+            {
+                Claim.ApprovalDate = DateTime.Today;
+            }
+
+            if (Roles.Value.Contains("Financer"))
+            {
+                Claim.ProcessedDate = DateTime.Today;
+            }
+
+
             var claimUpdated = await ExpenseClaimService.UpdateExpenseClaim(Claim.Id, Claim);
+
+
             foreach (ExpenseItemWrapper itemWrapper in ItemWrappers)
             {
                 if (!itemWrapper.IsExist)
@@ -75,7 +113,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
                 }
             }
 
-            NavigationManager.NavigateTo("expenseClaimList");
+            NavigationManager.NavigateTo("/expenseClaimList", true);
         }
     }
 }

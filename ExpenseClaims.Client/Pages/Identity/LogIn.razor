@@ -13,5 +13,7 @@
             <MudTextField @bind-Value="LogInModel.Password" Label="Password" Variant="Variant.Text" InputType="@InputType.Password" Adornment="Adornment.End" />
         </MudItem>
     </MudGrid>
-    <MudButton ButtonType=ButtonType.Submit Variant="Variant.Filled" Color="Color.Primary" @onkeypress="@Enter">Primary</MudButton>
+    <MudButton ButtonType=ButtonType.Submit Variant="Variant.Filled" Color="Color.Primary" @onkeypress="@Enter">Log In</MudButton>
 </EditForm>
+
+<h3>@ErrorMessage</h3>

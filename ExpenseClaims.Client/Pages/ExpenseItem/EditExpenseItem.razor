@@ -2,7 +2,10 @@
 
 <h5>Expense Claim Items</h5>
 
-<MudFab OnClick="@(() => AddItem())" Color="Color.Transparent" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" />
+@if (Roles != null && Roles.Value.Contains("GeneralUser"))
+{
+    <MudFab OnClick="@(() => AddItem())" Color="Color.Transparent" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" />
+}
 
 <MudTable Items="@ItemWrapperList">
     <ColGroup>
@@ -28,7 +31,7 @@
     <RowTemplate>
         <MudTd DataLabel="Category">
             <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="int" @bind-Value="@context.Item.CategoryId" Label="Category">
+                <MudSelect T="int" @bind-Value="@context.Item.CategoryId" Label="Category" ReadOnly=@IsReadonly>
                     @foreach (var category in Categories)
                     {
                         <MudSelectItem Value="@(category.Id)">@category.Name</MudSelectItem>
@@ -37,11 +40,11 @@
             </MudItem>
         </MudTd>
 
-        <MudTextField T="string" Label="Payee" @bind-Value="@context.Item.Payee" Required="true" RequiredError="Payee is required" />
+        <MudTextField T="string" Label="Payee" @bind-Value="@context.Item.Payee" Required="true" RequiredError="Payee is required" ReadOnly=@IsReadonly />
 
         <MudTd DataLabel="Currency">
             <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="int" @bind-Value="@context.Item.CurrencyId" Label="Currency">
+                <MudSelect T="int" @bind-Value="@context.Item.CurrencyId" Label="Currency" ReadOnly=@IsReadonly>
                     @foreach (var currency in Currencies)
                     {
                         <MudSelectItem Value="@(currency.Id)">@currency.Name</MudSelectItem>
@@ -49,20 +52,23 @@
                 </MudSelect>
             </MudItem>
         </MudTd>
-
         <MudTd>
-            <MudDatePicker Label="SubmitDate" @bind-Date="context.Item.Date" ShowWeekNumbers="true" Required="true" />
+            <MudDatePicker Label="Submit Date" @bind-Date="context.Item.Date" Required="true"  Disabled=@IsReadonly />
+        </MudTd>
+        <MudTd>
+            <MudTextField T="string" @bind-Value="@context.Item.Description" Label="Description" ReadOnly=@IsReadonly />
+        </MudTd>
+        <MudTd>
+            <MudTextField T="double" @bind-Value="@context.Item.Amount" Required="true" RequiredError="Amount is required" ReadOnly=@IsReadonly />
+        </MudTd>
+        <MudTd>
+            <MudTextField T="double" @bind-Value="@context.Item.UsdAmount" Required="true" RequiredError="USDAmount is required" ReadOnly=@IsReadonly />
         </MudTd>
 
-        <MudTd>
-            <MudTextField T="string" @bind-Value="@context.Item.Description" Label="Description" />
-        </MudTd>
-        <MudTd>
-            <MudTextField T="double" @bind-Value="@context.Item.Amount" Required="true" RequiredError="Amount is required" />
-        </MudTd>
-        <MudTd>
-            <MudTextField T="double" @bind-Value="@context.Item.UsdAmount" Required="true" RequiredError="USDAmount is required" />
-        </MudTd>
-        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Remove(context))">Delete</MudButton>
+        @if (Roles != null && Roles.Value.Contains("GeneralUser"))
+        {
+            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Remove(context))">Delete</MudButton>
+        }
+
     </RowTemplate>
 </MudTable>

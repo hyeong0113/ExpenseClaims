@@ -1,45 +1,63 @@
 ﻿@page "/expenseClaimList"
+@using ExpenseClaims.Client.Services.Constant
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <h3>Expense Claim List</h3>
 
-<MudButton Variant="Variant.Filled" Link="expenseClaimList/create" style="float: right;">Create</MudButton>
+@if (Roles != null && Roles.Value.Contains("GeneralUser"))
+{
+    <MudButton Variant="Variant.Filled" Link="expenseClaimList/create" style="float: right;">Create</MudButton>
+}
+
 @if (ClaimList == null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
 else
 {
-<MudTable Items="@ClaimList">
-    <ColGroup>
-        <col />
-        <col />
-        <col />
-        <col />
-        <col />
-        <col style="width:40px;" />
-        <col style="width:40px;" />
-    </ColGroup>
-    <HeaderContent>
-        <MudTh>Title</MudTh>
-        <MudTh>Total Amount</MudTh>
-        <MudTh>Submit Date</MudTh>
-        <MudTh>Status</MudTh>
-        <MudTh>Detail</MudTh>
-        <MudTh></MudTh>
-        <MudTh></MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Title">@context.Title</MudTd>
-        <MudTd DataLabel="TotalAmount">@context.TotalAmount</MudTd>
-        <MudTd DataLabel="SubmitDate">@context.SubmitDate</MudTd>
-        <MudTd DataLabel="Status">@context.Status</MudTd>
-        <MudTd DataLabel="ViewDetail"><MudLink Href="@($"expenseClaimList/{context.Id}")">View</MudLink></MudTd>
-        <MudTd><MudButton Variant="Variant.Filled" Link=@($"expenseClaimList/edit/{context.Id}") Size="Size.Small">Edit</MudButton></MudTd>
-        <MudTd><MudButton Variant="Variant.Filled" OnClick="@(()=>DeleteClaim(context.Id))" Size="Size.Small">Delete</MudButton></MudTd>
-    </RowTemplate>
-</MudTable>
+    <MudTable Items="@ClaimList">
+        <ColGroup>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col style="width:40px;" />
+            <col style="width:40px;" />
+        </ColGroup>
+        <HeaderContent>
+            <MudTh>Title</MudTh>
+            <MudTh>Total Amount</MudTh>
+            <MudTh>Submit Date</MudTh>
+            <MudTh>Status</MudTh>
+            <MudTh>Detail</MudTh>
+            <MudTh></MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Title">@context.Title</MudTd>
+            <MudTd DataLabel="TotalAmount">@context.TotalAmount</MudTd>
+            <MudTd DataLabel="SubmitDate">@context.SubmitDate</MudTd>
+            <MudTd DataLabel="Status">@context.Status</MudTd>
+            <MudTd DataLabel="ViewDetail"><MudLink Href="@($"expenseClaimList/{context.Id}")">View</MudLink></MudTd>
+
+            @if (Roles != null)
+            {
+                @if (!(Roles.Value.Contains("GeneralUser") && (context.Status == Status.REJCETED || context.Status == Status.SUBMITTED)) && (context.Status != Status.PROCESSED))
+                {
+                    <MudTd><MudButton Variant="Variant.Filled" Link=@($"expenseClaimList/edit/{context.Id}") Size="Size.Small">Edit</MudButton></MudTd>
+                }
+
+                @if (Roles.Value.Contains("GeneralUser") && context.Status == Status.REJCETED)
+                {
+                    <MudTd><MudButton Variant="Variant.Filled" OnClick="@(()=>DeleteClaim(context.Id))" Size="Size.Small">Delete</MudButton></MudTd>
+                }
+            }
+
+
+        </RowTemplate>
+    </MudTable>
 
 }
 

@@ -57,9 +57,6 @@
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    [CascadingParameter]
-    private Task<AuthenticationState> AuthenticationStateTask { get; set; }
-
     private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
 
     private Claim Roles { get; set; } = null;
