@@ -1,21 +1,43 @@
 ﻿@inherits LayoutComponentBase
-    <MudThemeProvider />
-    <MudDialogProvider />
-    <MudSnackbarProvider />
-    <div class="page">
-        <div class="sidebar">
-            <NavMenu />
-        </div>
+@inject NavigationManager NavigationManager
+@inject ExpenseClaims.Client.Contracts.IAuthenticationService AuthenticationService
 
-        <div class="main">
-            <div class="top-row px-4">
-                <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-            </div>
-            <div class="top-row px-4">
-                <a href="login" class="ml-md-auto">Log In</a>
-            </div>
-            <div class="content px-4">
-                @Body
-            </div>
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+            <AuthorizeView>
+                <Authorizing>
+                    <text>...</text>
+                </Authorizing>
+                <NotAuthorized>
+                    <a href="login" class="ml-md-auto">Log In</a>
+                    <a href="register" class="ml-md-auto">Register</a>
+                </NotAuthorized>
+                <Authorized>
+                    <h6 class="ml-md-auto">@context.User.Identity.Name</h6>
+
+                    <button class="ml-md-auto" @onclick="Logout">Logout</button>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+        <div class="content px-4">
+            @Body
         </div>
     </div>
+</div>
+
+@code{
+    async Task Logout()
+    {
+        await AuthenticationService.Logout();
+        NavigationManager.NavigateTo("/");
+    }
+}

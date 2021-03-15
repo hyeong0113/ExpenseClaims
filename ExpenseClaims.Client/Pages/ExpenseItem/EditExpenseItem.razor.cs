@@ -2,9 +2,8 @@
 using ExpenseClaims.Client.ViewModels;
 using ExpenseClaims.Client.Wrapper.ExpenseItem;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ExpenseClaims.Client.Pages.ExpenseItem
@@ -22,6 +21,15 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
 
         [Parameter]
         public List<CurrencyListVM> Currencies { get; set; } = new List<CurrencyListVM>();
+
+        [Parameter]
+        public bool IsReadonly { get; set; }
+
+        [Parameter]
+        public Claim Roles { get; set; }
+
+        [Parameter]
+        public double TotalAmount { get; set; }
 
         [Inject]
         public IExpenseItemService ExpenseItemService { get; set; }

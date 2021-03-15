@@ -5,6 +5,7 @@ using ExpenseClaims.Application.Features.Currencies.Commands.Delete;
 using ExpenseClaims.Application.Features.Currencies.Commands.Update;
 using ExpenseClaims.Application.Features.Currencies.Quries.GetAll;
 using ExpenseClaims.Application.Features.Currencies.Quries.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

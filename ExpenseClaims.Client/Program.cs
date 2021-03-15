@@ -55,6 +55,9 @@ namespace ExpenseClaims.Client
             builder.Services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
             builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 
+            builder.Services.AddApiAuthorization();
+            builder.Services.AddApiAuthorization()
+                .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 
             await builder.Build().RunAsync();
         }

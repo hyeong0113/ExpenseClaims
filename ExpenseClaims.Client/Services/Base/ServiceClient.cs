@@ -211,21 +211,21 @@ namespace ExpenseClaims.Client.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RegisterAsync(RegisterRequest body);
+        System.Threading.Tasks.Task<StringResult> RegisterAsync(RegisterRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RegisterAsync(RegisterRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<StringResult> RegisterAsync(RegisterRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ConfirmEmailAsync(string userId, string code);
+        System.Threading.Tasks.Task<StringResult> ConfirmEmailAsync(string userId, string code);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ConfirmEmailAsync(string userId, string code, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<StringResult> ConfirmEmailAsync(string userId, string code, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -238,12 +238,12 @@ namespace ExpenseClaims.Client.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ResetPasswordAsync(ResetPasswordRequest body);
+        System.Threading.Tasks.Task<StringResult> ResetPasswordAsync(ResetPasswordRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ResetPasswordAsync(ResetPasswordRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<StringResult> ResetPasswordAsync(ResetPasswordRequest body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -2022,7 +2022,7 @@ namespace ExpenseClaims.Client.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task RegisterAsync(RegisterRequest body)
+        public System.Threading.Tasks.Task<StringResult> RegisterAsync(RegisterRequest body)
         {
             return RegisterAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2030,7 +2030,7 @@ namespace ExpenseClaims.Client.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task RegisterAsync(RegisterRequest body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<StringResult> RegisterAsync(RegisterRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -2048,6 +2048,7 @@ namespace ExpenseClaims.Client.Services.Base
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2072,7 +2073,12 @@ namespace ExpenseClaims.Client.Services.Base
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<StringResult>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -2096,7 +2102,7 @@ namespace ExpenseClaims.Client.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task ConfirmEmailAsync(string userId, string code)
+        public System.Threading.Tasks.Task<StringResult> ConfirmEmailAsync(string userId, string code)
         {
             return ConfirmEmailAsync(userId, code, System.Threading.CancellationToken.None);
         }
@@ -2104,7 +2110,7 @@ namespace ExpenseClaims.Client.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task ConfirmEmailAsync(string userId, string code, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<StringResult> ConfirmEmailAsync(string userId, string code, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/identity/confirm-email?");
@@ -2125,6 +2131,7 @@ namespace ExpenseClaims.Client.Services.Base
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2149,7 +2156,12 @@ namespace ExpenseClaims.Client.Services.Base
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<StringResult>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -2247,7 +2259,7 @@ namespace ExpenseClaims.Client.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task ResetPasswordAsync(ResetPasswordRequest body)
+        public System.Threading.Tasks.Task<StringResult> ResetPasswordAsync(ResetPasswordRequest body)
         {
             return ResetPasswordAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2255,7 +2267,7 @@ namespace ExpenseClaims.Client.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task ResetPasswordAsync(ResetPasswordRequest body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<StringResult> ResetPasswordAsync(ResetPasswordRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (body == null)
                 throw new System.ArgumentNullException("body");
@@ -2273,6 +2285,7 @@ namespace ExpenseClaims.Client.Services.Base
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2297,7 +2310,12 @@ namespace ExpenseClaims.Client.Services.Base
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            return;
+                            var objectResponse_ = await ReadObjectResponseAsync<StringResult>(response_, headers_).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -3092,6 +3110,24 @@ namespace ExpenseClaims.Client.Services.Base
         [Newtonsoft.Json.JsonProperty("confirmPassword", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string ConfirmPassword { get; set; }
+
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.8.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class StringResult
+    {
+        [Newtonsoft.Json.JsonProperty("failed", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Failed { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Message { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("succeeded", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool Succeeded { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Data { get; set; }
 
 
     }

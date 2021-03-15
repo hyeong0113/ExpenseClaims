@@ -5,6 +5,7 @@ using ExpenseClaims.Application.Features.ExpenseCategories.Commands.Delete;
 using ExpenseClaims.Application.Features.ExpenseCategories.Commands.Update;
 using ExpenseClaims.Application.Features.ExpenseCategories.Quries.GetAll;
 using ExpenseClaims.Application.Features.ExpenseCategories.Quries.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
