@@ -29,5 +29,7 @@ Clean Architecture Boilerplate - ASP.NET Core 5.0 (WebApi & MVC)
 - Postman
 - Microsoft Azure
 
-## Updated
-2021.03.18 All functions done. Need to modify UI
+## Note
+2021.03.18
+- All functions done except for Register. Need to modify UI
+- If you want to test this project, you need to register user manually via mvc webapp
