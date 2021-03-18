@@ -3,7 +3,11 @@ This is the project to practice using Blazor and Entity Framework Core 5.0. The 
 ExpenseClaim is the application which creates and apply the request to claim expenses.
 In the future, this project will be deployed via Microsoft Azure.
 
-https://expensewinapp.azurewebsites.net This is sample of the deployed project.
+https://expenseclaimresource.azurewebsites.net/swagger/index.html
+-This is API for this project
+
+https://expensewinapp.azurewebsites.net
+-This is sample of the deployed project.
 
 The project is still on progress.
 
@@ -21,3 +25,5 @@ The project is still on progress.
 - Postman
 - Microsoft Azure
 
+## Updated
+2021.03.18 All functions done. Need to modify UI
