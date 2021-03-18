@@ -40,6 +40,9 @@ namespace ExpenseClaims.Client.Profiles
             CreateMap<CurrencyDetailVM, GetCurrencyByIdResponse>().ReverseMap();
             CreateMap<CurrencyDetailVM, CreateCurrencyCommand>().ReverseMap();
             CreateMap<CurrencyDetailVM, UpdateCurrencyCommand>().ReverseMap();
+
+            // Users Mapping
+            CreateMap<UserResponseVM, UserResponse>().ReverseMap();
         }
     }
 }

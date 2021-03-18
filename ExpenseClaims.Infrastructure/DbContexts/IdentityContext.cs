@@ -24,6 +24,7 @@ namespace ExpenseClaims.Infrastructure.DbContexts
             {
                 entity.ToTable(name: "Roles");
             });
+
             builder.Entity<IdentityUserRole<string>>(entity =>
             {
                 entity.ToTable("UserRoles");

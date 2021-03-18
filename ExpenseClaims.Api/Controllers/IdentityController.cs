@@ -1,8 +1,10 @@
 ﻿using AspNetCoreHero.Results;
 using ExpenseClaims.Application.DTOs.Identity;
 using ExpenseClaims.Application.Interfaces;
+using ExpenseClaims.Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ExpenseClaims.Api.Controllers
@@ -67,6 +69,13 @@ namespace ExpenseClaims.Api.Controllers
                 return Request.Headers["X-Forwarded-For"];
             else
                 return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+        }
+
+        [HttpGet("usres", Name = "GetUsers")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Result<IEnumerable<UserResponse>>>> GetUsers()
+        {
+            return Ok(await _identityService.GetUsersAsync());
         }
     }
 }

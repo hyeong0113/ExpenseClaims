@@ -49,7 +49,7 @@ else
                     <MudTd><MudButton Variant="Variant.Filled" Link=@($"expenseClaimList/edit/{context.Id}") Size="Size.Small">Edit</MudButton></MudTd>
                 }
 
-                @if (Roles.Value.Contains("GeneralUser") && context.Status == Status.REJCETED)
+                @if ((Roles.Value.Contains("GeneralUser") && context.Status == Status.REJCETED) || Roles.Value.Contains("SuperAdmin"))
                 {
                     <MudTd><MudButton Variant="Variant.Filled" OnClick="@(()=>DeleteClaim(context.Id))" Size="Size.Small">Delete</MudButton></MudTd>
                 }

@@ -15,6 +15,8 @@ namespace ExpenseClaims.Application.Features.ExpenseClaims.Commands.Create
     public partial class CreateExpenseClaimCommand : IRequest<Response<int>>
     {
         public string Title { get; set; }
+        public string RequesterId { get; set; }
+        public string ApproverId { get; set; }
         public DateTime SubmitDate { get; set; }
         public DateTime ApprovalDate { get; set; }
         public DateTime ProcessedDate { get; set; }

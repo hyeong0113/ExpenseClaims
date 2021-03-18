@@ -11,8 +11,8 @@ namespace ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetAllPaged
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        //public User Requester { get; set; }
-        //public User Approver { get; set; }
+        public string RequesterId { get; set; }
+        public string ApproverId { get; set; }
         public DateTime SubmitDate { get; set; }
         public DateTime ApprovalDate { get; set; }
         public DateTime ProcessedDate { get; set; }

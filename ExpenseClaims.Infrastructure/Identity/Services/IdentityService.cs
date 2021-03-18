@@ -20,6 +20,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseClaims.Infrastructure.Identity.Services
 {
@@ -227,6 +228,25 @@ namespace ExpenseClaims.Infrastructure.Identity.Services
             {
                 throw new ApiException($"Error occured while reseting the password.");
             }
+        }
+
+        public async Task<Result<IEnumerable<UserResponse>>> GetUsersAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            List<UserResponse> userList = new List<UserResponse>();
+
+            foreach(ApplicationUser user in users)
+            {
+                var userResponse = new UserResponse();
+                userResponse.Id = user.Id;
+                userResponse.UserName = user.FirstName + " " + user.LastName;
+                userResponse.Email = user.Email;
+                var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+                userResponse.Roles = rolesList.ToList();
+                userList.Add(userResponse);
+            }
+
+            return Result<IEnumerable<UserResponse>>.Success(userList, "User List");
         }
     }
 }

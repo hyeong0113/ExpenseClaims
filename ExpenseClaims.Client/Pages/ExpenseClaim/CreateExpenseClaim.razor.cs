@@ -3,8 +3,11 @@ using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Constant;
 using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ExpenseClaims.Client.Pages.ExpenseClaim
@@ -16,6 +19,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 
         public List<ExpenseCategoryListVM> Categories { get; set; }
         public List<CurrencyListVM> Currencies { get; set; }
+        public List<UserResponseVM> Approvers { get; set; } = new List<UserResponseVM>();
 
         public string CurrentDate = DateTime.Today.ToShortDateString();
 
@@ -32,7 +36,15 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         public ICurrencyService CurrencyService { get; set; }
 
         [Inject]
+        private IAuthenticationService AuthenticationService { get; set; }
+
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+        private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -41,6 +53,19 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             Items = new List<ExpenseItemDetailVM>();
             Categories = await ExpenseCategoryService.GetAllExpenseCategories();
             Currencies = await CurrencyService.GetAllCurrencies();
+            var users = await AuthenticationService.GetUsers();
+            foreach(UserResponseVM user in users)
+            {
+                if (user.Roles.Contains("Approver"))
+                {
+                    Approvers.Add(user);
+                }
+            }
+            AuthenticationState authenticationState;
+
+            authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            this.AuthenticationStateProviderUser = authenticationState.User;
+            Claim.RequesterId = AuthenticationStateProviderUser.Claims.FirstOrDefault(c => c.Type == "uid").Value;
         }
 
         public async Task Create()

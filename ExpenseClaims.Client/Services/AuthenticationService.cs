@@ -1,7 +1,9 @@
-﻿using Blazored.LocalStorage;
+﻿using AutoMapper;
+using Blazored.LocalStorage;
 using ExpenseClaims.Client.Auth;
 using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Base;
+using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,12 @@ namespace ExpenseClaims.Client.Services
     public class AuthenticationService : BaseDataService, IAuthenticationService
     {
         private readonly AuthenticationStateProvider _authenticationStateProvider;
+        private readonly IMapper _mapper;
 
-        public AuthenticationService(IBaseClient client, ILocalStorageService localStorage, AuthenticationStateProvider authenticationStateProvider) : base(client, localStorage)
+        public AuthenticationService(IBaseClient client, ILocalStorageService localStorage, AuthenticationStateProvider authenticationStateProvider, IMapper mapper) : base(client, localStorage)
         {
             _authenticationStateProvider = authenticationStateProvider;
+            _mapper = mapper;
         }
 
         public async Task<bool> Authenticate(string email, string password)
@@ -61,6 +65,13 @@ namespace ExpenseClaims.Client.Services
             await _localStorage.RemoveItemAsync("token");
             ((CustomAuthenticationStateProvider)_authenticationStateProvider).SetUserLoggedOut();
             _client.HttpClient.DefaultRequestHeaders.Authorization = null;
+        }
+
+        public async Task<List<UserResponseVM>> GetUsers()
+        {
+            var users = await _client.GetUsersAsync();
+            var mappedUsers = _mapper.Map< List<UserResponseVM>>(users.Data);
+            return mappedUsers;
         }
     }
 }

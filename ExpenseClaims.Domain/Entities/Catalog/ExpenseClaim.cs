@@ -10,8 +10,8 @@ namespace ExpenseClaims.Domain.Entities.Catalog
     public class ExpenseClaim : AuditableEntity
     {
         public string Title { get; set; }
-        //public User Requester { get; set; }
-        //public User Approver { get; set; }
+        public string RequesterId { get; set; }
+        public string ApproverId { get; set; }
         public DateTime SubmitDate { get; set; }
         public DateTime ApprovalDate { get; set; }
         public DateTime ProcessedDate { get; set; }

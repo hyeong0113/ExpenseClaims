@@ -19,12 +19,33 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         [Parameter]
         public int ClaimId { get; set; }
 
+        public string RequesterName { get; set; }
+
+        public string ApproverName { get; set; }
+        public List<UserResponseVM> Users { get; set; } = new List<UserResponseVM>();
+
+        [Inject]
+        private IAuthenticationService AuthenticationService { get; set; }
+
         [Inject]
         public IExpenseClaimService ExpenseClaimService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             Claim = await ExpenseClaimService.GetExpenseClaimById(ClaimId);
+            var users = await AuthenticationService.GetUsers();
+
+            foreach (UserResponseVM user in users)
+            {
+                if (user.Id == Claim.RequesterId)
+                {
+                    RequesterName = user.UserName;
+                }
+                if (user.Id == Claim.ApproverId)
+                {
+                    ApproverName = user.UserName;
+                }
+            }
         }
     }
 }

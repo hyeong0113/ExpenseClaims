@@ -41,8 +41,9 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             this.AuthenticationStateProviderUser = authenticationState.User;
 
             Roles = AuthenticationStateProviderUser.Claims.FirstOrDefault(c => c.Type == "roles");
+            var userId = AuthenticationStateProviderUser.Claims.FirstOrDefault(c => c.Type == "uid").Value;
 
-            List<ExpenseClaimListVM> fetchedClaimList = await ExpenseClaimService.GetAllExpenseClaims(Roles);
+            List<ExpenseClaimListVM> fetchedClaimList = await ExpenseClaimService.GetAllExpenseClaims(Roles, userId);
 
             ClaimList = fetchedClaimList;
         }

@@ -4,14 +4,16 @@ using ExpenseClaims.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExpenseClaims.Infrastructure.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210318033956_UserFieldAddedInExpenseClaim")]
+    partial class UserFieldAddedInExpenseClaim
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,8 +169,8 @@ namespace ExpenseClaims.Infrastructure.Migrations.ApplicationDb
                     b.Property<string>("ApproverComments")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ApproverId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ApproverId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -191,8 +193,8 @@ namespace ExpenseClaims.Infrastructure.Migrations.ApplicationDb
                     b.Property<string>("RequesterComments")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RequesterId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RequesterId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");

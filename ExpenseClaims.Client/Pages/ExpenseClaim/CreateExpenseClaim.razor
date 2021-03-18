@@ -6,11 +6,20 @@
 <h5>New Expense Claim</h5>
 <MudForm>
     <MudTextField T="string" Label="Title" @bind-Value="Claim.Title" Required="true" RequiredError="Title is required" />
-    @*Need to input requester(approver)*@
+    @if (Approvers != null)
+    {
+        <MudItem xs="3" sm="4" md="6">
+            <MudSelect T="string" Label="Approver" @bind-Value="Claim.ApproverId">
+                @foreach (var approver in Approvers)
+                {
+                    <MudSelectItem Value="@(approver.Id)">@approver.UserName</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+    }
     <MudTextField T="string" Label="Submit Date" @bind-Value="CurrentDate" Required="true" ReadOnly="true" Disabled="true" />
     <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" ReadOnly="true" RequiredError="TotalAmount is required" />
     <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" />
-
 </MudForm>
 
 <CreateExpenseItem ItemList=@Items Categories=@Categories Currencies=@Currencies />

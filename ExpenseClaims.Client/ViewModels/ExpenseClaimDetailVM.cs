@@ -15,6 +15,12 @@ namespace ExpenseClaims.Client.ViewModels
         public string Title { get; set; }
 
         [Required]
+        public string RequesterId { get; set; }
+
+        [Required]
+        public string ApproverId { get; set; }
+
+        [Required]
         public DateTime? SubmitDate { get; set; }
 
         public DateTime? ApprovalDate { get; set; }

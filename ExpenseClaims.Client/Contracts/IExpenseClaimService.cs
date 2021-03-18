@@ -10,7 +10,7 @@ namespace ExpenseClaims.Client.Contracts
 {
     public interface IExpenseClaimService
     {
-        Task<List<ExpenseClaimListVM>> GetAllExpenseClaims(Claim role);
+        Task<List<ExpenseClaimListVM>> GetAllExpenseClaims(Claim role, string userId);
         Task<ExpenseClaimDetailVM> GetExpenseClaimById(int id);
         Task<ApiResponse<int>> CreateExpenseClaim(ExpenseClaimDetailVM claim);
         Task<ApiResponse<int>> UpdateExpenseClaim(int id, ExpenseClaimDetailVM claim);

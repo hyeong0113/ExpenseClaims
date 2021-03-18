@@ -15,6 +15,8 @@ namespace ExpenseClaims.Application.Features.ExpenseClaims.Commands.Update
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string RequesterId { get; set; }
+        public string ApproverId { get; set; }
         public DateTime SubmitDate { get; set; }
         public DateTime ApprovalDate { get; set; }
         public DateTime ProcessedDate { get; set; }
@@ -45,6 +47,8 @@ namespace ExpenseClaims.Application.Features.ExpenseClaims.Commands.Update
                 else
                 {
                     claim.Title = request.Title;
+                    claim.RequesterId = request.RequesterId;
+                    claim.ApproverId = request.ApproverId;
                     claim.SubmitDate = request.SubmitDate;
                     claim.ApprovalDate = request.ApprovalDate;
                     claim.ProcessedDate = request.ProcessedDate;

@@ -1,6 +1,7 @@
 ﻿using ExpenseClaims.Application.DTOs.Identity;
 using AspNetCoreHero.Results;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ExpenseClaims.Application.Interfaces
 {
@@ -15,5 +16,7 @@ namespace ExpenseClaims.Application.Interfaces
         Task ForgotPassword(ForgotPasswordRequest model, string origin);
 
         Task<Result<string>> ResetPassword(ResetPasswordRequest model);
+
+        Task<Result<IEnumerable<UserResponse>>> GetUsersAsync();
     }
 }

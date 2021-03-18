@@ -21,7 +21,7 @@ namespace ExpenseClaims.Client.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ExpenseClaimListVM>> GetAllExpenseClaims(Claim role)
+        public async Task<List<ExpenseClaimListVM>> GetAllExpenseClaims(Claim role, string userId)
         {
             await AddBearerToken();
 
@@ -31,7 +31,8 @@ namespace ExpenseClaims.Client.Services
 
             if (role.Value.Contains("Approver"))
             {
-                claimList = fetchedClaimList.Data.Where(c => c.Status == Status.SUBMITTED).Union(fetchedClaimList.Data.Where(c => c.Status == Status.RESUBMITTED));
+                var claims = fetchedClaimList.Data.Where(c => c.Status == Status.SUBMITTED).Union(fetchedClaimList.Data.Where(c => c.Status == Status.RESUBMITTED));
+                claimList = claims.Where(c => c.ApproverId == userId);
             }
             else if (role.Value.Contains("Financer"))
             {

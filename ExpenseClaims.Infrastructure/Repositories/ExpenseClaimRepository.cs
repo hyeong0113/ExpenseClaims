@@ -13,12 +13,10 @@ namespace ExpenseClaims.Infrastructure.Repositories
     public class ExpenseClaimRepository : IExpenseClaimRepository
     {
         private readonly IRepositoryAsync<ExpenseClaim> _repository;
-        private readonly IExpenseItemRepository _itemRepository;
 
-        public ExpenseClaimRepository(IRepositoryAsync<ExpenseClaim> repository, IExpenseItemRepository itemRepository)
+        public ExpenseClaimRepository(IRepositoryAsync<ExpenseClaim> repository)
         {
             _repository = repository;
-            _itemRepository = itemRepository;
         }
 
         public IQueryable<ExpenseClaim> Claims => _repository.Entities;
