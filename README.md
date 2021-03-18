@@ -4,19 +4,19 @@ ExpenseClaim is the application which creates and apply the request to claim exp
 In the future, this project will be deployed via Microsoft Azure.
 
 https://expenseclaimresource.azurewebsites.net/swagger/index.html
-
--This is API for this project
+- This is API for this project
 
 https://expensewinapp.azurewebsites.net
+- This is sample of the deployed project.
 
--This is sample of the deployed project.
-
-
+http://expenseclaimmvc.azurewebsites.net
+- This is mvc webapp for managing roles and users
 
 The project is still on progress.
 
 # Architecture Used
-- Clean Architecture Boilerplate - ASP.NET Core 5.0 (WebApi & MVC) https://codewithmukesh.com/project/aspnet-core-webapi-clean-architecture%e2%80%8b/
+Clean Architecture Boilerplate - ASP.NET Core 5.0 (WebApi & MVC)
+- https://codewithmukesh.com/project/aspnet-core-webapi-clean-architecture%e2%80%8b/
 
 ## Technologies Used
 - ASP.NET Core 5.0 WebAPI
