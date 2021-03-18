@@ -4,9 +4,11 @@ ExpenseClaim is the application which creates and apply the request to claim exp
 In the future, this project will be deployed via Microsoft Azure.
 
 https://expenseclaimresource.azurewebsites.net/swagger/index.html
+
 -This is API for this project
 
 https://expensewinapp.azurewebsites.net
+
 -This is sample of the deployed project.
 
 The project is still on progress.
