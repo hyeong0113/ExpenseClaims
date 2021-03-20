@@ -59,7 +59,7 @@
             <MudTextField T="string" @bind-Value="@context.Item.Description" Label="Description" ReadOnly=@IsReadonly />
         </MudTd>
         <MudTd>
-            <MudTextField T="double" @bind-Value="@context.Item.Amount" Required="true" RequiredError="Amount is required" ReadOnly=@IsReadonly />
+            <MudTextField T="double" @bind-Value="@context.Item.Amount" Required="true" TextChanged="@(() => AmountChanged(context))" RequiredError="Amount is required" ReadOnly=@IsReadonly />
         </MudTd>
         <MudTd>
             <MudTextField T="double" @bind-Value="@context.Item.UsdAmount" Required="true" RequiredError="USDAmount is required" ReadOnly=@IsReadonly />

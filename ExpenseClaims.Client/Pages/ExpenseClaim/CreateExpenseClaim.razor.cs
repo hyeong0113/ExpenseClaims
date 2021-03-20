@@ -80,5 +80,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 
             NavigationManager.NavigateTo("expenseClaimList");
         }
+
+        void TotalAmountChangeHandler(double totalAmount)
+        {
+            Claim.TotalAmount = totalAmount;
+        }
     }
 }

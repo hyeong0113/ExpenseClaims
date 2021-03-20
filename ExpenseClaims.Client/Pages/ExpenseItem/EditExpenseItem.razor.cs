@@ -3,6 +3,7 @@ using ExpenseClaims.Client.ViewModels;
 using ExpenseClaims.Client.Wrapper.ExpenseItem;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -31,6 +32,9 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
         [Parameter]
         public double TotalAmount { get; set; }
 
+        [Parameter]
+        public EventCallback<double> OnTotalAmountChange { get; set; }
+
         [Inject]
         public IExpenseItemService ExpenseItemService { get; set; }
 
@@ -51,6 +55,19 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
             if (ExpenseItemService.GetExpenseItemById(itemWrapper.Item.Id) != null)
             {
                 await ExpenseItemService.DeleteExpenseItem(itemWrapper.Item.Id);
+            }
+            double totalAmountString = ItemList.Select(i => i.Amount).Sum();
+            await OnTotalAmountChange.InvokeAsync(totalAmountString);
+        }
+
+        private void AmountChanged(ExpenseItemWrapper itemWrapper)
+        {
+            var currency = Currencies.FirstOrDefault(c => c.Id == itemWrapper.Item.CurrencyId);
+            if (currency != null)
+            {
+                itemWrapper.Item.UsdAmount = currency.Rate * itemWrapper.Item.Amount;
+                double totalAmountString = ItemList.Select(i => i.UsdAmount).Sum();
+                OnTotalAmountChange.InvokeAsync(totalAmountString);
             }
         }
     }
