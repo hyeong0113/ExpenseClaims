@@ -44,7 +44,7 @@
 
         <MudTd DataLabel="Currency">
             <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="int" @bind-Value="@context.Item.CurrencyId" Label="Currency" ReadOnly=@IsReadonly>
+                <MudSelect T="int" Label="Currency" Value="@context.Item.CurrencyId" Required="true" ValueChanged="@((id) => ActivateAmountField(context, id))" RequiredError="Currency should be selected" ReadOnly=@IsReadonly>
                     @foreach (var currency in Currencies)
                     {
                         <MudSelectItem Value="@(currency.Id)">@currency.Name</MudSelectItem>
@@ -59,10 +59,10 @@
             <MudTextField T="string" @bind-Value="@context.Item.Description" Label="Description" ReadOnly=@IsReadonly />
         </MudTd>
         <MudTd>
-            <MudTextField T="double" @bind-Value="@context.Item.Amount" Required="true" TextChanged="@(() => AmountChanged(context))" RequiredError="Amount is required" ReadOnly=@IsReadonly />
+            <MudTextField T="double" @bind-Value="@context.Item.Amount" Required="true" Disabled="@IsCurrencyMissing" TextChanged="@(() => AmountChanged(context))" RequiredError="Amount is required" ReadOnly=@IsReadonly />
         </MudTd>
         <MudTd>
-            <MudTextField T="double" @bind-Value="@context.Item.UsdAmount" Required="true" RequiredError="USDAmount is required" ReadOnly=@IsReadonly />
+            <MudTextField T="double" @bind-Value="@context.Item.UsdAmount" Required="true" Disabled="true" RequiredError="USDAmount is required" ReadOnly=@IsReadonly />
         </MudTd>
 
         @if (Roles != null && Roles.Value.Contains("GeneralUser"))

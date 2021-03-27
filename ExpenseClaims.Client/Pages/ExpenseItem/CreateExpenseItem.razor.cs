@@ -52,16 +52,21 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
             }
         }
 
-        private void ActivateAmountField(int id)
+        private void ActivateAmountField(ExpenseItemDetailVM item, int id)
         {
-            Console.WriteLine(id);
+            item.CurrencyId = id;
 
             if (id == 0)
             {
                 return;
             }
+
+            if (item.Amount != 0)
+            {
+                AmountChanged(item);
+            }
+
             IsCurrencyMissing = false;
-            Console.WriteLine(IsCurrencyMissing);
         }
     }
 }

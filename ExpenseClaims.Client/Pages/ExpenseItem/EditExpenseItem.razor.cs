@@ -38,8 +38,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
         [Inject]
         public IExpenseItemService ExpenseItemService { get; set; }
 
-        public ExpenseCategoryListVM Category { get; set; }
-        public CurrencyListVM Currency { get; set; }
+        public bool IsCurrencyMissing { get; set; } = true;
 
         public void AddItem()
         {
@@ -56,7 +55,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
             {
                 await ExpenseItemService.DeleteExpenseItem(itemWrapper.Item.Id);
             }
-            double totalAmountString = ItemList.Select(i => i.Amount).Sum();
+            double totalAmountString = ItemList.Select(i => i.UsdAmount).Sum();
             await OnTotalAmountChange.InvokeAsync(totalAmountString);
         }
 
@@ -69,6 +68,23 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
                 double totalAmountString = ItemList.Select(i => i.UsdAmount).Sum();
                 OnTotalAmountChange.InvokeAsync(totalAmountString);
             }
+        }
+
+        private void ActivateAmountField(ExpenseItemWrapper itemWrapper, int id)
+        {
+            itemWrapper.Item.CurrencyId = id;
+
+            if (id == 0)
+            {
+                return;
+            }
+
+            if (itemWrapper.Item.Amount != 0)
+            {
+                AmountChanged(itemWrapper);
+            }
+
+            IsCurrencyMissing = false;
         }
     }
 }

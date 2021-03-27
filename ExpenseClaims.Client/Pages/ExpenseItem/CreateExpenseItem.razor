@@ -41,7 +41,7 @@
 
         <MudTd DataLabel="Currency">
             <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="int" Label="Currency" @bind-Value="@context.CurrencyId" Required="true" @onselectionchange="@(() => ActivateAmountField(context.CurrencyId))" RequiredError="Currency should be selected">
+                <MudSelect T="int" Label="Currency" Value="@context.CurrencyId" Required="true" ValueChanged="@((id) => ActivateAmountField(context, id))" RequiredError="Currency should be selected">
                     @foreach (var currency in Currencies)
                     {
                         <MudSelectItem T="int" Value="@(currency.Id)">@currency.Name</MudSelectItem>
@@ -61,7 +61,7 @@
             <MudTextField T="double" @bind-Value="@context.Amount" Required="true" Disabled="@IsCurrencyMissing" TextChanged="@(() => AmountChanged(context))" RequiredError="Amount is required" />
         </MudTd>
         <MudTd>
-            <MudTextField T="double" @bind-Value="@context.UsdAmount" Required="true" RequiredError="USDAmount is required" />
+            <MudTextField T="double" @bind-Value="@context.UsdAmount" Required="true" Disabled="true" RequiredError="USDAmount is required" />
         </MudTd>
         <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Remove(context))">Delete</MudButton>
     </RowTemplate>
