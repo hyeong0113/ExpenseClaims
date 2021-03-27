@@ -18,11 +18,11 @@
         </MudItem>
     }
     <MudTextField T="string" Label="Submit Date" @bind-Value="CurrentDate" Required="true" ReadOnly="true" Disabled="true" />
-    <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" ReadOnly="true" RequiredError="TotalAmount is required" />
+    <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" ReadOnly="true" Disabled="true" RequiredError="TotalAmount is required" />
     <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" />
 </MudForm>
 
-<CreateExpenseItem ItemList=@Items Categories=@Categories Currencies=@Currencies />
+<CreateExpenseItem ItemList=@Items Categories=@Categories Currencies=@Currencies TotalAmount=@Claim.TotalAmount OnTotalAmountChange=@TotalAmountChangeHandler />
 
 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Create())">Submit</MudButton>
 

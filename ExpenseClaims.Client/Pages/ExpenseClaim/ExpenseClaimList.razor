@@ -44,7 +44,9 @@ else
 
             @if (Roles != null)
             {
-                @if (!(Roles.Value.Contains("GeneralUser") && (context.Status == Status.REJCETED || context.Status == Status.SUBMITTED)) && (context.Status != Status.PROCESSED))
+                @if (!(Roles.Value.Contains("GeneralUser")
+                    && (context.Status == Status.REJCETED || context.Status == Status.SUBMITTED || context.Status == Status.RESUBMITTED))
+                    && (context.Status != Status.PROCESSED))
                 {
                     <MudTd><MudButton Variant="Variant.Filled" Link=@($"expenseClaimList/edit/{context.Id}") Size="Size.Small">Edit</MudButton></MudTd>
                 }

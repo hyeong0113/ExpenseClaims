@@ -49,7 +49,7 @@ else
         <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" ReadOnly=@IsReadonly RequiredError="ProcessedDate is required" />
     </MudForm>
 
-    <EditExpenseItem ItemWrapperList=@ItemWrappers ItemList=@Items Categories=@Categories Currencies=@Currencies IsReadonly=@IsReadonly Roles=@Roles />
+    <EditExpenseItem ItemWrapperList=@ItemWrappers ItemList=@Items Categories=@Categories Currencies=@Currencies IsReadonly=@IsReadonly Roles=@Roles OnTotalAmountChange=@TotalAmountChangeHandler />
 
     @if (Roles != null && Roles.Value.Contains("GeneralUser"))
     {
