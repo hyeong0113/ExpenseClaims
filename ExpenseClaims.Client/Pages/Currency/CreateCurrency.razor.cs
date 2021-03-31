@@ -1,6 +1,8 @@
 ﻿using ExpenseClaims.Application.Features.Currencies.Commands.Create;
 using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -13,11 +15,14 @@ namespace ExpenseClaims.Client.Pages.Currency
 {
     public partial class CreateCurrency
     {
-        public CurrencyDetailVM Currency { get; set; }
+        public CreateCurrencyFrontCommand Currency { get; set; }
+
+        [Inject]
+        public IMediator Mediator { get; set; }
 
         protected override void OnInitialized()
         {
-            Currency = new CurrencyDetailVM();
+            Currency = new CreateCurrencyFrontCommand();
         }
 
         [Inject]
@@ -28,9 +33,9 @@ namespace ExpenseClaims.Client.Pages.Currency
 
         public async Task Create()
         {
-            var response = await CurrencyService.CreateCurrency(Currency);
+            var response = await this.Mediator.Send(Currency);
 
-            if (response.Success)
+            if (response)
             {
                 NavigationManager.NavigateTo("currencyList");
             }

@@ -23,14 +23,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Features\CurrencyService\Commands\" />
-    <Folder Include="Services\Features\CurrencyService\Queries\" />
-    <Folder Include="Services\Features\ExpenseCategoryService\Commands\" />
-    <Folder Include="Services\Features\ExpenseCategoryService\Queries\" />
-    <Folder Include="Services\Features\ExpenseClaimService\Commands\" />
-    <Folder Include="Services\Features\ExpenseClaimService\Queries\" />
-    <Folder Include="Services\Features\ExpenseItemService\Commands\" />
-    <Folder Include="Services\Features\ExpenseItemService\Queries\" />
+    <Folder Include="Services\Features\ExpenseCategoryService\Commands\Create\" />
+    <Folder Include="Services\Features\ExpenseCategoryService\Commands\Delete\" />
+    <Folder Include="Services\Features\ExpenseCategoryService\Commands\Update\" />
+    <Folder Include="Services\Features\ExpenseCategoryService\Queries\GetAll\" />
+    <Folder Include="Services\Features\ExpenseCategoryService\Queries\GetById\" />
+    <Folder Include="Services\Features\ExpenseClaimService\Commands\Create\" />
+    <Folder Include="Services\Features\ExpenseClaimService\Commands\Delete\" />
+    <Folder Include="Services\Features\ExpenseClaimService\Commands\Update\" />
+    <Folder Include="Services\Features\ExpenseClaimService\Queries\GetAll\" />
+    <Folder Include="Services\Features\ExpenseClaimService\Queries\GetById\" />
+    <Folder Include="Services\Features\ExpenseItemService\Commands\Create\" />
+    <Folder Include="Services\Features\ExpenseItemService\Commands\Delete\" />
+    <Folder Include="Services\Features\ExpenseItemService\Commands\Update\" />
+    <Folder Include="Services\Features\ExpenseItemService\Queries\GetAll\" />
+    <Folder Include="Services\Features\ExpenseItemService\Queries\GetById\" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,8 @@ using Blazored.LocalStorage;
 using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Base;
 using ExpenseClaims.Client.Services.Constant;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -38,7 +40,7 @@ namespace ExpenseClaims.Client.Services
             return mappedCurrency;
         }
 
-        public async Task<ApiResponse<int>> CreateCurrency(CurrencyDetailVM currency)
+        public async Task<ApiResponse<int>> CreateCurrency(CreateCurrencyFrontCommand currency)
         {
             try
             {
@@ -53,7 +55,7 @@ namespace ExpenseClaims.Client.Services
             }
         }
 
-        public async Task<ApiResponse<int>> UpdateCurrency(int id, CurrencyDetailVM currency)
+        public async Task<ApiResponse<int>> UpdateCurrency(int id, UpdateCurrencyFrontCommand currency)
         {
             try
             {

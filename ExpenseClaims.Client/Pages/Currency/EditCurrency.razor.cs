@@ -1,5 +1,9 @@
-﻿using ExpenseClaims.Client.Contracts;
+﻿using AutoMapper;
+using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Update;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetById;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -18,16 +22,23 @@ namespace ExpenseClaims.Client.Pages.Currency
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public IMediator Mediator { get; set; }
+
+        [Inject]
+        public IMapper Mapper { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            Currency = await CurrencyService.GetCurrencyById(CurrencyId);
+            Currency = await Mediator.Send(new GetCurrencyByIdFrontQuery() { Id = CurrencyId });
         }
 
         public async Task Edit()
         {
-            var response = await CurrencyService.UpdateCurrency(CurrencyId, Currency);
+            var mappedCurrency = Mapper.Map<UpdateCurrencyFrontCommand>(Currency);
+            var response = await Mediator.Send(mappedCurrency);
 
-            if (response.Success)
+            if (response)
             {
                 NavigationManager.NavigateTo("currencyList", true);
             }

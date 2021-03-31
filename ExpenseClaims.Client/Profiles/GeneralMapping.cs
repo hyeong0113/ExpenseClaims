@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using ExpenseClaims.Client.Services.Base;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -38,8 +40,9 @@ namespace ExpenseClaims.Client.Profiles
             // Currency Mapping
             CreateMap<CurrencyListVM, GetAllCurrenciesResponse>().ReverseMap();
             CreateMap<CurrencyDetailVM, GetCurrencyByIdResponse>().ReverseMap();
-            CreateMap<CurrencyDetailVM, CreateCurrencyCommand>().ReverseMap();
-            CreateMap<CurrencyDetailVM, UpdateCurrencyCommand>().ReverseMap();
+            CreateMap<CreateCurrencyFrontCommand, CreateCurrencyCommand>().ReverseMap();
+            CreateMap<UpdateCurrencyFrontCommand, UpdateCurrencyCommand>().ReverseMap();
+            CreateMap<CurrencyDetailVM, UpdateCurrencyFrontCommand>().ReverseMap();
 
             // Users Mapping
             CreateMap<UserResponseVM, UserResponse>().ReverseMap();
