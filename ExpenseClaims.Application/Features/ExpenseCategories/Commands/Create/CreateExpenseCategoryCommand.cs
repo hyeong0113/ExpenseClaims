@@ -16,26 +16,27 @@ namespace ExpenseClaims.Application.Features.ExpenseCategories.Commands.Create
     {
         public string Name { get; set; }
         public string Code { get; set; }
-    }
-    public class CreateExpenseCategoryCommandHandler : IRequestHandler<CreateExpenseCategoryCommand, Response<int>>
-    {
-        private readonly IExpenseCategoryRepository _categoryRepository;
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateExpenseCategoryCommandHandler(IExpenseCategoryRepository categoryRepository, IUnitOfWork unitOfWork, IMapper mapper)
+        public class CreateExpenseCategoryCommandHandler : IRequestHandler<CreateExpenseCategoryCommand, Response<int>>
         {
-            _categoryRepository = categoryRepository;
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+            private readonly IExpenseCategoryRepository _categoryRepository;
+            private readonly IMapper _mapper;
+            private readonly IUnitOfWork _unitOfWork;
 
-        public async Task<Response<int>> Handle(CreateExpenseCategoryCommand request, CancellationToken cancellationToken)
-        {
-            var category = _mapper.Map<ExpenseCategory>(request);
-            await _categoryRepository.AddAsync(category);
-            await _unitOfWork.Commit(cancellationToken);
-            return new Response<int>(category.Id);
+            public CreateExpenseCategoryCommandHandler(IExpenseCategoryRepository categoryRepository, IUnitOfWork unitOfWork, IMapper mapper)
+            {
+                _categoryRepository = categoryRepository;
+                _unitOfWork = unitOfWork;
+                _mapper = mapper;
+            }
+
+            public async Task<Response<int>> Handle(CreateExpenseCategoryCommand request, CancellationToken cancellationToken)
+            {
+                var category = _mapper.Map<ExpenseCategory>(request);
+                await _categoryRepository.AddAsync(category);
+                await _unitOfWork.Commit(cancellationToken);
+                return new Response<int>(category.Id);
+            }
         }
     }
 }

@@ -1,5 +1,13 @@
 ﻿using AutoMapper;
 using ExpenseClaims.Client.Services.Base;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Update;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Update;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,27 +27,32 @@ namespace ExpenseClaims.Client.Profiles
                 .ForMember(vm => vm.ApprovalDate, m => m.MapFrom(vm => vm.ApprovalDate.DateTime))
                 .ForMember(vm => vm.ProcessedDate, m => m.MapFrom(vm => vm.ProcessedDate.DateTime))
                 .ForMember(vm => vm.Items, m => m.MapFrom(vm => vm.Items));
-            CreateMap<ExpenseClaimDetailVM, CreateExpenseClaimCommand>().ReverseMap();
-            CreateMap<ExpenseClaimDetailVM, UpdateExpenseClaimCommand>().ReverseMap();
+            CreateMap<CreateExpenseClaimFrontCommand, CreateExpenseClaimCommand>().ReverseMap();
+            CreateMap<UpdateExpenseClaimFrontCommand, UpdateExpenseClaimCommand>().ReverseMap();
+            CreateMap<ExpenseClaimDetailVM, UpdateExpenseClaimFrontCommand>().ReverseMap();
 
             // ExpenseItem Mapping
             CreateMap<ExpenseItemListVM, GetAllExpenseItemsResponse>().ReverseMap();
             CreateMap<ExpenseItemDetailVM, GetExpenseItemByIdResponse>().ReverseMap()
                 .ForMember(vm => vm.Date, m => m.MapFrom(vm => vm.Date.DateTime));
-            CreateMap<ExpenseItemDetailVM, CreateExpenseItemCommand>().ReverseMap();
-            CreateMap<ExpenseItemDetailVM, UpdateExpenseItemCommand>().ReverseMap();
+            CreateMap<CreateExpenseItemFrontCommand, CreateExpenseItemCommand>().ReverseMap();
+            CreateMap<UpdateExpenseItemFrontCommand, UpdateExpenseItemCommand>().ReverseMap();
+            CreateMap<ExpenseItemDetailVM, CreateExpenseItemFrontCommand>().ReverseMap();
+            CreateMap<ExpenseItemDetailVM, UpdateExpenseItemFrontCommand>().ReverseMap();
 
             // ExpenseCategory Mapping
             CreateMap<ExpenseCategoryListVM, GetAllExpenseCategoriesResponse>().ReverseMap();
             CreateMap<ExpenseCategoryDetailVM, GetExpenseCategoryByIdResponse>().ReverseMap();
-            CreateMap<ExpenseCategoryDetailVM, CreateExpenseCategoryCommand>().ReverseMap();
-            CreateMap<ExpenseCategoryDetailVM, UpdateExpenseCategoryCommand>().ReverseMap();
+            CreateMap<CreateExpenseCategoryFrontCommand, CreateExpenseCategoryCommand>().ReverseMap();
+            CreateMap<UpdateExpenseCategoryFrontCommand, UpdateExpenseCategoryCommand>().ReverseMap();
+            CreateMap<ExpenseCategoryDetailVM, UpdateExpenseCategoryFrontCommand>().ReverseMap();
 
             // Currency Mapping
             CreateMap<CurrencyListVM, GetAllCurrenciesResponse>().ReverseMap();
             CreateMap<CurrencyDetailVM, GetCurrencyByIdResponse>().ReverseMap();
-            CreateMap<CurrencyDetailVM, CreateCurrencyCommand>().ReverseMap();
-            CreateMap<CurrencyDetailVM, UpdateCurrencyCommand>().ReverseMap();
+            CreateMap<CreateCurrencyFrontCommand, CreateCurrencyCommand>().ReverseMap();
+            CreateMap<UpdateCurrencyFrontCommand, UpdateCurrencyCommand>().ReverseMap();
+            CreateMap<CurrencyDetailVM, UpdateCurrencyFrontCommand>().ReverseMap();
 
             // Users Mapping
             CreateMap<UserResponseVM, UserResponse>().ReverseMap();

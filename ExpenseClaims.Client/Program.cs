@@ -4,6 +4,7 @@ using ExpenseClaims.Client.Auth;
 using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services;
 using ExpenseClaims.Client.Services.Base;
+using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -58,6 +59,8 @@ namespace ExpenseClaims.Client
             builder.Services.AddApiAuthorization();
             builder.Services.AddApiAuthorization()
                 .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
+
+            builder.Services.AddMediatR(typeof(Program));
 
             await builder.Build().RunAsync();
         }

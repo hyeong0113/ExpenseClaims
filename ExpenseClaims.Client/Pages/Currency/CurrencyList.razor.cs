@@ -1,5 +1,8 @@
 ﻿using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Delete;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,16 +18,20 @@ namespace ExpenseClaims.Client.Pages.Currency
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        public IMediator Mediator { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            Currencies = await CurrencyService.GetAllCurrencies();
+            Currencies = await Mediator.Send(new GetAllCurrenciesFrontQuery());
         }
 
         public async Task DeleteCategory(int currencyId)
         {
-            var response = await CurrencyService.DeleteCurrency(currencyId);
+            var response = await Mediator.Send(new DeleteCurrencyFrontCommand{ Id = currencyId });
 
-            if (response.Success)
+            if (response)
             {
                 NavigationManager.NavigateTo("currencyList", true);
             }

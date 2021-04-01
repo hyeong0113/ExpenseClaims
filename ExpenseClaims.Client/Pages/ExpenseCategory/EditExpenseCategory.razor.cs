@@ -1,5 +1,9 @@
-﻿using ExpenseClaims.Client.Contracts;
+﻿using AutoMapper;
+using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Update;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetById;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -18,16 +22,22 @@ namespace ExpenseClaims.Client.Pages.ExpenseCategory
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public IMediator Mediator { get; set; }
+
+        [Inject]
+        public IMapper Mapper { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            Category = await ExpenseCategoryService.GetExpenseCategoryById(CategoryId);
+            Category = await Mediator.Send(new GetExpenseCategoryByIdFrontQuery() { Id = CategoryId });
         }
 
         public async Task Edit()
         {
-            var response = await ExpenseCategoryService.UpdateExpenseCategory(CategoryId, Category);
-
-            if (response.Success)
+            var mappedCategory = Mapper.Map<UpdateExpenseCategoryFrontCommand>(Category);
+            var response = await Mediator.Send(mappedCategory);
+            if (response)
             {
                 NavigationManager.NavigateTo("expenseCategoryList", true);
             }

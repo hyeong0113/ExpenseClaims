@@ -1,6 +1,9 @@
 ﻿using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Delete;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Queries.GetById;
 using ExpenseClaims.Client.ViewModels;
 using ExpenseClaims.Client.Wrapper.ExpenseItem;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +41,9 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
         [Inject]
         public IExpenseItemService ExpenseItemService { get; set; }
 
+        [Inject]
+        public IMediator Mediator { get; set; }
+
         public bool IsCurrencyMissing { get; set; } = true;
 
         public void AddItem()
@@ -51,39 +57,36 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
         {
             ItemList.Remove(itemWrapper.Item);
             ItemWrapperList.Remove(itemWrapper);
-            if (ExpenseItemService.GetExpenseItemById(itemWrapper.Item.Id) != null)
+            if (itemWrapper.IsExist)
             {
-                await ExpenseItemService.DeleteExpenseItem(itemWrapper.Item.Id);
+                await Mediator.Send(new DeleteExpenseItemFrontCommand { Id = itemWrapper.Item.Id });
             }
             double totalAmountString = ItemList.Select(i => i.UsdAmount).Sum();
             await OnTotalAmountChange.InvokeAsync(totalAmountString);
         }
 
-        private void AmountChanged(ExpenseItemWrapper itemWrapper)
+        private async Task AmountChanged(ExpenseItemWrapper itemWrapper)
         {
             var currency = Currencies.FirstOrDefault(c => c.Id == itemWrapper.Item.CurrencyId);
             if (currency != null)
             {
                 itemWrapper.Item.UsdAmount = currency.Rate * itemWrapper.Item.Amount;
                 double totalAmountString = ItemList.Select(i => i.UsdAmount).Sum();
-                OnTotalAmountChange.InvokeAsync(totalAmountString);
+                await OnTotalAmountChange.InvokeAsync(totalAmountString);
             }
         }
 
-        private void ActivateAmountField(ExpenseItemWrapper itemWrapper, int id)
+        private async Task ActivateAmountField(ExpenseItemWrapper itemWrapper, int id)
         {
             itemWrapper.Item.CurrencyId = id;
-
             if (id == 0)
             {
                 return;
             }
-
             if (itemWrapper.Item.Amount != 0)
             {
-                AmountChanged(itemWrapper);
+                await AmountChanged(itemWrapper);
             }
-
             IsCurrencyMissing = false;
         }
     }

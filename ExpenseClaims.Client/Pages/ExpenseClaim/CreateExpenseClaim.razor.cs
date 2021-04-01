@@ -1,7 +1,12 @@
 ﻿using ExpenseClaims.Application.Enums;
 using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Constant;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetAll;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
@@ -14,8 +19,8 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 {
     public partial class CreateExpenseClaim
     {
-        public ExpenseClaimDetailVM Claim { get; set; }
-        public List<ExpenseItemDetailVM> Items { get; set; }
+        public CreateExpenseClaimFrontCommand Claim { get; set; }
+        public List<CreateExpenseItemFrontCommand> Items { get; set; }
 
         public List<ExpenseCategoryListVM> Categories { get; set; }
         public List<CurrencyListVM> Currencies { get; set; }
@@ -44,15 +49,18 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         [Inject]
         AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
+        [Inject]
+        public IMediator Mediator { get; set; }
+
         private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            Claim = new ExpenseClaimDetailVM();
+            Claim = new CreateExpenseClaimFrontCommand();
             Claim.SubmitDate = DateTime.Today;
-            Items = new List<ExpenseItemDetailVM>();
-            Categories = await ExpenseCategoryService.GetAllExpenseCategories();
-            Currencies = await CurrencyService.GetAllCurrencies();
+            Items = new List<CreateExpenseItemFrontCommand>();
+            Categories = await Mediator.Send(new GetAllExpenseCategoriesFrontQuery());
+            Currencies = await Mediator.Send(new GetAllCurrenciesFrontQuery());
             var users = await AuthenticationService.GetUsers();
             foreach(UserResponseVM user in users)
             {
@@ -71,11 +79,11 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         public async Task Create()
         {
             Claim.Status = Status.SUBMITTED;
-            var response = await ExpenseClaimService.CreateExpenseClaim(Claim);
-            foreach (ExpenseItemDetailVM item in Items)
+            var claimId = await Mediator.Send(Claim);
+            foreach (CreateExpenseItemFrontCommand item in Items)
             {
-                item.ClaimId = response.Data;
-                var itemResponse = await ExpenseItemService.CreateExpenseItem(item);
+                item.ClaimId = claimId;
+                var itemResponse = await Mediator.Send(item);
             }
 
             NavigationManager.NavigateTo("expenseClaimList");

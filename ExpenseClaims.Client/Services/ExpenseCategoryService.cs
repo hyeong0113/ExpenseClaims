@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Update;
 
 namespace ExpenseClaims.Client.Services
 {
@@ -39,7 +41,7 @@ namespace ExpenseClaims.Client.Services
             return mappedCategory;
         }
 
-        public async Task<ApiResponse<int>> CreateExpenseCategory(ExpenseCategoryDetailVM category)
+        public async Task<ApiResponse<int>> CreateExpenseCategory(CreateExpenseCategoryFrontCommand category)
         {
             try
             {
@@ -54,7 +56,7 @@ namespace ExpenseClaims.Client.Services
             }
         }
 
-        public async Task<ApiResponse<int>> UpdateExpenseCategory(int id, ExpenseCategoryDetailVM category)
+        public async Task<ApiResponse<int>> UpdateExpenseCategory(int id, UpdateExpenseCategoryFrontCommand category)
         {
             try
             {

@@ -70,7 +70,7 @@ namespace ExpenseClaims.Client.Services
         public async Task<List<UserResponseVM>> GetUsers()
         {
             var users = await _client.GetUsersAsync();
-            var mappedUsers = _mapper.Map< List<UserResponseVM>>(users.Data);
+            var mappedUsers = _mapper.Map<List<UserResponseVM>>(users.Data);
             return mappedUsers;
         }
     }
