@@ -1,7 +1,10 @@
-﻿using ExpenseClaims.Client.Contracts;
+﻿using AutoMapper;
+using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Constant;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using ExpenseClaims.Client.Wrapper.ExpenseItem;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
@@ -50,6 +53,12 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public IMediator Mediator { get; set; }
+
+        [Inject]
+        IMapper Mapper { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             Claim = await ExpenseClaimService.GetExpenseClaimById(ClaimId);
@@ -96,15 +105,14 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
                 Claim.ProcessedDate = DateTime.Today;
             }
 
-
-            var claimUpdated = await ExpenseClaimService.UpdateExpenseClaim(Claim.Id, Claim);
-
+            var mappedClaim = Mapper.Map<UpdateExpenseClaimFrontCommand>(Claim);
+            var claimId = await Mediator.Send(mappedClaim);
 
             foreach (ExpenseItemWrapper itemWrapper in ItemWrappers)
             {
                 if (!itemWrapper.IsExist)
                 {
-                    itemWrapper.Item.ClaimId = claimUpdated.Data;
+                    itemWrapper.Item.ClaimId = claimId;
                     var created = await ExpenseItemService.CreateExpenseItem(itemWrapper.Item);
                 }
                 else
@@ -113,7 +121,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
                 }
             }
 
-            NavigationManager.NavigateTo("/expenseClaimList", true);
+            NavigationManager.NavigateTo("expenseClaimList");
         }
 
         void TotalAmountChangeHandler(double totalAmount)

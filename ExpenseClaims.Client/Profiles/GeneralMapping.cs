@@ -4,6 +4,8 @@ using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create;
 using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Update;
 using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Create;
 using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Update;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -23,8 +25,9 @@ namespace ExpenseClaims.Client.Profiles
                 .ForMember(vm => vm.ApprovalDate, m => m.MapFrom(vm => vm.ApprovalDate.DateTime))
                 .ForMember(vm => vm.ProcessedDate, m => m.MapFrom(vm => vm.ProcessedDate.DateTime))
                 .ForMember(vm => vm.Items, m => m.MapFrom(vm => vm.Items));
-            CreateMap<ExpenseClaimDetailVM, CreateExpenseClaimCommand>().ReverseMap();
-            CreateMap<ExpenseClaimDetailVM, UpdateExpenseClaimCommand>().ReverseMap();
+            CreateMap<CreateExpenseClaimFrontCommand, CreateExpenseClaimCommand>().ReverseMap();
+            CreateMap<UpdateExpenseClaimFrontCommand, UpdateExpenseClaimCommand>().ReverseMap();
+            CreateMap<ExpenseClaimDetailVM, UpdateExpenseClaimFrontCommand>().ReverseMap();
 
             // ExpenseItem Mapping
             CreateMap<ExpenseItemListVM, GetAllExpenseItemsResponse>().ReverseMap();

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
 
 namespace ExpenseClaims.Client.Services
 {
@@ -56,7 +58,7 @@ namespace ExpenseClaims.Client.Services
             return mappedClaim;
         }
 
-        public async Task<ApiResponse<int>> CreateExpenseClaim(ExpenseClaimDetailVM claim)
+        public async Task<ApiResponse<int>> CreateExpenseClaim(CreateExpenseClaimFrontCommand claim)
         {
             try
             {
@@ -71,7 +73,7 @@ namespace ExpenseClaims.Client.Services
             }
         }
 
-        public async Task<ApiResponse<int>> UpdateExpenseClaim(int id, ExpenseClaimDetailVM claim)
+        public async Task<ApiResponse<int>> UpdateExpenseClaim(int id, UpdateExpenseClaimFrontCommand claim)
         {
             try
             {

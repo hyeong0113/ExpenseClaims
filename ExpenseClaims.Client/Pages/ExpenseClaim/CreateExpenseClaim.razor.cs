@@ -1,7 +1,11 @@
 ﻿using ExpenseClaims.Application.Enums;
 using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Constant;
+using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetAll;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
@@ -14,7 +18,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 {
     public partial class CreateExpenseClaim
     {
-        public ExpenseClaimDetailVM Claim { get; set; }
+        public CreateExpenseClaimFrontCommand Claim { get; set; }
         public List<ExpenseItemDetailVM> Items { get; set; }
 
         public List<ExpenseCategoryListVM> Categories { get; set; }
@@ -44,15 +48,18 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         [Inject]
         AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
+        [Inject]
+        public IMediator Mediator { get; set; }
+
         private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            Claim = new ExpenseClaimDetailVM();
+            Claim = new CreateExpenseClaimFrontCommand();
             Claim.SubmitDate = DateTime.Today;
             Items = new List<ExpenseItemDetailVM>();
-            Categories = await ExpenseCategoryService.GetAllExpenseCategories();
-            Currencies = await CurrencyService.GetAllCurrencies();
+            Categories = await Mediator.Send(new GetAllExpenseCategoriesFrontQuery());
+            Currencies = await Mediator.Send(new GetAllCurrenciesFrontQuery());
             var users = await AuthenticationService.GetUsers();
             foreach(UserResponseVM user in users)
             {
@@ -71,10 +78,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         public async Task Create()
         {
             Claim.Status = Status.SUBMITTED;
-            var response = await ExpenseClaimService.CreateExpenseClaim(Claim);
+            var claimId = await Mediator.Send(Claim);
             foreach (ExpenseItemDetailVM item in Items)
             {
-                item.ClaimId = response.Data;
+                item.ClaimId = claimId;
                 var itemResponse = await ExpenseItemService.CreateExpenseItem(item);
             }
 

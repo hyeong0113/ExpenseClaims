@@ -23,9 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Features\ExpenseClaimService\Commands\Create\" />
-    <Folder Include="Services\Features\ExpenseClaimService\Commands\Delete\" />
-    <Folder Include="Services\Features\ExpenseClaimService\Commands\Update\" />
     <Folder Include="Services\Features\ExpenseItemService\Commands\Create\" />
     <Folder Include="Services\Features\ExpenseItemService\Commands\Delete\" />
     <Folder Include="Services\Features\ExpenseItemService\Commands\Update\" />

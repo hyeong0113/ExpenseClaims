@@ -1,4 +1,6 @@
 ﻿using ExpenseClaims.Client.Services.Base;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,8 +14,8 @@ namespace ExpenseClaims.Client.Contracts
     {
         Task<List<ExpenseClaimListVM>> GetAllExpenseClaims(Claim role, string userId);
         Task<ExpenseClaimDetailVM> GetExpenseClaimById(int id);
-        Task<ApiResponse<int>> CreateExpenseClaim(ExpenseClaimDetailVM claim);
-        Task<ApiResponse<int>> UpdateExpenseClaim(int id, ExpenseClaimDetailVM claim);
+        Task<ApiResponse<int>> CreateExpenseClaim(CreateExpenseClaimFrontCommand claim);
+        Task<ApiResponse<int>> UpdateExpenseClaim(int id, UpdateExpenseClaimFrontCommand claim);
         Task<ApiResponse<int>> DeleteExpenseClaim(int id);
     }
 }
