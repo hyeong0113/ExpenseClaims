@@ -22,12 +22,4 @@
     <ProjectReference Include="..\ExpenseClaims.Application\ExpenseClaims.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Features\ExpenseItemService\Commands\Create\" />
-    <Folder Include="Services\Features\ExpenseItemService\Commands\Delete\" />
-    <Folder Include="Services\Features\ExpenseItemService\Commands\Update\" />
-    <Folder Include="Services\Features\ExpenseItemService\Queries\GetAll\" />
-    <Folder Include="Services\Features\ExpenseItemService\Queries\GetById\" />
-  </ItemGroup>
-
 </Project>

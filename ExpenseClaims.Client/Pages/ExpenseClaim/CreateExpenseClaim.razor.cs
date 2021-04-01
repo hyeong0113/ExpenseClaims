@@ -4,6 +4,7 @@ using ExpenseClaims.Client.Services.Constant;
 using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll;
 using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetAll;
 using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;
@@ -19,7 +20,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
     public partial class CreateExpenseClaim
     {
         public CreateExpenseClaimFrontCommand Claim { get; set; }
-        public List<ExpenseItemDetailVM> Items { get; set; }
+        public List<CreateExpenseItemFrontCommand> Items { get; set; }
 
         public List<ExpenseCategoryListVM> Categories { get; set; }
         public List<CurrencyListVM> Currencies { get; set; }
@@ -57,7 +58,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         {
             Claim = new CreateExpenseClaimFrontCommand();
             Claim.SubmitDate = DateTime.Today;
-            Items = new List<ExpenseItemDetailVM>();
+            Items = new List<CreateExpenseItemFrontCommand>();
             Categories = await Mediator.Send(new GetAllExpenseCategoriesFrontQuery());
             Currencies = await Mediator.Send(new GetAllCurrenciesFrontQuery());
             var users = await AuthenticationService.GetUsers();
@@ -79,10 +80,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         {
             Claim.Status = Status.SUBMITTED;
             var claimId = await Mediator.Send(Claim);
-            foreach (ExpenseItemDetailVM item in Items)
+            foreach (CreateExpenseItemFrontCommand item in Items)
             {
                 item.ClaimId = claimId;
-                var itemResponse = await ExpenseItemService.CreateExpenseItem(item);
+                var itemResponse = await Mediator.Send(item);
             }
 
             NavigationManager.NavigateTo("expenseClaimList");

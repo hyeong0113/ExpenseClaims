@@ -6,6 +6,8 @@ using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Cre
 using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Update;
 using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
 using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -33,8 +35,10 @@ namespace ExpenseClaims.Client.Profiles
             CreateMap<ExpenseItemListVM, GetAllExpenseItemsResponse>().ReverseMap();
             CreateMap<ExpenseItemDetailVM, GetExpenseItemByIdResponse>().ReverseMap()
                 .ForMember(vm => vm.Date, m => m.MapFrom(vm => vm.Date.DateTime));
-            CreateMap<ExpenseItemDetailVM, CreateExpenseItemCommand>().ReverseMap();
-            CreateMap<ExpenseItemDetailVM, UpdateExpenseItemCommand>().ReverseMap();
+            CreateMap<CreateExpenseItemFrontCommand, CreateExpenseItemCommand>().ReverseMap();
+            CreateMap<UpdateExpenseItemFrontCommand, UpdateExpenseItemCommand>().ReverseMap();
+            CreateMap<ExpenseItemDetailVM, CreateExpenseItemFrontCommand>().ReverseMap();
+            CreateMap<ExpenseItemDetailVM, UpdateExpenseItemFrontCommand>().ReverseMap();
 
             // ExpenseCategory Mapping
             CreateMap<ExpenseCategoryListVM, GetAllExpenseCategoriesResponse>().ReverseMap();

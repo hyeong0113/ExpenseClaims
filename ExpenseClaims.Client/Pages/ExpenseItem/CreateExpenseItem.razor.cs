@@ -1,4 +1,5 @@
 ﻿using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
 using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -12,7 +13,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
     public partial class CreateExpenseItem
     {
         [Parameter]
-        public List<ExpenseItemDetailVM> ItemList { get; set; } = new List<ExpenseItemDetailVM>();
+        public List<CreateExpenseItemFrontCommand> ItemList { get; set; } = new List<CreateExpenseItemFrontCommand>();
 
         [Parameter]
         public List<ExpenseCategoryListVM> Categories { get; set; } = new List<ExpenseCategoryListVM>();
@@ -30,18 +31,18 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
 
         private void AddItem()
         {
-            ExpenseItemDetailVM wrapper = new ExpenseItemDetailVM();
+            CreateExpenseItemFrontCommand wrapper = new CreateExpenseItemFrontCommand();
             ItemList.Add(wrapper);
         }
 
-        private void Remove(ExpenseItemDetailVM wrapper)
+        private void Remove(CreateExpenseItemFrontCommand wrapper)
         {
             ItemList.Remove(wrapper);
             double totalAmountString = ItemList.Select(i => i.UsdAmount).Sum();
             OnTotalAmountChange.InvokeAsync(totalAmountString);
         }
 
-        private void AmountChanged(ExpenseItemDetailVM item)
+        private void AmountChanged(CreateExpenseItemFrontCommand item)
         {
             var currency = Currencies.FirstOrDefault(c => c.Id == item.CurrencyId);
             if (currency != null)
@@ -52,7 +53,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
             }
         }
 
-        private void ActivateAmountField(ExpenseItemDetailVM item, int id)
+        private void ActivateAmountField(CreateExpenseItemFrontCommand item, int id)
         {
             item.CurrencyId = id;
 

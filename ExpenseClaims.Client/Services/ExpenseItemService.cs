@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Update;
 
 namespace ExpenseClaims.Client.Services
 {
@@ -23,7 +25,6 @@ namespace ExpenseClaims.Client.Services
         public async Task<List<ExpenseItemListVM>> GetAllExpenseItems()
         {
             await AddBearerToken();
-
             var itemList = await _client.GetAllExpenseItemsAsync(ApiVersion.apiVersion);
             var mappedItemList = _mapper.Map<IEnumerable<ExpenseItemListVM>>(itemList.Data);
             return mappedItemList.ToList();
@@ -32,13 +33,12 @@ namespace ExpenseClaims.Client.Services
         public async Task<ExpenseItemDetailVM> GetExpenseItemById(int id)
         {
             await AddBearerToken();
-
             var item = await _client.GetExpenseItemByIdAsync(id, ApiVersion.apiVersion);
             var mappedItem = _mapper.Map<ExpenseItemDetailVM>(item.Data);
             return mappedItem;
         }
 
-        public async Task<ApiResponse<int>> CreateExpenseItem(ExpenseItemDetailVM item)
+        public async Task<ApiResponse<int>> CreateExpenseItem(CreateExpenseItemFrontCommand item)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace ExpenseClaims.Client.Services
             }
         }
 
-        public async Task<ApiResponse<int>> UpdateExpenseItem(int id, ExpenseItemDetailVM item)
+        public async Task<ApiResponse<int>> UpdateExpenseItem(int id, UpdateExpenseItemFrontCommand item)
         {
             try
             {
