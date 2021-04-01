@@ -3,7 +3,9 @@ using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetAllPaged;
 using ExpenseClaims.Application.Wrappers;
 using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Base;
+using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Queries.GetAll;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json.Linq;
@@ -31,6 +33,10 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
         AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
+
+        [Inject]
+        public IMediator Mediator { get; set; }
+
         public Claim Roles { get; set; } = null;
 
         protected override async Task OnInitializedAsync()
@@ -43,9 +49,12 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
             Roles = AuthenticationStateProviderUser.Claims.FirstOrDefault(c => c.Type == "roles");
             var userId = AuthenticationStateProviderUser.Claims.FirstOrDefault(c => c.Type == "uid").Value;
 
-            List<ExpenseClaimListVM> fetchedClaimList = await ExpenseClaimService.GetAllExpenseClaims(Roles, userId);
+            //List<ExpenseClaimListVM> fetchedClaimList = await ExpenseClaimService.GetAllExpenseClaims(Roles, userId);
 
-            ClaimList = fetchedClaimList;
+            //ClaimList = fetchedClaimList;
+
+            ClaimList = await Mediator.Send(new GetAllExpenseClaimsFrontQuery() { Roles = Roles, UserId = userId});
+
         }
 
         public async Task DeleteClaim(int claimId)
