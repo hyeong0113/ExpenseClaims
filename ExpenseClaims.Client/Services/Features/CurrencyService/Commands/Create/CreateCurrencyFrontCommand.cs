@@ -28,14 +28,7 @@ namespace ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create
             public async Task<bool> Handle(CreateCurrencyFrontCommand command, CancellationToken cancellationToken)
             {
                 var currency = await _currencyService.CreateCurrency(command);
-                if (currency == null)
-                {
-                    throw new NullReferenceException($"Currency not Found.");
-                }
-                else
-                {
-                    return currency.Success;
-                }
+                return currency.Success;
             }
         }
     }

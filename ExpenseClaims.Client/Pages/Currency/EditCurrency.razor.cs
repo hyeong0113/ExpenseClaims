@@ -37,7 +37,6 @@ namespace ExpenseClaims.Client.Pages.Currency
         {
             var mappedCurrency = Mapper.Map<UpdateCurrencyFrontCommand>(Currency);
             var response = await Mediator.Send(mappedCurrency);
-
             if (response)
             {
                 NavigationManager.NavigateTo("currencyList", true);

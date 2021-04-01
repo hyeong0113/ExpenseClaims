@@ -1,4 +1,6 @@
 ﻿using ExpenseClaims.Client.Services.Base;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,8 @@ namespace ExpenseClaims.Client.Contracts
     {
         Task<List<ExpenseCategoryListVM>> GetAllExpenseCategories();
         Task<ExpenseCategoryDetailVM> GetExpenseCategoryById(int id);
-        Task<ApiResponse<int>> CreateExpenseCategory(ExpenseCategoryDetailVM category);
-        Task<ApiResponse<int>> UpdateExpenseCategory(int id, ExpenseCategoryDetailVM category);
+        Task<ApiResponse<int>> CreateExpenseCategory(CreateExpenseCategoryFrontCommand category);
+        Task<ApiResponse<int>> UpdateExpenseCategory(int id, UpdateExpenseCategoryFrontCommand category);
         Task<ApiResponse<int>> DeleteExpenseCategory(int id);
     }
 }

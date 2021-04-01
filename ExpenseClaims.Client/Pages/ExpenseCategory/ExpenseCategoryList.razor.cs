@@ -1,5 +1,8 @@
 ﻿using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Delete;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetAll;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,16 +18,20 @@ namespace ExpenseClaims.Client.Pages.ExpenseCategory
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        public IMediator Mediator { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            Categories = await ExpenseCategoryService.GetAllExpenseCategories();
+            Categories = await Mediator.Send(new GetAllExpenseCategoriesFrontQuery());
         }
 
         public async Task DeleteCategory(int categoryId)
         {
-            var response = await ExpenseCategoryService.DeleteExpenseCategory(categoryId);
+            var response = await Mediator.Send(new DeleteExpenseCategoryFrontCommand { Id = categoryId });
 
-            if (response.Success)
+            if (response)
             {
                 NavigationManager.NavigateTo("expenseCategoryList", true);
             }

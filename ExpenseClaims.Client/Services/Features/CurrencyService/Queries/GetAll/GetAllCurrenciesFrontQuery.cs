@@ -12,11 +12,11 @@ namespace ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll
     public class GetAllCurrenciesFrontQuery : IRequest<List<CurrencyListVM>>
     {
 
-        public class GetCurrencyByIdQueryHandler : IRequestHandler<GetAllCurrenciesFrontQuery, List<CurrencyListVM>>
+        public class GetAllCurrenciesFrontQueryHandler : IRequestHandler<GetAllCurrenciesFrontQuery, List<CurrencyListVM>>
         {
             private readonly ICurrencyService _currencyService;
 
-            public GetCurrencyByIdQueryHandler(ICurrencyService currencyService)
+            public GetAllCurrenciesFrontQueryHandler(ICurrencyService currencyService)
             {
                 _currencyService = currencyService;
             }
@@ -24,14 +24,7 @@ namespace ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll
             public async Task<List<CurrencyListVM>> Handle(GetAllCurrenciesFrontQuery query, CancellationToken cancellationToken)
             {
                 var currencies = await _currencyService.GetAllCurrencies();
-                if (currencies == null)
-                {
-                    throw new NullReferenceException($"Currency not Found.");
-                }
-                else
-                {
-                    return currencies;
-                }
+                return currencies;
             }
         }
     }

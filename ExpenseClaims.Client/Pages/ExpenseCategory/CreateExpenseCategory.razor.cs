@@ -1,5 +1,7 @@
 ﻿using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Create;
 using ExpenseClaims.Client.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -7,12 +9,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseCategory
 {
     public partial class CreateExpenseCategory
     {
-        public ExpenseCategoryDetailVM Category { get; set; }
-
-        protected override void OnInitialized()
-        {
-            Category = new ExpenseCategoryDetailVM();
-        }
+        public CreateExpenseCategoryFrontCommand Category { get; set; }
 
         [Inject]
         public IExpenseCategoryService ExpenseCategoryService { get; set; }
@@ -20,11 +17,19 @@ namespace ExpenseClaims.Client.Pages.ExpenseCategory
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public IMediator Mediator { get; set; }
+
+        protected override void OnInitialized()
+        {
+            Category = new CreateExpenseCategoryFrontCommand();
+        }
+
         public async Task Create()
         {
-            var response = await ExpenseCategoryService.CreateExpenseCategory(Category);
+            var response = await this.Mediator.Send(Category);
 
-            if (response.Success)
+            if (response)
             {
                 NavigationManager.NavigateTo("expenseCategoryList");
             }

@@ -18,18 +18,18 @@ namespace ExpenseClaims.Client.Pages.Currency
         public CreateCurrencyFrontCommand Currency { get; set; }
 
         [Inject]
+        public ICurrencyService CurrencyService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
         public IMediator Mediator { get; set; }
 
         protected override void OnInitialized()
         {
             Currency = new CreateCurrencyFrontCommand();
         }
-
-        [Inject]
-        public ICurrencyService CurrencyService { get; set; }
-
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
 
         public async Task Create()
         {

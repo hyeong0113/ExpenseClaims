@@ -23,11 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Features\ExpenseCategoryService\Commands\Create\" />
-    <Folder Include="Services\Features\ExpenseCategoryService\Commands\Delete\" />
-    <Folder Include="Services\Features\ExpenseCategoryService\Commands\Update\" />
-    <Folder Include="Services\Features\ExpenseCategoryService\Queries\GetAll\" />
-    <Folder Include="Services\Features\ExpenseCategoryService\Queries\GetById\" />
     <Folder Include="Services\Features\ExpenseClaimService\Commands\Create\" />
     <Folder Include="Services\Features\ExpenseClaimService\Commands\Delete\" />
     <Folder Include="Services\Features\ExpenseClaimService\Commands\Update\" />

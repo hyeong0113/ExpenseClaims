@@ -2,6 +2,8 @@
 using ExpenseClaims.Client.Services.Base;
 using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create;
 using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Update;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Create;
+using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -34,8 +36,9 @@ namespace ExpenseClaims.Client.Profiles
             // ExpenseCategory Mapping
             CreateMap<ExpenseCategoryListVM, GetAllExpenseCategoriesResponse>().ReverseMap();
             CreateMap<ExpenseCategoryDetailVM, GetExpenseCategoryByIdResponse>().ReverseMap();
-            CreateMap<ExpenseCategoryDetailVM, CreateExpenseCategoryCommand>().ReverseMap();
-            CreateMap<ExpenseCategoryDetailVM, UpdateExpenseCategoryCommand>().ReverseMap();
+            CreateMap<CreateExpenseCategoryFrontCommand, CreateExpenseCategoryCommand>().ReverseMap();
+            CreateMap<UpdateExpenseCategoryFrontCommand, UpdateExpenseCategoryCommand>().ReverseMap();
+            CreateMap<ExpenseCategoryDetailVM, UpdateExpenseCategoryFrontCommand>().ReverseMap();
 
             // Currency Mapping
             CreateMap<CurrencyListVM, GetAllCurrenciesResponse>().ReverseMap();
