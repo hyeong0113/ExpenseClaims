@@ -12,14 +12,13 @@
 
     <div class="main">
         <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
             <AuthorizeView>
                 <Authorizing>
                     <text>...</text>
                 </Authorizing>
                 <NotAuthorized>
-                    <a href="login" class="ml-md-auto">Log In</a>
-                    <a href="register" class="ml-md-auto">Register</a>
+                    <a href="login" class="singIn">Sign In</a>
+                    <a href="register" class="signUp">Sign Up</a>
                 </NotAuthorized>
                 <Authorized>
                     <h6 class="ml-md-auto">@context.User.Identity.Name</h6>

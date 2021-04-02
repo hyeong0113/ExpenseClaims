@@ -12,7 +12,7 @@ namespace ExpenseClaims.Client.Pages.Identity
 {
     public partial class LogIn
     {
-        public bool IsAutenticated { get; set; } = false;
+        public bool IsWrongInfo { get; set; } = false;
         public LogInVM LogInModel { get; set; } = new LogInVM();
 
         [Inject]
@@ -27,11 +27,13 @@ namespace ExpenseClaims.Client.Pages.Identity
         {
             if (await AuthenticationService.Authenticate(LogInModel.Email, LogInModel.Password))
             {
+                IsWrongInfo = false;
                 ErrorMessage = null;
                 NavigationManager.NavigateTo("/");
             }
             else
             {
+                IsWrongInfo = true;
                 ErrorMessage = "Your Id or Password is incorrect";
             }
         }
