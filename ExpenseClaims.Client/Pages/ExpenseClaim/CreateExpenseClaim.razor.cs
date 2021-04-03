@@ -21,13 +21,11 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
     {
         public CreateExpenseClaimFrontCommand Claim { get; set; }
         public List<CreateExpenseItemFrontCommand> Items { get; set; }
-
         public List<ExpenseCategoryListVM> Categories { get; set; }
         public List<CurrencyListVM> Currencies { get; set; }
         public List<UserResponseVM> Approvers { get; set; } = new List<UserResponseVM>();
-
         public string CurrentDate = DateTime.Today.ToShortDateString();
-
+        public string ClaimSubmitErrorMessage { get; set; }
         [Inject]
         public IExpenseClaimService ExpenseClaimService { get; set; }
 
@@ -78,15 +76,23 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 
         public async Task Create()
         {
-            Claim.Status = Status.SUBMITTED;
-            var claimId = await Mediator.Send(Claim);
-            foreach (CreateExpenseItemFrontCommand item in Items)
+            if (Claim.SubmitDate == null || String.IsNullOrEmpty(Claim.Title)
+                || String.IsNullOrEmpty(Claim.ApproverId))
             {
-                item.ClaimId = claimId;
-                var itemResponse = await Mediator.Send(item);
+                ClaimSubmitErrorMessage = "You should insert all required fields!";
             }
+            else
+            {
+                Claim.Status = Status.SUBMITTED;
+                var claimId = await Mediator.Send(Claim);
+                foreach (CreateExpenseItemFrontCommand item in Items)
+                {
+                    item.ClaimId = claimId;
+                    var itemResponse = await Mediator.Send(item);
+                }
 
-            NavigationManager.NavigateTo("expenseClaimList");
+                NavigationManager.NavigateTo("expenseClaimList");
+            }
         }
 
         void TotalAmountChangeHandler(double totalAmount)

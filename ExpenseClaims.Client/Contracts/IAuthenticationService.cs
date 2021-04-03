@@ -12,5 +12,6 @@ namespace ExpenseClaims.Client.Contracts
         Task<bool> Register(string firstName, string lastName, string userName, string email, string password);
         Task Logout();
         Task<List<UserResponseVM>> GetUsers();
+        Task<string> GetCurrentUserName();
     }
 }

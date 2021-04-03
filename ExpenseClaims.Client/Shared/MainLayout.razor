@@ -21,9 +21,10 @@
                     <a href="register" class="signUp">Sign Up</a>
                 </NotAuthorized>
                 <Authorized>
-                    <h6 class="ml-md-auto">@context.User.Identity.Name</h6>
-
-                    <button class="ml-md-auto" @onclick="Logout">Logout</button>
+                    <ui class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                        <h6 class="userNameTag">@UserName</h6>
+                        <button @onclick="Logout"><h6>Logout</h6></button>
+                    </ui>
                 </Authorized>
             </AuthorizeView>
         </div>
@@ -34,6 +35,12 @@
 </div>
 
 @code{
+    private String UserName { get; set; }
+    protected override async Task OnParametersSetAsync()
+    {
+        UserName = await AuthenticationService.GetCurrentUserName();
+    }
+
     async Task Logout()
     {
         await AuthenticationService.Logout();

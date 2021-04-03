@@ -34,6 +34,7 @@ namespace ExpenseClaims.Client.Services
                 if (authenticationResponse.Data.JwToken != string.Empty)
                 {
                     await _localStorage.SetItemAsync("token", authenticationResponse.Data.JwToken);
+                    await _localStorage.SetItemAsync("userName", authenticationResponse.Data.UserName);
 
                     ((CustomAuthenticationStateProvider)_authenticationStateProvider).SetUserAuthenticated(email);
                     _client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", authenticationResponse.Data.JwToken);
@@ -72,6 +73,11 @@ namespace ExpenseClaims.Client.Services
             var users = await _client.GetUsersAsync();
             var mappedUsers = _mapper.Map<List<UserResponseVM>>(users.Data);
             return mappedUsers;
+        }
+
+        public async Task<string> GetCurrentUserName()
+        {
+            return await _localStorage.GetItemAsync<string>("userName");
         }
     }
 }

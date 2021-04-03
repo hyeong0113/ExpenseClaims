@@ -30,6 +30,20 @@ a, .btn-link {
     color: red;
 }
 
+.item-element {
+    margin-left: 215px !important;
+}
+
+.item-table {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.claim-field {
+    width: 450px;
+    margin-top: 20px !important;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

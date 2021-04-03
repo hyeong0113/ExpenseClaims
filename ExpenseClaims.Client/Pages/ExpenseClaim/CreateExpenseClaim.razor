@@ -1,28 +1,45 @@
 ﻿@page "/expenseClaimList/create"
 @using ExpenseClaims.Client.Pages.ExpenseItem
 
-<h3>Expense Claim</h3>
+<MudText Class="item-element" Typo="Typo.h4">Create New Expense Claim</MudText>
 
-<h5>New Expense Claim</h5>
-<MudForm>
-    <MudTextField T="string" Label="Title" @bind-Value="Claim.Title" Required="true" RequiredError="Title is required" />
-    @if (Approvers != null)
-    {
-        <MudItem xs="3" sm="4" md="6">
-            <MudSelect T="string" Label="Approver" @bind-Value="Claim.ApproverId">
-                @foreach (var approver in Approvers)
-                {
-                    <MudSelectItem Value="@(approver.Id)">@approver.UserName</MudSelectItem>
-                }
-            </MudSelect>
-        </MudItem>
-    }
-    <MudTextField T="string" Label="Submit Date" @bind-Value="CurrentDate" Required="true" ReadOnly="true" Disabled="true" />
-    <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" ReadOnly="true" Disabled="true" RequiredError="TotalAmount is required" />
-    <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" />
-</MudForm>
+<MudCard Style="
+        width: 1000px;
+        height: 500px;
+        margin-top: 5px;
+        margin-right: auto;
+        margin-bottom: 10px;
+        margin-left: auto;
+        float: none;
+        border-radius: 10px">
+    <MudCardHeader Style="margin: auto;">
+        <CardHeaderContent>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" OnClick="@(()=>Create())">Submit</MudButton>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudForm>
+            <MudTextField Class="claim-field" T="string" Label="Title" @bind-Value="Claim.Title" Required="true" Adornment="Adornment.End" RequiredError="Title is required" />
+            @if (Approvers != null)
+            {
+                <MudItem Class="claim-field" xs="3" sm="4" md="6">
+                    <MudSelect T="string" Label="Approver" @bind-Value="Claim.ApproverId" Required="true" RequiredError="Approver Must be chosen">
+                        @foreach (var approver in Approvers)
+                        {
+                            <MudSelectItem Value="@(approver.Id)">@approver.UserName</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            }
+            <MudTextField Class="claim-field" T="string" Label="Submit Date" @bind-Value="CurrentDate" Required="true" ReadOnly="true" Disabled="true" />
+            <MudTextField Class="claim-field" T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" ReadOnly="true" Disabled="true" />
+            <MudTextField Class="claim-field" T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" Adornment="Adornment.End" />
+        </MudForm>
+    </MudCardContent>
+</MudCard>
+
+
+<MudText Class="item-element" Typo="Typo.h6">Expense Claim Items </MudText>
 
 <CreateExpenseItem ItemList=@Items Categories=@Categories Currencies=@Currencies TotalAmount=@Claim.TotalAmount OnTotalAmountChange=@TotalAmountChangeHandler />
-
-<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Create())">Submit</MudButton>
 

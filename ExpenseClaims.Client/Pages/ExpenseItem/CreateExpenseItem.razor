@@ -1,10 +1,5 @@
-﻿@using ExpenseClaims.Client.ViewModels
-
-<h5>Expense Claim Items</h5>
-
-<MudFab OnClick="@(() => AddItem())" Color="Color.Transparent" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" />
-
-<MudTable Items="@ItemList">
+﻿<MudFab Class="item-element" OnClick="@(() => AddItem())" Color="Color.Transparent" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" />
+<MudTable Class="item-table" Items="@ItemList" Style="width: 1000px;">
     <ColGroup>
         <col style="width:200px;" />
         <col />
@@ -66,3 +61,4 @@
         <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Remove(context))">Delete</MudButton>
     </RowTemplate>
 </MudTable>
+
