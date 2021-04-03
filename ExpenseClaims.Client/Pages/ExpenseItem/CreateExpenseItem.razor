@@ -1,4 +1,5 @@
-﻿<MudFab Class="item-element" OnClick="@(() => AddItem())" Color="Color.Transparent" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" />
+﻿<MudButton ButtonType="ButtonType.Button" Class="item-element" Variant="Variant.Filled" Size="Size.Small" Color="Color.Info" OnClick="@(() => AddItem())">Add</MudButton>
+
 <MudTable Class="item-table" Items="@ItemList" Style="width: 1000px;">
     <ColGroup>
         <col style="width:200px;" />
@@ -21,44 +22,47 @@
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Category">
-            <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="int" @bind-Value="@context.CategoryId" Label="Category" Required="true" RequiredError="Category should be selected">
-                    @foreach (var category in Categories)
-                    {
-                        <MudSelectItem T="int" Value="@(category.Id)">@category.Name</MudSelectItem>
-                    }
-                </MudSelect>
-            </MudItem>
+        <MudTd Class="item-field" DataLabel="Category">
+            <MudSelect T="int" @bind-Value="@context.CategoryId" Required="true" RequiredError="Required">
+                @foreach (var category in Categories)
+                {
+                    <MudSelectItem T="int" Value="@(category.Id)">@category.Name</MudSelectItem>
+                }
+            </MudSelect>
         </MudTd>
 
-        <MudTextField T="string" Label="Payee" @bind-Value="@context.Payee" Required="true" RequiredError="Payee is required" />
-
-        <MudTd DataLabel="Currency">
-            <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="int" Label="Currency" Value="@context.CurrencyId" Required="true" ValueChanged="@((id) => ActivateAmountField(context, id))" RequiredError="Currency should be selected">
-                    @foreach (var currency in Currencies)
-                    {
-                        <MudSelectItem T="int" Value="@(currency.Id)">@currency.Name</MudSelectItem>
-                    }
-                </MudSelect>
-            </MudItem>
+        <MudTd Class="item-field" DataLabel="Payee">
+            <MudTextField T="string" @bind-Value="@context.Payee" Required="true" RequiredError="Required" />
         </MudTd>
 
-        <MudTd>
-            <MudDatePicker Label="SubmitDate" @bind-Date="context.Date" ShowWeekNumbers="true" Required="true" />
+        <MudTd Class="item-field" DataLabel="Currency">
+            <MudSelect T="int" Value="@context.CurrencyId" ValueChanged="@((id) => ActivateAmountField(context, id))" Required="true" RequiredError="Required">
+                @foreach (var currency in Currencies)
+                {
+                    <MudSelectItem T="int" Value="@(currency.Id)">@currency.Name</MudSelectItem>
+                }
+            </MudSelect>
         </MudTd>
 
-        <MudTd>
-            <MudTextField T="string" @bind-Value="@context.Description" Label="Description" />
+        <MudTd Class="item-field" DataLabel="Date">
+            <MudDatePicker Class="item-date" @bind-Date="context.Date" ShowWeekNumbers="true" Required="true" RequiredError="Required" />
         </MudTd>
-        <MudTd>
-            <MudTextField T="double" @bind-Value="@context.Amount" Required="true" Disabled="@IsCurrencyMissing" TextChanged="@(() => AmountChanged(context))" RequiredError="Amount is required" />
+
+        <MudTd Class="item-field" DataLabel="Description">
+            <MudTextField T="string" @bind-Value="@context.Description" />
         </MudTd>
-        <MudTd>
-            <MudTextField T="double" @bind-Value="@context.UsdAmount" Required="true" Disabled="true" RequiredError="USDAmount is required" />
+
+        <MudTd Class="item-field" DataLabel="Amount">
+            <MudTextField T="double" @bind-Value="@context.Amount" Required="true" Disabled="@IsCurrencyMissing" TextChanged="@(() => AmountChanged(context))" RequiredError="Required" />
         </MudTd>
-        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Remove(context))">Delete</MudButton>
+
+        <MudTd Class="item-field" DataLabel="USD Amount">
+            <MudTextField T="double" @bind-Value="@context.UsdAmount" Required="true" Disabled="true" RequiredError="Required" />
+        </MudTd>
+
+        <MudTd Class="item-field">
+            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Outlined" Size="Size.Small" Color="Color.Error" OnClick="@(()=>Remove(context))">Delete</MudButton>
+        </MudTd>
     </RowTemplate>
 </MudTable>
 
