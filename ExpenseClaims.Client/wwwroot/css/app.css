@@ -40,8 +40,13 @@ a, .btn-link {
 }
 
 .claim-field {
-    width: 450px;
-    margin-top: 20px !important;
+    max-width: 330px !important;
+    margin-right: 40px !important;
+    margin-top: 0px !important;
+}
+
+.claim-row {
+    margin-top: 40px !important;
 }
 
 .item-field {
