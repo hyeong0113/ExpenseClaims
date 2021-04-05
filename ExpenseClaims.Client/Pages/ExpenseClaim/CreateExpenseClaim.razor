@@ -37,7 +37,7 @@
                 <MudTextField Class="claim-field" T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" Required="true" ReadOnly="true" Disabled="true" />
             </MudGrid>
             <MudGrid Class="claim-row">
-                <MudTextField Style="margin-top: 40px; width: 700px;" T="string" Label="RequesterComments" Variant="Variant.Outlined" @bind-Value="Claim.RequesterComments" Adornment="Adornment.End" Lines="3" />
+                <MudTextField Style="width: 700px;" T="string" Label="Requester Comments" Variant="Variant.Outlined" @bind-Value="Claim.RequesterComments" Adornment="Adornment.End" Lines="3" />
             </MudGrid>
         </MudForm>
     </MudCardContent>
@@ -45,7 +45,6 @@
 
 
 <MudText Class="item-element" Typo="Typo.h6">Items</MudText>
-
 <CreateExpenseItem ItemList=@Items Categories=@Categories Currencies=@Currencies TotalAmount=@Claim.TotalAmount OnTotalAmountChange=@TotalAmountChangeHandler />
 
 <MudButton Class="item-element" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" OnClick="@(()=>Create())">Submit</MudButton>

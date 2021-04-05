@@ -1,6 +1,6 @@
 ﻿using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Delete;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll;
+using ExpenseClaims.Client.Features.Currency.Commands.Delete;
+using ExpenseClaims.Client.Features.Currency.Queries.GetAll;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;

@@ -3,11 +3,11 @@
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-<h3>Expense Claim List</h3>
+<h3>Claim List</h3>
 
 @if (Roles != null && Roles.Value.Contains("GeneralUser"))
 {
-    <MudButton Variant="Variant.Filled" Link="expenseClaimList/create" style="float: right;">Create</MudButton>
+    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Size="Size.Small" Color="Color.Info" Link="expenseClaimList/create" style="float: right;">Create</MudButton>
 }
 
 @if (ClaimList == null)
@@ -44,20 +44,22 @@ else
 
             @if (Roles != null)
             {
-                @if (!(Roles.Value.Contains("GeneralUser")
-                    && (context.Status == Status.REJCETED || context.Status == Status.SUBMITTED || context.Status == Status.RESUBMITTED))
-                    && (context.Status != Status.PROCESSED))
+                @if ((Roles.Value.Contains("GeneralUser") && context.Status == Status.RETURNED)
+                    ||(Roles.Value.Contains("Manager") && (context.Status == Status.APPROVED || context.Status == Status.RESUBMITTED
+                        || context.Status == Status.SUBMITTED)))
                 {
-                    <MudTd><MudButton Variant="Variant.Filled" Link=@($"expenseClaimList/edit/{context.Id}") Size="Size.Small">Edit</MudButton></MudTd>
+                    <MudTd>
+                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Outlined" Size="Size.Small" Color="Color.Tertiary" Link=@($"expenseClaimList/edit/{context.Id}")>Edit</MudButton>
+                    </MudTd>
                 }
 
                 @if ((Roles.Value.Contains("GeneralUser") && context.Status == Status.REJCETED) || Roles.Value.Contains("SuperAdmin"))
                 {
-                    <MudTd><MudButton Variant="Variant.Filled" OnClick="@(()=>DeleteClaim(context.Id))" Size="Size.Small">Delete</MudButton></MudTd>
+                    <MudTd>
+                        <MudButton ButtonType="ButtonType.Button" Variant="Variant.Outlined" Size="Size.Small" Color="Color.Error" OnClick="@(()=>DeleteClaim(context.Id))">Delete</MudButton>
+                    </MudTd>
                 }
             }
-
-
         </RowTemplate>
     </MudTable>
 

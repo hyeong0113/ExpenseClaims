@@ -1,13 +1,9 @@
-﻿@using ExpenseClaims.Client.ViewModels
-
-<h5>Expense Claim Items</h5>
-
-@if (Roles != null && Roles.Value.Contains("GeneralUser"))
+﻿@if (Roles != null && Roles.Value.Contains("GeneralUser"))
 {
-    <MudFab OnClick="@(() => AddItem())" Color="Color.Transparent" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" />
+    <MudButton ButtonType="ButtonType.Button" Class="item-element" Variant="Variant.Filled" Size="Size.Small" Color="Color.Info" OnClick="@(() => AddItem())">Add</MudButton>
 }
 
-<MudTable Items="@ItemWrapperList">
+<MudTable Class="item-table" Items="@ItemWrapperList" Style="width: 1000px;">
     <ColGroup>
         <col style="width:200px;" />
         <col />
@@ -29,46 +25,50 @@
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Category">
-            <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="int" @bind-Value="@context.Item.CategoryId" Label="Category" ReadOnly=@IsReadonly>
+        <MudTd Class="item-field" DataLabel="Category">
+                <MudSelect T="int" @bind-Value="@context.Item.CategoryId" ReadOnly=@IsReadonly>
                     @foreach (var category in Categories)
                     {
                         <MudSelectItem Value="@(category.Id)">@category.Name</MudSelectItem>
                     }
                 </MudSelect>
-            </MudItem>
         </MudTd>
 
-        <MudTextField T="string" Label="Payee" @bind-Value="@context.Item.Payee" Required="true" RequiredError="Payee is required" ReadOnly=@IsReadonly />
+        <MudTd Class="item-field" DataLabel="Payee">
+            <MudTextField T="string" @bind-Value="@context.Item.Payee" Required="true" RequiredError="Payee is required" ReadOnly=@IsReadonly />
+        </MudTd>
 
-        <MudTd DataLabel="Currency">
-            <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="int" Label="Currency" Value="@context.Item.CurrencyId" Required="true" ValueChanged="@((id) => ActivateAmountField(context, id))" RequiredError="Currency should be selected" ReadOnly=@IsReadonly>
-                    @foreach (var currency in Currencies)
-                    {
-                        <MudSelectItem Value="@(currency.Id)">@currency.Name</MudSelectItem>
-                    }
-                </MudSelect>
-            </MudItem>
+        <MudTd Class="item-field" DataLabel="Currency">
+            <MudSelect T="int" Value="@context.Item.CurrencyId" Required="true" ValueChanged="@((id) => ActivateAmountField(context, id))" RequiredError="Currency should be selected" ReadOnly=@IsReadonly>
+                @foreach (var currency in Currencies)
+                {
+                    <MudSelectItem Value="@(currency.Id)">@currency.Name</MudSelectItem>
+                }
+            </MudSelect>
         </MudTd>
-        <MudTd>
-            <MudDatePicker Label="Submit Date" @bind-Date="context.Item.Date" Required="true"  Disabled=@IsReadonly />
+
+        <MudTd Class="item-field" DataLabel="Date">
+            <MudDatePicker Style="margin-bottom: 25px;" @bind-Date="context.Item.Date" Required="true" Disabled=@IsReadonly />
         </MudTd>
-        <MudTd>
-            <MudTextField T="string" @bind-Value="@context.Item.Description" Label="Description" ReadOnly=@IsReadonly />
+
+        <MudTd Class="item-field" DataLabel="Description">
+            <MudTextField T="string" @bind-Value="@context.Item.Description" ReadOnly=@IsReadonly />
         </MudTd>
-        <MudTd>
+
+        <MudTd Class="item-field" DataLabel="Amount">
             <MudTextField T="double" @bind-Value="@context.Item.Amount" Required="true" Disabled="@IsCurrencyMissing" TextChanged="@(() => AmountChanged(context))" RequiredError="Amount is required" ReadOnly=@IsReadonly />
         </MudTd>
-        <MudTd>
+
+        <MudTd Class="item-field" DataLabel="USD Amount">
             <MudTextField T="double" @bind-Value="@context.Item.UsdAmount" Required="true" Disabled="true" RequiredError="USDAmount is required" ReadOnly=@IsReadonly />
         </MudTd>
 
         @if (Roles != null && Roles.Value.Contains("GeneralUser"))
         {
-            <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Remove(context))">Delete</MudButton>
-        }
+            <MudTd Class="item-field">
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Outlined" Size="Size.Small" Color="Color.Error" OnClick="@(()=>Remove(context))">Delete</MudButton>
+            </MudTd>
+         }
 
     </RowTemplate>
 </MudTable>

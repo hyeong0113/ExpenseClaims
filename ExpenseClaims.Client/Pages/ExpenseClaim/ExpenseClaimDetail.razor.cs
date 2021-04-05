@@ -1,15 +1,8 @@
-﻿using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetById;
-using ExpenseClaims.Application.Wrappers;
-using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Queries.GetById;
+﻿using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Features.ExpenseClaim.Queries.GetById;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace ExpenseClaims.Client.Pages.ExpenseClaim

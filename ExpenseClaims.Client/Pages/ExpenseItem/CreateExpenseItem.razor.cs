@@ -1,12 +1,9 @@
-﻿using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
+﻿using ExpenseClaims.Client.Features.ExpenseItem.Commands.Create;
+using ExpenseClaims.Client.Shared.RoundUp;
 using ExpenseClaims.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ExpenseClaims.Client.Pages.ExpenseItem
 {
@@ -48,7 +45,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
             if (currency != null)
             {
                 item.UsdAmount = currency.Rate * item.Amount;
-                double totalAmountString = ItemList.Select(i => i.UsdAmount).Sum();
+                double totalAmountString = ConvertToTwoDecimal.RoundUp(ItemList.Select(i => i.UsdAmount).Sum());
                 OnTotalAmountChange.InvokeAsync(totalAmountString);
             }
         }

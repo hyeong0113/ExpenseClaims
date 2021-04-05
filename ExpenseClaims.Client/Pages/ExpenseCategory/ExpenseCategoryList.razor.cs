@@ -1,6 +1,6 @@
 ﻿using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Delete;
-using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetAll;
+using ExpenseClaims.Client.Features.ExpenseCategory.Commands.Delete;
+using ExpenseClaims.Client.Features.ExpenseCategory.Queries.GetAll;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;

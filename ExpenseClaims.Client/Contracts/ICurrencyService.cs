@@ -1,6 +1,6 @@
 ﻿using ExpenseClaims.Client.Services.Base;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Update;
+using ExpenseClaims.Client.Features.Currency.Commands.Create;
+using ExpenseClaims.Client.Features.Currency.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;

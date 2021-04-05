@@ -1,10 +1,9 @@
-﻿using ExpenseClaims.Application.Enums;
-using ExpenseClaims.Client.Contracts;
+﻿using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Constant;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll;
-using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetAll;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
-using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
+using ExpenseClaims.Client.Features.Currency.Queries.GetAll;
+using ExpenseClaims.Client.Features.ExpenseCategory.Queries.GetAll;
+using ExpenseClaims.Client.Features.ExpenseClaim.Commands.Create;
+using ExpenseClaims.Client.Features.ExpenseItem.Commands.Create;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;

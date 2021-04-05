@@ -1,5 +1,5 @@
 ﻿using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Create;
+using ExpenseClaims.Client.Features.ExpenseCategory.Commands.Create;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;

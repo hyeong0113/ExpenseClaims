@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Update;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetById;
+using ExpenseClaims.Client.Features.Currency.Commands.Update;
+using ExpenseClaims.Client.Features.Currency.Queries.GetById;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;

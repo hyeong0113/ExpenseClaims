@@ -9,8 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
+using ExpenseClaims.Client.Features.ExpenseClaim.Commands.Create;
+using ExpenseClaims.Client.Features.ExpenseClaim.Commands.Update;
 
 namespace ExpenseClaims.Client.Services
 {
@@ -33,12 +33,14 @@ namespace ExpenseClaims.Client.Services
 
             if (role.Value.Contains("Approver"))
             {
-                var claims = fetchedClaimList.Data.Where(c => c.Status == Status.SUBMITTED).Union(fetchedClaimList.Data.Where(c => c.Status == Status.RESUBMITTED));
+                var claims = fetchedClaimList.Data;
                 claimList = claims.Where(c => c.ApproverId == userId);
             }
             else if (role.Value.Contains("Financer"))
             {
-                claimList = fetchedClaimList.Data.Where(c => c.Status == Status.APPROVED);
+                claimList = fetchedClaimList.Data.Where(c => c.Status == Status.APPROVED)
+                    .Union(fetchedClaimList.Data.Where(c => c.Status == Status.REJCETED))
+                    .Union(fetchedClaimList.Data.Where(c => c.Status == Status.PROCESSED));
             }
             else
             {
