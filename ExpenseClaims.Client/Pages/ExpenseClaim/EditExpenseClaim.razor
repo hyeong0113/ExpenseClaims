@@ -4,33 +4,70 @@
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-<h3>Edit ExpenseClaim</h3>
-
 @if (Claim == null)
 {
     <MudProgressCircular Color="Color.Default" Indeterminate="true" />
 }
 else
 {
-    <MudForm>
-        @if (Roles != null && Roles.Value.Contains("Approver"))
-        {
-            <MudTextField T="string" Label="ApproverComments" @bind-Value="Claim.ApproverComments" Required="true" RequiredError="ProcessedDate is required" />
-        }
+    <MudCard Style="
+        width: 1000px;
+        height: 500px;
+        margin-top: 5px;
+        margin-right: auto;
+        margin-bottom: 10px;
+        margin-left: auto;
+        float: none;
+        border-radius: 10px">
+        <MudCardHeader Style="margin: auto;">
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5">Description</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudForm>
+                <MudGrid Class="claim-row">
+                    <MudTextField Class="claim-field" T="string" Label="Title" @bind-Value="Claim.Title" ReadOnly="IsReadonly" RequiredError="Title is required" />
+                    <MudTextField Class="claim-field" T="string" Label="Submit Date" Text="@Claim.SubmitDate.ToString()" ReadOnly="true" Disabled="true" />
+                </MudGrid>
+                <MudGrid Class="claim-row">
+                    <MudTextField Class="claim-field" T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" ReadOnly="true" RequiredError="TotalAmount is required" />
+                    <MudTextField Class="claim-field" T="string" Label="Status" @bind-Value="Claim.Status" ReadOnly="true" />
+                </MudGrid>
+                <MudGrid Class="claim-row">
+                    <MudTextField Style="margin-top: 40px; width: 700px;" Class="claim-field" T="string" Label="Requester Comments" Variant="Variant.Outlined" @bind-Value="Claim.RequesterComments" ReadOnly=@IsReadonly Lines="3" />
+                </MudGrid>
+            </MudForm>
+        </MudCardContent>
+    </MudCard>
 
-        @if (Roles != null && Roles.Value.Contains("Financer"))
-        {
-            <MudTextField T="string" Label="FinanceComments" @bind-Value="Claim.FinanceComments" Required="true" RequiredError="ProcessedDate is required" />
-        }
+    <MudText Class="item-element" Typo="Typo.h6">Items</MudText>
+    <EditExpenseItem ItemWrapperList=@ItemWrappers ItemList=@Items Categories=@Categories Currencies=@Currencies IsReadonly=@IsReadonly Roles=@Roles OnTotalAmountChange=@TotalAmountChangeHandler />
 
-        @if (Roles != null && Roles.Value.Contains("Manager"))
-        {
-            <MudItem xs="3" sm="4" md="6">
-                <MudSelect T="string" Label="Status" @bind-Value="@CurrentStatus">
+    @if (Roles != null && Roles.Value.Contains("Manager"))
+    {
+    <MudCard Style="
+                    width: 1000px;
+                    height: 300px;
+                    margin-top: 5px;
+                    margin-right: auto;
+                    margin-bottom: 10px;
+                    margin-left: auto;
+                    float: none;
+                    border-radius: 10px">
+    <MudCardHeader Style="margin: auto;">
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">Report</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem Style="margin-top: 10px; padding: 0px !important;" xs="3" sm="4" md="6">
+                <MudSelect T="string" Label="Status" @bind-Value="@CurrentStatus" Adornment="Adornment.End">
                     @if (Roles.Value.Contains("Approver"))
                     {
                         <MudSelectItem Value="@(Status.APPROVED)" />
-                        <MudSelectItem Value="@(Status.QUERIED)" />
+                        <MudSelectItem Value="@(Status.RETURNED)" />
                     }
                     else
                     {
@@ -39,20 +76,25 @@ else
                     <MudSelectItem Value="@(Status.REJCETED)" />
                 </MudSelect>
             </MudItem>
-            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Submit</MudButton>
-        }
+        </MudGrid>
+        <MudGrid Class="claim-row">
+            @if (Roles != null && Roles.Value.Contains("Approver"))
+            {
+                <MudTextField Style="width: 700px;" T="string" Label="Approver Comments" Variant="Variant.Outlined" @bind-Value="Claim.ApproverComments" Adornment="Adornment.End" Lines="3" />
+            }
 
-        <MudTextField T="string" Label="Title" @bind-Value="Claim.Title" ReadOnly="IsReadonly" RequiredError="Title is required" />
-        <MudTextField T="string" Label="Submit Date" Text="@Claim.SubmitDate.ToString()" ReadOnly="true" Disabled="true" />
-        <MudTextField T="double" Label="TotalAmount" @bind-Value="Claim.TotalAmount" ReadOnly="true" RequiredError="TotalAmount is required" />
-        <MudTextField T="string" Label="Status" @bind-Value="Claim.Status" ReadOnly="true" RequiredError="ProcessedDate is required" />
-        <MudTextField T="string" Label="RequesterComments" @bind-Value="Claim.RequesterComments" ReadOnly=@IsReadonly RequiredError="ProcessedDate is required" />
-    </MudForm>
-
-    <EditExpenseItem ItemWrapperList=@ItemWrappers ItemList=@Items Categories=@Categories Currencies=@Currencies IsReadonly=@IsReadonly Roles=@Roles OnTotalAmountChange=@TotalAmountChangeHandler />
+            @if (Roles != null && Roles.Value.Contains("Financer"))
+            {
+                <MudTextField Style="width: 700px;" T="string" Label="Finance Comments" Variant="Variant.Outlined" @bind-Value="Claim.FinanceComments" Adornment="Adornment.End" Lines="3" />
+            }
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+        <MudButton Class="item-element" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" OnClick="@(()=>Edit())">Submit</MudButton>
+    }
 
     @if (Roles != null && Roles.Value.Contains("GeneralUser"))
     {
-        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>Edit())">Submit</MudButton>
+        <MudButton Class="item-element" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info" OnClick="@(()=>Edit())">Submit</MudButton>
     }
 }

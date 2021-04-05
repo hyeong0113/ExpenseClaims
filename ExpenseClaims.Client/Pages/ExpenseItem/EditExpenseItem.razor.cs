@@ -1,6 +1,6 @@
 ﻿using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Delete;
-using ExpenseClaims.Client.Services.Features.ExpenseItemService.Queries.GetById;
+using ExpenseClaims.Client.Features.ExpenseItem.Commands.Delete;
+using ExpenseClaims.Client.Shared.RoundUp;
 using ExpenseClaims.Client.ViewModels;
 using ExpenseClaims.Client.Wrapper.ExpenseItem;
 using MediatR;
@@ -71,7 +71,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseItem
             if (currency != null)
             {
                 itemWrapper.Item.UsdAmount = currency.Rate * itemWrapper.Item.Amount;
-                double totalAmountString = ItemList.Select(i => i.UsdAmount).Sum();
+                double totalAmountString = ConvertToTwoDecimal.RoundUp(ItemList.Select(i => i.UsdAmount).Sum());
                 await OnTotalAmountChange.InvokeAsync(totalAmountString);
             }
         }

@@ -62,7 +62,7 @@ namespace ExpenseClaims.Infrastructure.Identity.Services
             response.IssuedOn = jwtSecurityToken.ValidFrom.ToLocalTime();
             response.ExpiresOn = jwtSecurityToken.ValidTo.ToLocalTime();
             response.Email = user.Email;
-            response.UserName = user.UserName;
+            response.UserName = user.FirstName + " " + user.LastName;
             var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
             response.Roles = rolesList.ToList();
             response.IsVerified = user.EmailConfirmed;

@@ -30,6 +30,35 @@ a, .btn-link {
     color: red;
 }
 
+.item-element {
+    margin-left: 215px !important;
+}
+
+.item-table {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.claim-field {
+    max-width: 330px !important;
+    margin-right: 40px !important;
+    margin-top: 0px !important;
+}
+
+.claim-row {
+    margin-top: 40px !important;
+}
+
+.item-field {
+    height: 85px !important;
+    margin: 0px !important;
+    padding: 16px;
+}
+
+.item-date {
+    margin-bottom: 25px;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

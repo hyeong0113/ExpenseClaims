@@ -8,8 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
-using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Update;
+using ExpenseClaims.Client.Features.ExpenseItem.Commands.Create;
+using ExpenseClaims.Client.Features.ExpenseItem.Commands.Update;
 
 namespace ExpenseClaims.Client.Services
 {

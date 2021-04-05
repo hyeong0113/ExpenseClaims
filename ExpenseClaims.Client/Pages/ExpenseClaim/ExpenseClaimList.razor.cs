@@ -1,20 +1,12 @@
-﻿using AspNetCoreHero.Results;
-using ExpenseClaims.Application.Features.ExpenseClaims.Queries.GetAllPaged;
-using ExpenseClaims.Application.Wrappers;
-using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Base;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Delete;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Queries.GetAll;
+﻿using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Features.ExpenseClaim.Commands.Delete;
+using ExpenseClaims.Client.Features.ExpenseClaim.Queries.GetAll;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

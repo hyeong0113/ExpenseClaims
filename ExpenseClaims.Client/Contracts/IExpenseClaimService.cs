@@ -1,6 +1,6 @@
 ﻿using ExpenseClaims.Client.Services.Base;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Create;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
+using ExpenseClaims.Client.Features.ExpenseClaim.Commands.Create;
+using ExpenseClaims.Client.Features.ExpenseClaim.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using System;
 using System.Collections.Generic;

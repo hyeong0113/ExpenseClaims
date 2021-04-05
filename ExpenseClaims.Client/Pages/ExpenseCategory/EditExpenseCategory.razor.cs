@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Commands.Update;
-using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetById;
+using ExpenseClaims.Client.Features.ExpenseCategory.Commands.Update;
+using ExpenseClaims.Client.Features.ExpenseCategory.Queries.GetById;
 using ExpenseClaims.Client.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Components;

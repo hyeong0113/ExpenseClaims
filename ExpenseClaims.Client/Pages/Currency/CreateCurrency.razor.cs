@@ -1,14 +1,7 @@
-﻿using ExpenseClaims.Application.Features.Currencies.Commands.Create;
-using ExpenseClaims.Client.Contracts;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Commands.Create;
-using ExpenseClaims.Client.ViewModels;
+﻿using ExpenseClaims.Client.Contracts;
+using ExpenseClaims.Client.Features.Currency.Commands.Create;
 using MediatR;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace ExpenseClaims.Client.Pages.Currency

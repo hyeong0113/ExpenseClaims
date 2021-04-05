@@ -1,19 +1,38 @@
 ﻿@page "/login"
 
-<h3>LogIn</h3>
-
-<EditForm Model="@LogInModel" OnValidSubmit=@OnSubmit>
-    <MudGrid>
-        <MudItem xs="12" sm="6" md="4">
-            <MudTextField @bind-Value="LogInModel.Email" Label="Email" Variant="Variant.Text" Adornment="Adornment.Start" />
-        </MudItem>
-    </MudGrid>
-    <MudGrid>
-        <MudItem xs="12" sm="6" md="4">
-            <MudTextField @bind-Value="LogInModel.Password" Label="Password" Variant="Variant.Text" InputType="@InputType.Password" Adornment="Adornment.End" />
-        </MudItem>
-    </MudGrid>
-    <MudButton ButtonType=ButtonType.Submit Variant="Variant.Filled" Color="Color.Primary" @onkeypress="@Enter">Log In</MudButton>
-</EditForm>
-
-<h3>@ErrorMessage</h3>
+<MudCard Style="
+        width: 500px;
+        height: 400px;
+        margin-top: 100px;
+        margin-right: auto;
+        margin-bottom: 10px;
+        margin-left: 380px;
+        float: none;
+        border-radius: 20px">
+    <MudCardHeader Style="margin: auto;">
+        <CardHeaderContent>
+            <MudText Typo="Typo.h4">Sing In</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <EditForm Model="@LogInModel" OnValidSubmit=@OnSubmit>
+        <MudCardContent Style="margin: auto;">
+            <MudGrid>
+                <MudItem xs="12" sm="6" md="9">
+                    <MudTextField @bind-Value="LogInModel.Email" Label="Email" Variant="Variant.Text" Adornment="Adornment.Start" Required="true" RequiredError="You should enter your email address to sing in" />
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="12" sm="6" md="9">
+                    <MudTextField @bind-Value="LogInModel.Password" Label="Password" Variant="Variant.Text" InputType="@InputType.Password" Adornment="Adornment.Start" Required="true" RequiredError="You should enter your password to sign in" />
+                </MudItem>
+            </MudGrid>
+        </MudCardContent>
+        <MudCardActions Style="margin: auto;">
+            <MudButton ButtonType=ButtonType.Submit Variant="Variant.Filled" Color="Color.Info" @onkeypress="@Enter">Sign In</MudButton>
+        </MudCardActions>
+    </EditForm>
+    @if (IsWrongInfo)
+    {
+        <MudChip Color="Color.Error" Variant="Variant.Outlined">@ErrorMessage</MudChip>
+    }
+</MudCard>

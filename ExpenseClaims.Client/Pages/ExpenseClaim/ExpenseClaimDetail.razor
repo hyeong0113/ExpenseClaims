@@ -3,7 +3,6 @@
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-<h3>Expense Claim</h3>
 
 @if (Claim == null)
 {
@@ -11,90 +10,56 @@
 }
 else
 {
-    <div class="detail-page">
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Title</MudText>
-                <MudText>@Claim.Title</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Requester</MudText>
-                <MudText>@RequesterName</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Approver</MudText>
-                <MudText>@ApproverName</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Submit Date</MudText>
-                <MudText>@Claim.SubmitDate</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Approval Date</MudText>
-                <MudText>@Claim.ApprovalDate</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Processed Date</MudText>
-                <MudText>@Claim.ProcessedDate</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Total Amount</MudText>
-                <MudText>@Claim.TotalAmount</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Status</MudText>
-                <MudText>@Claim.Status</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Requester Comments</MudText>
-                <MudText>@Claim.RequesterComments</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Approver Comments</MudText>
-                <MudText>@Claim.ApproverComments</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <MudText>Finance Comments</MudText>
-                <MudText>@Claim.FinanceComments</MudText>
-                <MudDivider />
-            </div>
-        </div>
-        <h3>Expense Claim Items</h3>
-    </div>
+    <MudCard Style="
+        width: 1000px;
+        height: 900px;
+        margin-top: 5px;
+        margin-right: auto;
+        margin-bottom: 10px;
+        margin-left: auto;
+        float: none;
+        border-radius: 10px">
+        <MudCardHeader Style="margin: auto;">
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5">Description</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent Style="padding-top: 0px !important;
+        padding-right: 16px !important;
+        padding-bottom: 16px !important;
+        padding-left: 20px !important;">
+            <MudGrid Class="claim-row">
+                <MudTextField Class="claim-field" T="string" Label="Title" @bind-Value="Claim.Title" ReadOnly="true" Adornment="Adornment.End" />
+                <MudTextField Class="claim-field" T="string" Label="Requester" @bind-Value="RequesterName" ReadOnly="true" Adornment="Adornment.End" />
+            </MudGrid>
+            <MudGrid Class="claim-row">
+                <MudTextField Class="claim-field" T="string" Label="Approver" @bind-Value="ApproverName" ReadOnly="true" Adornment="Adornment.End" />
+                <MudTextField Class="claim-field" T="DateTime?" Label="Submit Date" @bind-Value="Claim.SubmitDate" ReadOnly="true" Adornment="Adornment.End" />
+            </MudGrid>
+            <MudGrid Class="claim-row">
+                <MudTextField Class="claim-field" T="DateTime?" Label="Approval Date" @bind-Value="Claim.ApprovalDate" ReadOnly="true" Adornment="Adornment.End" />
+                <MudTextField Class="claim-field" T="DateTime?" Label="Processed Date" @bind-Value="Claim.ProcessedDate" ReadOnly="true" Adornment="Adornment.End" />
+            </MudGrid>
+            <MudGrid Class="claim-row">
+                <MudTextField Class="claim-field" T="double" Label="Total Amount" @bind-Value="Claim.TotalAmount" ReadOnly="true" Adornment="Adornment.End" />
+                <MudTextField Class="claim-field" T="string" Label="Processed Date" @bind-Value="Claim.Status" ReadOnly="true" Adornment="Adornment.End" />
+            </MudGrid>
+            <MudGrid Class="claim-row">
+                <MudTextField Style="margin-top: 40px; width: 700px;" Variant="Variant.Outlined" T="string" Label="Requester Comments" @bind-Value="Claim.RequesterComments" ReadOnly="true" Adornment="Adornment.End" Lines="3" />
+            </MudGrid>
+            <MudGrid Class="claim-row">
+                <MudTextField Style="margin-top: 40px; width: 700px;" Variant="Variant.Outlined" T="string" Label="Approver Comments" @bind-Value="Claim.ApproverComments" ReadOnly="true" Adornment="Adornment.End" Lines="3" />
+            </MudGrid>
+            <MudGrid Class="claim-row">
+                <MudTextField Style="margin-top: 40px; width: 700px;" Variant="Variant.Outlined" T="string" Label="Financer Comments" @bind-Value="Claim.FinanceComments" ReadOnly="true" Adornment="Adornment.End" Lines="3" />
+            </MudGrid>
+        </MudCardContent>
+    </MudCard>
 
+    <MudText Class="item-element" Typo="Typo.h6">Items</MudText>
     @if (Claim.Items != null && Claim.Items.Count >= 0)
     {
-        <MudTable Items="@Claim.Items">
+        <MudTable Items="@Claim.Items" Style="width: 1000px; margin-left: 215px !important">
             <HeaderContent>
                 <MudTh>Category</MudTh>
                 <MudTh>Payee</MudTh>

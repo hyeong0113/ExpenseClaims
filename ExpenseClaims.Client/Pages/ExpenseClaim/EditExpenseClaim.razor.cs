@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using ExpenseClaims.Client.Contracts;
 using ExpenseClaims.Client.Services.Constant;
-using ExpenseClaims.Client.Services.Features.CurrencyService.Queries.GetAll;
-using ExpenseClaims.Client.Services.Features.ExpenseCategoryService.Queries.GetAll;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Commands.Update;
-using ExpenseClaims.Client.Services.Features.ExpenseClaimService.Queries.GetById;
-using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Create;
-using ExpenseClaims.Client.Services.Features.ExpenseItemService.Commands.Update;
+using ExpenseClaims.Client.Features.Currency.Queries.GetAll;
+using ExpenseClaims.Client.Features.ExpenseCategory.Queries.GetAll;
+using ExpenseClaims.Client.Features.ExpenseClaim.Commands.Update;
+using ExpenseClaims.Client.Features.ExpenseClaim.Queries.GetById;
+using ExpenseClaims.Client.Features.ExpenseItem.Commands.Create;
+using ExpenseClaims.Client.Features.ExpenseItem.Commands.Update;
 using ExpenseClaims.Client.ViewModels;
 using ExpenseClaims.Client.Wrapper.ExpenseItem;
 using MediatR;
@@ -91,7 +91,7 @@ namespace ExpenseClaims.Client.Pages.ExpenseClaim
 
         public async Task Edit()
         {
-            if (Claim.Status == Status.QUERIED)
+            if (Claim.Status == Status.RETURNED)
             {
                 Claim.Status = Status.RESUBMITTED;
             }
