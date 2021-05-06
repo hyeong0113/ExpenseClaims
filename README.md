@@ -2,8 +2,12 @@
 This is the project to practice using Blazor and Entity Framework Core 5.0. The project is based on https://help.nintex.com/en-us/k2five/userguide/5.3/default.htm#Tutorials/K2ForSP/ExpenseClaim/ExpenseClaimDesign.htm which describes only UI, features and user story.
 ExpenseClaim is the application which creates and apply the request to claim expenses.
 
-Applications will be deployed in the future.
-
+- Application
+  https://simpleclaim.azurewebsites.net
+- API
+  https://simpleclaimapi.azurewebsites.net
+- Admin (Manage users)
+  https://simpleclaimadmin.azurewebsites.net
 
 # Architecture Used
 Clean Architecture Boilerplate - ASP.NET Core 5.0 (WebApi & MVC)
