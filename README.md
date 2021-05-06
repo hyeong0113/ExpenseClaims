@@ -4,8 +4,10 @@ ExpenseClaim is the application which creates and apply the request to claim exp
 
 Application
 - https://simpleclaim.azurewebsites.net
+
 API
 - https://simpleclaimapi.azurewebsites.net
+
 Admin (Manage users)
 - https://simpleclaimadmin.azurewebsites.net
 
