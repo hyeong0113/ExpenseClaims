@@ -1,8 +1,12 @@
 {
   "dependencies": {
-    "mssql1": {
+    "mssql2": {
       "type": "mssql",
-      "connectionId": "IdentityContextConnection"
+      "connectionId": "ApplicationConnection"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "IdentityConnection"
     }
   }
 }

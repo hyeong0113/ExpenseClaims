@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/expenseclaimserver/databases/expenseclaimdatabase",
+      "type": "mssql.azure",
+      "connectionId": "IdentityConnection",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/expenseclaimserver/databases/expenseclaimdatabase",
+      "type": "mssql.azure",
+      "connectionId": "ApplicationConnection",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
