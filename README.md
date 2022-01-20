@@ -11,6 +11,9 @@ API
 Admin (Manage users)
 - https://simpleclaimadmin.azurewebsites.net
 
+Note:
+- Due to continuous charge, applications are stopped for now.
+
 # Architecture Used
 Clean Architecture Boilerplate - ASP.NET Core 5.0 (WebApi & MVC)
 - https://codewithmukesh.com/project/aspnet-core-webapi-clean-architecture%e2%80%8b/
