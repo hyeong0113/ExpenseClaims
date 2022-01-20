@@ -12,7 +12,7 @@ Admin (Manage users)
 - https://simpleclaimadmin.azurewebsites.net
 
 Note:
-- Due to continuous charge, applications are stopped for now.(2022-01-19)
+- (2022-01-19) Due to continuous charge, applications are stopped for now.
 
 # Architecture Used
 Clean Architecture Boilerplate - ASP.NET Core 5.0 (WebApi & MVC)
